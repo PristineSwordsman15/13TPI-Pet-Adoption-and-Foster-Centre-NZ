@@ -11,5 +11,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         public DateTime PaymentDate { get; set; }
         public string PaymentMethod { get; set; }
         public int TransactionID { get; set; }
+        public string PaymentStatus { get; set; }
+        public string Notes { get; set; }
     }
 }
