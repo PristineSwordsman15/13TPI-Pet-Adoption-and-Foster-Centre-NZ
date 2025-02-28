@@ -2,5 +2,9 @@
 {
     public class PetGroup
     {
+        public int PetGroupID { get; set; }
+        public int PetID { get; set;}
+        public string PetGroupName { get; set; }
+        public string PeGroupDescriptiom { get; set; }
     }
 }

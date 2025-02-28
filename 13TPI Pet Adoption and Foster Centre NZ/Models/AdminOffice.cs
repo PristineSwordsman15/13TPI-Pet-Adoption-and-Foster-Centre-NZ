@@ -8,7 +8,7 @@
         public string LastName { get; set; }
         public string EmailAddress { get; set; }
         public string ContactNo { get; set; }
-        public DateOnly DateHired { get; set; }
+        public DateTime DateHired { get; set; }
         public string AccessLevel { get; set; }
         public int RoleID { get; set; }
     }
