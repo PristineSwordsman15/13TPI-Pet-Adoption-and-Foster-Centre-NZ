@@ -2,6 +2,7 @@
 {
     public class AdminOffice
     {
+        
         public int AdminID { get; set; }
         public int UserID { get; set; }
         public string FirstName { get; set; }
