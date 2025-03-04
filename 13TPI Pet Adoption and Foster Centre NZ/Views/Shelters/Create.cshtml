@@ -1,0 +1,73 @@
+﻿@model _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Shelter
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Shelter</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ShelterName" class="control-label"></label>
+                <input asp-for="ShelterName" class="form-control" />
+                <span asp-validation-for="ShelterName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FranchiseID" class="control-label"></label>
+                <input asp-for="FranchiseID" class="form-control" />
+                <span asp-validation-for="FranchiseID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LocationID" class="control-label"></label>
+                <input asp-for="LocationID" class="form-control" />
+                <span asp-validation-for="LocationID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AvailableBeds" class="control-label"></label>
+                <input asp-for="AvailableBeds" class="form-control" />
+                <span asp-validation-for="AvailableBeds" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OccupiedBeds" class="control-label"></label>
+                <input asp-for="OccupiedBeds" class="form-control" />
+                <span asp-validation-for="OccupiedBeds" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContactNo" class="control-label"></label>
+                <input asp-for="ContactNo" class="form-control" />
+                <span asp-validation-for="ContactNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OperatingHours" class="control-label"></label>
+                <input asp-for="OperatingHours" class="form-control" />
+                <span asp-validation-for="OperatingHours" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShelterType" class="control-label"></label>
+                <input asp-for="ShelterType" class="form-control" />
+                <span asp-validation-for="ShelterType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmailAddress" class="control-label"></label>
+                <input asp-for="EmailAddress" class="form-control" />
+                <span asp-validation-for="EmailAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

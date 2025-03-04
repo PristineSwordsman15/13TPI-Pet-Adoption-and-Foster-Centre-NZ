@@ -1,0 +1,83 @@
+﻿@model IEnumerable<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.MedicalRecord>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PetID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VetName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClinicName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VisitDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Diagnosis)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Treatment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VaccinationStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MicrochipID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SpecialNeeds)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PetID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VetName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClinicName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VisitDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Diagnosis)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Treatment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VaccinationStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MicrochipID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpecialNeeds)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.MedicalID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MedicalID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MedicalID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
