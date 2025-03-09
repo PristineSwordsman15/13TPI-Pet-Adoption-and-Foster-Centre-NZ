@@ -12,22 +12,22 @@ using Microsoft.AspNetCore.Authorization;
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
     [Authorize]
-    public class CoordinatorsController : Controller
+    public class PaymentController : Controller
     {
         private readonly Context _context;
 
-        public CoordinatorsController(Context context)
+        public PaymentController(Context context)
         {
             _context = context;
         }
 
-        // GET: Coordinators
+        // GET: Payments
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Coordinator.ToListAsync());
+            return View(await _context.Payment.ToListAsync());
         }
 
-        // GET: Coordinators/Details/5
+        // GET: Payments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,39 +35,39 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var coordinator = await _context.Coordinator
-                .FirstOrDefaultAsync(m => m.CoordinatorID == id);
-            if (coordinator == null)
+            var payment = await _context.Payment
+                .FirstOrDefaultAsync(m => m.PaymentID == id);
+            if (payment == null)
             {
                 return NotFound();
             }
 
-            return View(coordinator);
+            return View(payment);
         }
 
-        // GET: Coordinators/Create
+        // GET: Payments/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Coordinators/Create
+        // POST: Payments/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CoordinatorID,FranchiseID,PetGroupID,FirstName,LastName,EmailAddress,ContactNo,HireDate,ExperienceLevel,ProfileImageUrl")] Coordinator coordinator)
+        public async Task<IActionResult> Create([Bind("PaymentID,UserID,PaymentType,Amount,Currency,PaymentDate,PaymentMethod,TransactionID,PaymentStatus,Notes")] Payment payment)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(coordinator);
+                _context.Add(payment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(coordinator);
+            return View(payment);
         }
 
-        // GET: Coordinators/Edit/5
+        // GET: Payments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,22 +75,22 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var coordinator = await _context.Coordinator.FindAsync(id);
-            if (coordinator == null)
+            var payment = await _context.Payment.FindAsync(id);
+            if (payment == null)
             {
                 return NotFound();
             }
-            return View(coordinator);
+            return View(payment);
         }
 
-        // POST: Coordinators/Edit/5
+        // POST: Payments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CoordinatorID,FranchiseID,PetGroupID,FirstName,LastName,EmailAddress,ContactNo,HireDate,ExperienceLevel,ProfileImageUrl")] Coordinator coordinator)
+        public async Task<IActionResult> Edit(int id, [Bind("PaymentID,UserID,PaymentType,Amount,Currency,PaymentDate,PaymentMethod,TransactionID,PaymentStatus,Notes")] Payment payment)
         {
-            if (id != coordinator.CoordinatorID)
+            if (id != payment.PaymentID)
             {
                 return NotFound();
             }
@@ -99,12 +99,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             {
                 try
                 {
-                    _context.Update(coordinator);
+                    _context.Update(payment);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CoordinatorExists(coordinator.CoordinatorID))
+                    if (!PaymentExists(payment.PaymentID))
                     {
                         return NotFound();
                     }
@@ -115,10 +115,10 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(coordinator);
+            return View(payment);
         }
 
-        // GET: Coordinators/Delete/5
+        // GET: Payments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -126,34 +126,34 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var coordinator = await _context.Coordinator
-                .FirstOrDefaultAsync(m => m.CoordinatorID == id);
-            if (coordinator == null)
+            var payment = await _context.Payment
+                .FirstOrDefaultAsync(m => m.PaymentID == id);
+            if (payment == null)
             {
                 return NotFound();
             }
 
-            return View(coordinator);
+            return View(payment);
         }
 
-        // POST: Coordinators/Delete/5
+        // POST: Payments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var coordinator = await _context.Coordinator.FindAsync(id);
-            if (coordinator != null)
+            var payment = await _context.Payment.FindAsync(id);
+            if (payment != null)
             {
-                _context.Coordinator.Remove(coordinator);
+                _context.Payment.Remove(payment);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CoordinatorExists(int id)
+        private bool PaymentExists(int id)
         {
-            return _context.Coordinator.Any(e => e.CoordinatorID == id);
+            return _context.Payment.Any(e => e.PaymentID == id);
         }
     }
 }

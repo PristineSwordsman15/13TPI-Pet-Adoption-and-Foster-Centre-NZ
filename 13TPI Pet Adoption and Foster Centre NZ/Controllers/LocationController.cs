@@ -12,22 +12,22 @@ using Microsoft.AspNetCore.Authorization;
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
     [Authorize]
-    public class RolesController : Controller
+    public class LocationController : Controller
     {
         private readonly Context _context;
 
-        public RolesController(Context context)
+        public LocationController(Context context)
         {
             _context = context;
         }
 
-        // GET: Roles
+        // GET: Locations
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Role.ToListAsync());
+            return View(await _context.Location.ToListAsync());
         }
 
-        // GET: Roles/Details/5
+        // GET: Locations/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,39 +35,39 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var role = await _context.Role
-                .FirstOrDefaultAsync(m => m.RoleID == id);
-            if (role == null)
+            var location = await _context.Location
+                .FirstOrDefaultAsync(m => m.LocationID == id);
+            if (location == null)
             {
                 return NotFound();
             }
 
-            return View(role);
+            return View(location);
         }
 
-        // GET: Roles/Create
+        // GET: Locations/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Roles/Create
+        // POST: Locations/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RoleID,RoleName,RoleDescription")] Role role)
+        public async Task<IActionResult> Create([Bind("LocationID,Address,Surburb,City,Region,PostCode,Country")] Location location)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(role);
+                _context.Add(location);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(role);
+            return View(location);
         }
 
-        // GET: Roles/Edit/5
+        // GET: Locations/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,22 +75,22 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var role = await _context.Role.FindAsync(id);
-            if (role == null)
+            var location = await _context.Location.FindAsync(id);
+            if (location == null)
             {
                 return NotFound();
             }
-            return View(role);
+            return View(location);
         }
 
-        // POST: Roles/Edit/5
+        // POST: Locations/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RoleID,RoleName,RoleDescription")] Role role)
+        public async Task<IActionResult> Edit(int id, [Bind("LocationID,Address,Surburb,City,Region,PostCode,Country")] Location location)
         {
-            if (id != role.RoleID)
+            if (id != location.LocationID)
             {
                 return NotFound();
             }
@@ -99,12 +99,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             {
                 try
                 {
-                    _context.Update(role);
+                    _context.Update(location);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RoleExists(role.RoleID))
+                    if (!LocationExists(location.LocationID))
                     {
                         return NotFound();
                     }
@@ -115,10 +115,10 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(role);
+            return View(location);
         }
 
-        // GET: Roles/Delete/5
+        // GET: Locations/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -126,34 +126,34 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var role = await _context.Role
-                .FirstOrDefaultAsync(m => m.RoleID == id);
-            if (role == null)
+            var location = await _context.Location
+                .FirstOrDefaultAsync(m => m.LocationID == id);
+            if (location == null)
             {
                 return NotFound();
             }
 
-            return View(role);
+            return View(location);
         }
 
-        // POST: Roles/Delete/5
+        // POST: Locations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var role = await _context.Role.FindAsync(id);
-            if (role != null)
+            var location = await _context.Location.FindAsync(id);
+            if (location != null)
             {
-                _context.Role.Remove(role);
+                _context.Location.Remove(location);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RoleExists(int id)
+        private bool LocationExists(int id)
         {
-            return _context.Role.Any(e => e.RoleID == id);
+            return _context.Location.Any(e => e.LocationID == id);
         }
     }
 }

@@ -12,23 +12,22 @@ using Microsoft.AspNetCore.Authorization;
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
     [Authorize]
-    public class FranchisesController : Controller
-
+    public class AdminOfficeController : Controller
     {
         private readonly Context _context;
 
-        public FranchisesController(Context context)
+        public AdminOfficeController(Context context)
         {
             _context = context;
         }
 
-        // GET: Franchises
+        // GET: AdminOffices
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Franchise.ToListAsync());
+            return View(await _context.AdminOffice.ToListAsync());
         }
 
-        // GET: Franchises/Details/5
+        // GET: AdminOffices/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -36,39 +35,39 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var franchise = await _context.Franchise
-                .FirstOrDefaultAsync(m => m.FranchiseID == id);
-            if (franchise == null)
+            var adminOffice = await _context.AdminOffice
+                .FirstOrDefaultAsync(m => m.AdminID == id);
+            if (adminOffice == null)
             {
                 return NotFound();
             }
 
-            return View(franchise);
+            return View(adminOffice);
         }
 
-        // GET: Franchises/Create
+        // GET: AdminOffices/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Franchises/Create
+        // POST: AdminOffices/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FranchiseID,FranchiseName,ContactNo,LocationID,EmailAddress,OperatingHours,OwnerID")] Franchise franchise)
+        public async Task<IActionResult> Create([Bind("AdminID,UserID,FirstName,LastName,EmailAddress,ContactNo,DateHired,AccessLevel,RoleID")] AdminOffice adminOffice)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(franchise);
+                _context.Add(adminOffice);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(franchise);
+            return View(adminOffice);
         }
 
-        // GET: Franchises/Edit/5
+        // GET: AdminOffices/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -76,22 +75,22 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var franchise = await _context.Franchise.FindAsync(id);
-            if (franchise == null)
+            var adminOffice = await _context.AdminOffice.FindAsync(id);
+            if (adminOffice == null)
             {
                 return NotFound();
             }
-            return View(franchise);
+            return View(adminOffice);
         }
 
-        // POST: Franchises/Edit/5
+        // POST: AdminOffices/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FranchiseID,FranchiseName,ContactNo,LocationID,EmailAddress,OperatingHours,OwnerID")] Franchise franchise)
+        public async Task<IActionResult> Edit(int id, [Bind("AdminID,UserID,FirstName,LastName,EmailAddress,ContactNo,DateHired,AccessLevel,RoleID")] AdminOffice adminOffice)
         {
-            if (id != franchise.FranchiseID)
+            if (id != adminOffice.AdminID)
             {
                 return NotFound();
             }
@@ -100,12 +99,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             {
                 try
                 {
-                    _context.Update(franchise);
+                    _context.Update(adminOffice);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FranchiseExists(franchise.FranchiseID))
+                    if (!AdminOfficeExists(adminOffice.AdminID))
                     {
                         return NotFound();
                     }
@@ -116,10 +115,10 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(franchise);
+            return View(adminOffice);
         }
 
-        // GET: Franchises/Delete/5
+        // GET: AdminOffices/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -127,34 +126,34 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var franchise = await _context.Franchise
-                .FirstOrDefaultAsync(m => m.FranchiseID == id);
-            if (franchise == null)
+            var adminOffice = await _context.AdminOffice
+                .FirstOrDefaultAsync(m => m.AdminID == id);
+            if (adminOffice == null)
             {
                 return NotFound();
             }
 
-            return View(franchise);
+            return View(adminOffice);
         }
 
-        // POST: Franchises/Delete/5
+        // POST: AdminOffices/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var franchise = await _context.Franchise.FindAsync(id);
-            if (franchise != null)
+            var adminOffice = await _context.AdminOffice.FindAsync(id);
+            if (adminOffice != null)
             {
-                _context.Franchise.Remove(franchise);
+                _context.AdminOffice.Remove(adminOffice);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool FranchiseExists(int id)
+        private bool AdminOfficeExists(int id)
         {
-            return _context.Franchise.Any(e => e.FranchiseID == id);
+            return _context.AdminOffice.Any(e => e.AdminID == id);
         }
     }
 }

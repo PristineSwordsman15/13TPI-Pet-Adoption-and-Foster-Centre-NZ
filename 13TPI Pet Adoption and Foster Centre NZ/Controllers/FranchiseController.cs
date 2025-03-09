@@ -12,22 +12,23 @@ using Microsoft.AspNetCore.Authorization;
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
     [Authorize]
-    public class PaymentsController : Controller
+    public class FranchiseController : Controller
+
     {
         private readonly Context _context;
 
-        public PaymentsController(Context context)
+        public FranchiseController(Context context)
         {
             _context = context;
         }
 
-        // GET: Payments
+        // GET: Franchises
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Payment.ToListAsync());
+            return View(await _context.Franchise.ToListAsync());
         }
 
-        // GET: Payments/Details/5
+        // GET: Franchises/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,39 +36,39 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var payment = await _context.Payment
-                .FirstOrDefaultAsync(m => m.PaymentID == id);
-            if (payment == null)
+            var franchise = await _context.Franchise
+                .FirstOrDefaultAsync(m => m.FranchiseID == id);
+            if (franchise == null)
             {
                 return NotFound();
             }
 
-            return View(payment);
+            return View(franchise);
         }
 
-        // GET: Payments/Create
+        // GET: Franchises/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Payments/Create
+        // POST: Franchises/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PaymentID,UserID,PaymentType,Amount,Currency,PaymentDate,PaymentMethod,TransactionID,PaymentStatus,Notes")] Payment payment)
+        public async Task<IActionResult> Create([Bind("FranchiseID,FranchiseName,ContactNo,LocationID,EmailAddress,OperatingHours,OwnerID")] Franchise franchise)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(payment);
+                _context.Add(franchise);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(payment);
+            return View(franchise);
         }
 
-        // GET: Payments/Edit/5
+        // GET: Franchises/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,22 +76,22 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var payment = await _context.Payment.FindAsync(id);
-            if (payment == null)
+            var franchise = await _context.Franchise.FindAsync(id);
+            if (franchise == null)
             {
                 return NotFound();
             }
-            return View(payment);
+            return View(franchise);
         }
 
-        // POST: Payments/Edit/5
+        // POST: Franchises/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PaymentID,UserID,PaymentType,Amount,Currency,PaymentDate,PaymentMethod,TransactionID,PaymentStatus,Notes")] Payment payment)
+        public async Task<IActionResult> Edit(int id, [Bind("FranchiseID,FranchiseName,ContactNo,LocationID,EmailAddress,OperatingHours,OwnerID")] Franchise franchise)
         {
-            if (id != payment.PaymentID)
+            if (id != franchise.FranchiseID)
             {
                 return NotFound();
             }
@@ -99,12 +100,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             {
                 try
                 {
-                    _context.Update(payment);
+                    _context.Update(franchise);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PaymentExists(payment.PaymentID))
+                    if (!FranchiseExists(franchise.FranchiseID))
                     {
                         return NotFound();
                     }
@@ -115,10 +116,10 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(payment);
+            return View(franchise);
         }
 
-        // GET: Payments/Delete/5
+        // GET: Franchises/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -126,34 +127,34 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var payment = await _context.Payment
-                .FirstOrDefaultAsync(m => m.PaymentID == id);
-            if (payment == null)
+            var franchise = await _context.Franchise
+                .FirstOrDefaultAsync(m => m.FranchiseID == id);
+            if (franchise == null)
             {
                 return NotFound();
             }
 
-            return View(payment);
+            return View(franchise);
         }
 
-        // POST: Payments/Delete/5
+        // POST: Franchises/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var payment = await _context.Payment.FindAsync(id);
-            if (payment != null)
+            var franchise = await _context.Franchise.FindAsync(id);
+            if (franchise != null)
             {
-                _context.Payment.Remove(payment);
+                _context.Franchise.Remove(franchise);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PaymentExists(int id)
+        private bool FranchiseExists(int id)
         {
-            return _context.Payment.Any(e => e.PaymentID == id);
+            return _context.Franchise.Any(e => e.FranchiseID == id);
         }
     }
 }

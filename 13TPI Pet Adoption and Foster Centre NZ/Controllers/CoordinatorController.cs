@@ -12,22 +12,22 @@ using Microsoft.AspNetCore.Authorization;
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
     [Authorize]
-    public class AdminOfficesController : Controller
+    public class CoordinatorController : Controller
     {
         private readonly Context _context;
 
-        public AdminOfficesController(Context context)
+        public CoordinatorController(Context context)
         {
             _context = context;
         }
 
-        // GET: AdminOffices
+        // GET: Coordinators
         public async Task<IActionResult> Index()
         {
-            return View(await _context.AdminOffice.ToListAsync());
+            return View(await _context.Coordinator.ToListAsync());
         }
 
-        // GET: AdminOffices/Details/5
+        // GET: Coordinators/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,39 +35,39 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var adminOffice = await _context.AdminOffice
-                .FirstOrDefaultAsync(m => m.AdminID == id);
-            if (adminOffice == null)
+            var coordinator = await _context.Coordinator
+                .FirstOrDefaultAsync(m => m.CoordinatorID == id);
+            if (coordinator == null)
             {
                 return NotFound();
             }
 
-            return View(adminOffice);
+            return View(coordinator);
         }
 
-        // GET: AdminOffices/Create
+        // GET: Coordinators/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: AdminOffices/Create
+        // POST: Coordinators/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AdminID,UserID,FirstName,LastName,EmailAddress,ContactNo,DateHired,AccessLevel,RoleID")] AdminOffice adminOffice)
+        public async Task<IActionResult> Create([Bind("CoordinatorID,FranchiseID,PetGroupID,FirstName,LastName,EmailAddress,ContactNo,HireDate,ExperienceLevel,ProfileImageUrl")] Coordinator coordinator)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(adminOffice);
+                _context.Add(coordinator);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(adminOffice);
+            return View(coordinator);
         }
 
-        // GET: AdminOffices/Edit/5
+        // GET: Coordinators/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,22 +75,22 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var adminOffice = await _context.AdminOffice.FindAsync(id);
-            if (adminOffice == null)
+            var coordinator = await _context.Coordinator.FindAsync(id);
+            if (coordinator == null)
             {
                 return NotFound();
             }
-            return View(adminOffice);
+            return View(coordinator);
         }
 
-        // POST: AdminOffices/Edit/5
+        // POST: Coordinators/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AdminID,UserID,FirstName,LastName,EmailAddress,ContactNo,DateHired,AccessLevel,RoleID")] AdminOffice adminOffice)
+        public async Task<IActionResult> Edit(int id, [Bind("CoordinatorID,FranchiseID,PetGroupID,FirstName,LastName,EmailAddress,ContactNo,HireDate,ExperienceLevel,ProfileImageUrl")] Coordinator coordinator)
         {
-            if (id != adminOffice.AdminID)
+            if (id != coordinator.CoordinatorID)
             {
                 return NotFound();
             }
@@ -99,12 +99,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             {
                 try
                 {
-                    _context.Update(adminOffice);
+                    _context.Update(coordinator);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AdminOfficeExists(adminOffice.AdminID))
+                    if (!CoordinatorExists(coordinator.CoordinatorID))
                     {
                         return NotFound();
                     }
@@ -115,10 +115,10 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(adminOffice);
+            return View(coordinator);
         }
 
-        // GET: AdminOffices/Delete/5
+        // GET: Coordinators/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -126,34 +126,34 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var adminOffice = await _context.AdminOffice
-                .FirstOrDefaultAsync(m => m.AdminID == id);
-            if (adminOffice == null)
+            var coordinator = await _context.Coordinator
+                .FirstOrDefaultAsync(m => m.CoordinatorID == id);
+            if (coordinator == null)
             {
                 return NotFound();
             }
 
-            return View(adminOffice);
+            return View(coordinator);
         }
 
-        // POST: AdminOffices/Delete/5
+        // POST: Coordinators/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var adminOffice = await _context.AdminOffice.FindAsync(id);
-            if (adminOffice != null)
+            var coordinator = await _context.Coordinator.FindAsync(id);
+            if (coordinator != null)
             {
-                _context.AdminOffice.Remove(adminOffice);
+                _context.Coordinator.Remove(coordinator);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AdminOfficeExists(int id)
+        private bool CoordinatorExists(int id)
         {
-            return _context.AdminOffice.Any(e => e.AdminID == id);
+            return _context.Coordinator.Any(e => e.CoordinatorID == id);
         }
     }
 }

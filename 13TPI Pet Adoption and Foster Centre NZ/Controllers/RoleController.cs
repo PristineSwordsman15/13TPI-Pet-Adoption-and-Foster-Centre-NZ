@@ -12,22 +12,22 @@ using Microsoft.AspNetCore.Authorization;
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
     [Authorize]
-    public class MedicalRecordsController : Controller
+    public class RoleController : Controller
     {
         private readonly Context _context;
 
-        public MedicalRecordsController(Context context)
+        public RoleController(Context context)
         {
             _context = context;
         }
 
-        // GET: MedicalRecords
+        // GET: Roles
         public async Task<IActionResult> Index()
         {
-            return View(await _context.MedicalRecord.ToListAsync());
+            return View(await _context.Role.ToListAsync());
         }
 
-        // GET: MedicalRecords/Details/5
+        // GET: Roles/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,39 +35,39 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var medicalRecord = await _context.MedicalRecord
-                .FirstOrDefaultAsync(m => m.MedicalID == id);
-            if (medicalRecord == null)
+            var role = await _context.Role
+                .FirstOrDefaultAsync(m => m.RoleID == id);
+            if (role == null)
             {
                 return NotFound();
             }
 
-            return View(medicalRecord);
+            return View(role);
         }
 
-        // GET: MedicalRecords/Create
+        // GET: Roles/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: MedicalRecords/Create
+        // POST: Roles/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MedicalID,PetID,VetName,ClinicName,VisitDate,Diagnosis,Treatment,VaccinationStatus,MicrochipID,SpecialNeeds")] MedicalRecord medicalRecord)
+        public async Task<IActionResult> Create([Bind("RoleID,RoleName,RoleDescription")] Role role)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(medicalRecord);
+                _context.Add(role);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(medicalRecord);
+            return View(role);
         }
 
-        // GET: MedicalRecords/Edit/5
+        // GET: Roles/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,22 +75,22 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var medicalRecord = await _context.MedicalRecord.FindAsync(id);
-            if (medicalRecord == null)
+            var role = await _context.Role.FindAsync(id);
+            if (role == null)
             {
                 return NotFound();
             }
-            return View(medicalRecord);
+            return View(role);
         }
 
-        // POST: MedicalRecords/Edit/5
+        // POST: Roles/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MedicalID,PetID,VetName,ClinicName,VisitDate,Diagnosis,Treatment,VaccinationStatus,MicrochipID,SpecialNeeds")] MedicalRecord medicalRecord)
+        public async Task<IActionResult> Edit(int id, [Bind("RoleID,RoleName,RoleDescription")] Role role)
         {
-            if (id != medicalRecord.MedicalID)
+            if (id != role.RoleID)
             {
                 return NotFound();
             }
@@ -99,12 +99,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             {
                 try
                 {
-                    _context.Update(medicalRecord);
+                    _context.Update(role);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MedicalRecordExists(medicalRecord.MedicalID))
+                    if (!RoleExists(role.RoleID))
                     {
                         return NotFound();
                     }
@@ -115,10 +115,10 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(medicalRecord);
+            return View(role);
         }
 
-        // GET: MedicalRecords/Delete/5
+        // GET: Roles/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -126,34 +126,34 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var medicalRecord = await _context.MedicalRecord
-                .FirstOrDefaultAsync(m => m.MedicalID == id);
-            if (medicalRecord == null)
+            var role = await _context.Role
+                .FirstOrDefaultAsync(m => m.RoleID == id);
+            if (role == null)
             {
                 return NotFound();
             }
 
-            return View(medicalRecord);
+            return View(role);
         }
 
-        // POST: MedicalRecords/Delete/5
+        // POST: Roles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var medicalRecord = await _context.MedicalRecord.FindAsync(id);
-            if (medicalRecord != null)
+            var role = await _context.Role.FindAsync(id);
+            if (role != null)
             {
-                _context.MedicalRecord.Remove(medicalRecord);
+                _context.Role.Remove(role);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MedicalRecordExists(int id)
+        private bool RoleExists(int id)
         {
-            return _context.MedicalRecord.Any(e => e.MedicalID == id);
+            return _context.Role.Any(e => e.RoleID == id);
         }
     }
 }

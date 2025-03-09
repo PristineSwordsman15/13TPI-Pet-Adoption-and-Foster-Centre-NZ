@@ -12,22 +12,22 @@ using Microsoft.AspNetCore.Authorization;
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
     [Authorize]
-    public class PetsController : Controller
+    public class MedicalRecordController : Controller
     {
         private readonly Context _context;
 
-        public PetsController(Context context)
+        public MedicalRecordController(Context context)
         {
             _context = context;
         }
 
-        // GET: Pets
+        // GET: MedicalRecords
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Pet.ToListAsync());
+            return View(await _context.MedicalRecord.ToListAsync());
         }
 
-        // GET: Pets/Details/5
+        // GET: MedicalRecords/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,39 +35,39 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var pet = await _context.Pet
-                .FirstOrDefaultAsync(m => m.PetID == id);
-            if (pet == null)
+            var medicalRecord = await _context.MedicalRecord
+                .FirstOrDefaultAsync(m => m.MedicalID == id);
+            if (medicalRecord == null)
             {
                 return NotFound();
             }
 
-            return View(pet);
+            return View(medicalRecord);
         }
 
-        // GET: Pets/Create
+        // GET: MedicalRecords/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Pets/Create
+        // POST: MedicalRecords/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PetID,PetName,PetGroupID,Species,Breed,PetAge,ArrivalDate,PetStatus,ImageUrl")] Pet pet)
+        public async Task<IActionResult> Create([Bind("MedicalID,PetID,VetName,ClinicName,VisitDate,Diagnosis,Treatment,VaccinationStatus,MicrochipID,SpecialNeeds")] MedicalRecord medicalRecord)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(pet);
+                _context.Add(medicalRecord);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(pet);
+            return View(medicalRecord);
         }
 
-        // GET: Pets/Edit/5
+        // GET: MedicalRecords/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,22 +75,22 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var pet = await _context.Pet.FindAsync(id);
-            if (pet == null)
+            var medicalRecord = await _context.MedicalRecord.FindAsync(id);
+            if (medicalRecord == null)
             {
                 return NotFound();
             }
-            return View(pet);
+            return View(medicalRecord);
         }
 
-        // POST: Pets/Edit/5
+        // POST: MedicalRecords/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PetID,PetName,PetGroupID,Species,Breed,PetAge,ArrivalDate,PetStatus,ImageUrl")] Pet pet)
+        public async Task<IActionResult> Edit(int id, [Bind("MedicalID,PetID,VetName,ClinicName,VisitDate,Diagnosis,Treatment,VaccinationStatus,MicrochipID,SpecialNeeds")] MedicalRecord medicalRecord)
         {
-            if (id != pet.PetID)
+            if (id != medicalRecord.MedicalID)
             {
                 return NotFound();
             }
@@ -99,12 +99,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             {
                 try
                 {
-                    _context.Update(pet);
+                    _context.Update(medicalRecord);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PetExists(pet.PetID))
+                    if (!MedicalRecordExists(medicalRecord.MedicalID))
                     {
                         return NotFound();
                     }
@@ -115,10 +115,10 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(pet);
+            return View(medicalRecord);
         }
 
-        // GET: Pets/Delete/5
+        // GET: MedicalRecords/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -126,34 +126,34 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var pet = await _context.Pet
-                .FirstOrDefaultAsync(m => m.PetID == id);
-            if (pet == null)
+            var medicalRecord = await _context.MedicalRecord
+                .FirstOrDefaultAsync(m => m.MedicalID == id);
+            if (medicalRecord == null)
             {
                 return NotFound();
             }
 
-            return View(pet);
+            return View(medicalRecord);
         }
 
-        // POST: Pets/Delete/5
+        // POST: MedicalRecords/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var pet = await _context.Pet.FindAsync(id);
-            if (pet != null)
+            var medicalRecord = await _context.MedicalRecord.FindAsync(id);
+            if (medicalRecord != null)
             {
-                _context.Pet.Remove(pet);
+                _context.MedicalRecord.Remove(medicalRecord);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PetExists(int id)
+        private bool MedicalRecordExists(int id)
         {
-            return _context.Pet.Any(e => e.PetID == id);
+            return _context.MedicalRecord.Any(e => e.MedicalID == id);
         }
     }
 }

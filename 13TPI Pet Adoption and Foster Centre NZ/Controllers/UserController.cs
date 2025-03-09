@@ -12,11 +12,11 @@ using Microsoft.AspNetCore.Authorization;
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
     [Authorize]
-    public class UsersController : Controller
+    public class UserController : Controller
     {
         private readonly Context _context;
 
-        public UsersController(Context context)
+        public UserController(Context context)
         {
             _context = context;
         }
