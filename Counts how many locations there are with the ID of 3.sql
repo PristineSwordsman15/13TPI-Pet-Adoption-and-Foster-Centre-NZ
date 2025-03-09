@@ -1,0 +1,1 @@
+﻿SELECT COUNT(*) FROM Location WHERE LocationID = 3;
