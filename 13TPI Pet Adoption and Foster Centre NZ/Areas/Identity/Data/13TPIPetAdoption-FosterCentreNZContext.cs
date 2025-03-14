@@ -7,7 +7,7 @@ using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Areas.Identity.Data;
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
 
-public class Context : IdentityDbContext<IdentityUser>
+public class Context : IdentityDbContext<ApplicationUser>
 {
     public Context(DbContextOptions<Context> options)
         : base(options)

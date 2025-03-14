@@ -4,6 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
+using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -13,11 +14,11 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Areas.Identity.Pages.Account.
 {
     public class Disable2faModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<Disable2faModel> _logger;
 
         public Disable2faModel(
-            UserManager<IdentityUser> userManager,
+            UserManager<ApplicationUser> userManager,
             ILogger<Disable2faModel> logger)
         {
             _userManager = userManager;
