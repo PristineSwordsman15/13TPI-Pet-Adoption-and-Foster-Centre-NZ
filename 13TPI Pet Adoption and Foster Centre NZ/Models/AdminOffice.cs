@@ -8,17 +8,24 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
 {
     public class AdminOffice
     {
-        [Required]
-        [Key]
+        // Primary key for AdminOffice entity 
+        [Required]// Ensures the field is mandatory
+        [Key]// Makes the below property a primary key
         public int AdminID { get; set; }
-        [Required]
-        [ForeignKey("UserID")]
+
+        // Foreign Key linking to the User entity
+        [Required]// Ensures this field is mandatory
+        [ForeignKey("UserID")]// Specifies the foreign key relationship
         public int UserID { get; set; }
-        [Required]
-        [StringLength(25,MinimumLength = 2)]
+
+        // First Name of the admin
+        [Required]// Field is required
+        [StringLength(25,MinimumLength = 2)]// Limits the length between 2 and 25 characters
         public string FirstName { get; set; }
-        [Required]
-        [StringLength(25, MinimumLength =2)]
+
+        //Last Name of the admin
+        [Required]//Field is required
+        [StringLength(25, MinimumLength =2)]// Limits the length between 2 and 25 characters
         public string LastName { get; set; }
         [Required]
         [EmailAddress]
@@ -32,8 +39,6 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         [Required]
         [StringLength (20)]
         public string AccessLevel { get; set; }
-        [Required]
-        [ForeignKey("RoleID")]
-        public int RoleID { get; set; }
+      
     }
 }
