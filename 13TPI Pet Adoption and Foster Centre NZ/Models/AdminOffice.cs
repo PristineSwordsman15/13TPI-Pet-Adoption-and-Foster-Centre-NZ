@@ -27,17 +27,25 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         [Required]//Field is required
         [StringLength(25, MinimumLength =2)]// Limits the length between 2 and 25 characters
         public string LastName { get; set; }
-        [Required]
-        [EmailAddress]
+
+        // Email Address of the admin 
+        [Required]//Field is required 
+        [EmailAddress]// Lets user provide a valid e-mail adddress with a existing provider
         public string EmailAddress { get; set; }
-        [Required]
+
+        // Admin contact number
+        [Required] // Field is required
         [RegularExpression(@"^\d{11}$",ErrorMessage ="Contact number must be 11 digits")]
         public string ContactNo { get; set; }
-        [Required]
+
+        // Hire Date of Admin
+        [Required] // Field is required
         [DataType(DataType.Date)]
         public DateTime DateHired { get; set; }
-        [Required]
-        [StringLength (20)]
+
+        // Access level of admin
+        [Required] // Field is required 
+        [StringLength (20)] // Limits the length of adin title between 2 and 25 characters
         public string AccessLevel { get; set; }
       
     }
