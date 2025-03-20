@@ -33,9 +33,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.AccessLevel)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RoleID)
-            </th>
+            
             <th></th>
         </tr>
     </thead>
@@ -63,9 +61,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.AccessLevel)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RoleID)
-            </td>
+            
             <td>
                 <a asp-action="Edit" asp-route-id="@item.AdminID">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.AdminID">Details</a> |
