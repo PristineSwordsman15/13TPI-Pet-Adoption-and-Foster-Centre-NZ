@@ -46,6 +46,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         }
 
         // GET: Payments/Create
+        [Authorize(Roles = "Administrators")]
         public IActionResult Create()
         {
             return View();
@@ -56,6 +57,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrators")]
         public async Task<IActionResult> Create([Bind("PaymentID,UserID,PaymentType,Amount,Currency,PaymentDate,PaymentMethod,TransactionID,PaymentStatus,Notes")] Payment payment)
         {
             if (ModelState.IsValid)
@@ -68,6 +70,8 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         }
 
         // GET: Payments/Edit/5
+        [Authorize(Roles = "Administrators")]
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -88,6 +92,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrators")]
         public async Task<IActionResult> Edit(int id, [Bind("PaymentID,UserID,PaymentType,Amount,Currency,PaymentDate,PaymentMethod,TransactionID,PaymentStatus,Notes")] Payment payment)
         {
             if (id != payment.PaymentID)
@@ -119,6 +124,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         }
 
         // GET: Payments/Delete/5
+        [Authorize(Roles = "Administrators")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -139,6 +145,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         // POST: Payments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrators")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var payment = await _context.Payment.FindAsync(id);
