@@ -92,7 +92,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrators")]
+        [Authorize(Roles = "Administrators")] button
         public async Task<IActionResult> Edit(int id, [Bind("PaymentID,UserID,PaymentType,Amount,Currency,PaymentDate,PaymentMethod,TransactionID,PaymentStatus,Notes")] Payment payment)
         {
             if (id != payment.PaymentID)
