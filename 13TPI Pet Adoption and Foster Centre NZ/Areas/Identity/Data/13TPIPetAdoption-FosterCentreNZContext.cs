@@ -40,7 +40,7 @@ public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Payment> Payment { 
 
 public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Shelter> Shelter { get; set; } = default!;
 
-public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.User> User { get; set; } = default!;
+
 
 
 
