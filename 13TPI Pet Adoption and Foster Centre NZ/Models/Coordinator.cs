@@ -26,7 +26,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         public string EmailAddress { get; set; }
         [Required]
         [RegularExpression(@"^\d{11}$", ErrorMessage = "Contact number must be 11 digits")]
-        public int ContactNo { get; set; }
+        public string ContactNo { get; set; }
         [Required]
         [DataType(DataType.Date)]
         public DateTime HireDate { get; set; }
