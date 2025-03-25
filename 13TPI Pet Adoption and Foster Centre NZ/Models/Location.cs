@@ -23,6 +23,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         public string Region { get; set; }
         [Required]
         [RegularExpression(@"^\d(4)$",ErrorMessage = "Postcode must be 4 digits.")]
+        [StringLength(4)]
         public string PostCode { get; set; }
         [Required]
         [StringLength(50)]
