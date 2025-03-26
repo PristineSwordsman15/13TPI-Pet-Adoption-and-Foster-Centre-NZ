@@ -15,6 +15,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         [Required]
         [StringLength(25)]
         public string VetName { get; set; }
+        public int ImageID { get; set; }
+
+        [Column(TypeName = "nvarchar(50)")]
+        public string Title { get; set; }
+        [Column(TypeName = "nvarchar(100)")]
+        public string ImageName { get; set; }
         [Required]
         [StringLength(25)]
         public string ClinicName { get; set; }
