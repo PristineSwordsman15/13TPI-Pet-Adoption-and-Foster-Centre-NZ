@@ -32,15 +32,10 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         public DateTime HireDate { get; set; }
         [Required]
         [StringLength(30)]
-        public string ExperienceLevel { get; set; }
-        public int ImageID { get; set; }
+        public string ExperienceLevel { get; set; } 
 
-        [Column(TypeName = "nvarchar(50)")]
-        public string Title { get; set; }
-        [Column(TypeName = "nvarchar(100)")]
-        public string ImageName { get; set; }
-        [Required]
-        [Url]
-        public string ProfileImageUrl { get; set; }
+     [Required]
+     [Url]
+    public string ProfileImageUrl { get; set; }
     }
 }
