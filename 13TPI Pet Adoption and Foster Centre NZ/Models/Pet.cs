@@ -14,12 +14,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         public int PetAge { get; set; }
         public DateTime ArrivalDate { get; set; }
         public string PetStatus { get; set; }
-        public int ImageID { get; set; }
-
-        [Column(TypeName = "nvarchar(50)")]
-        public string Title { get; set; }
-        [Column(TypeName = "nvarchar(100)")]
-        public string ImageName { get; set; }
+      
         public string ImageUrl { get; set; }
 
     }
