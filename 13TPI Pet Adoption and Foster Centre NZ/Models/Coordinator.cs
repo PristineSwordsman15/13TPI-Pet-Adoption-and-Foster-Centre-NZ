@@ -6,6 +6,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
 {
     public class Coordinator
     {
+        // Primary key 
         [Required]
         [Key]
         public int CoordinatorID { get; set; }

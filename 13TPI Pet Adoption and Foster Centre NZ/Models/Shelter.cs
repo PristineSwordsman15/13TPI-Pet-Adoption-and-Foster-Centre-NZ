@@ -16,6 +16,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         public string OperatingHours { get; set; }
         public string ShelterType { get; set; }
         public string EmailAddress { get; set; }
+        public string ImageUrl { get; set; }
 
     }
 }
