@@ -14,11 +14,13 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
     [Authorize]
     public class CoordinatorController : Controller
     {
+        
         private readonly Context _context;
 
         public CoordinatorController(Context context)
         {
             _context = context;
+           
         }
 
         // GET: Coordinators
@@ -50,6 +52,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         {
             return View();
         }
+
 
         // POST: Coordinators/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.

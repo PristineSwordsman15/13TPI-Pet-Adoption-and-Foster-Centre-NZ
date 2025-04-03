@@ -15,6 +15,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
     public class ShelterController : Controller
     {
         private readonly Context _context;
+        
 
         public ShelterController(Context context)
         {
@@ -56,7 +57,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ShelterID,ShelterName,FranchiseID,LocationID,AvailableBeds,OccupiedBeds,ContactNo,OperatingHours,ShelterType,EmailAddress")] Shelter shelter)
+        public async Task<IActionResult> Create([Bind("ShelterID,ShelterName,FranchiseID,LocationID,AvailableBeds,OccupiedBeds,ContactNo,OperatingHours,ShelterType,EmailAddress, ImageUel")] Shelter shelter)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +89,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ShelterID,ShelterName,FranchiseID,LocationID,AvailableBeds,OccupiedBeds,ContactNo,OperatingHours,ShelterType,EmailAddress")] Shelter shelter)
+        public async Task<IActionResult> Edit(int id, [Bind("ShelterID,ShelterName,FranchiseID,LocationID,AvailableBeds,OccupiedBeds,ContactNo,OperatingHours,ShelterType,EmailAddress, ImageUrl")] Shelter shelter)
         {
             if (id != shelter.ShelterID)
             {
