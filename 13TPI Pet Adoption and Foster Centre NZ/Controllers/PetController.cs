@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Hosting;
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
@@ -15,10 +16,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
     public class PetController : Controller
     {
         private readonly Context _context;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public PetController(Context context)
+        public PetController(Context context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            this._hostEnvironment = hostEnvironment;
         }
 
         // GET: Pets
@@ -58,8 +61,17 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PetID,PetName,PetGroupID,Species,Breed,PetAge,ArrivalDate,PetStatus,Titlw,ImageName,ImageFile")] Pet pet)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(pet.ImageFile.FileName);
+                string extension = Path.GetExtension(pet.ImageFile.FileName);
+                pet.ImageName = fileName = fileName + DateTime.Now.ToString("yyyymmddhhmmss") + extension;
+                string path = Path.Combine(wwwRootPath + "/Image/", fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await pet.ImageFile.CopyToAsync(fileStream);
+                }
                 _context.Add(pet);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

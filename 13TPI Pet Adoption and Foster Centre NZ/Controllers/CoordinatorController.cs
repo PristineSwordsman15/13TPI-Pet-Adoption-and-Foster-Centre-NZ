@@ -16,10 +16,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
     {
         
         private readonly Context _context;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public CoordinatorController(Context context)
+        public CoordinatorController(Context context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            this._hostEnvironment = hostEnvironment;
            
         }
 
@@ -61,8 +63,17 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CoordinatorID,FranchiseID,PetGroupID,FirstName,LastName,EmailAddress,ContactNo,HireDate,ExperienceLevel,Title,ImageName,ImageFile")] Coordinator coordinator)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(coordinator.ImageFile.FileName);
+                string extension = Path.GetExtension(coordinator.ImageFile.FileName);
+                coordinator.ImageName = fileName = fileName + DateTime.Now.ToString("yyyymmddhhmmss") + extension;
+                string path = Path.Combine(wwwRootPath + "/Image/", fileName);
+                using (var fileStream = new FileStream(path,FileMode.Create))
+                {
+                    await coordinator.ImageFile.CopyToAsync(fileStream);
+                }
                 _context.Add(coordinator);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

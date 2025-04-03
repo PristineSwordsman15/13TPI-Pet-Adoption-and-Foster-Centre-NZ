@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.IO;
+using Microsoft.AspNetCore.Identity;
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
@@ -15,10 +17,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
     public class AdminOfficeController : Controller
     {
         private readonly Context _context;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public AdminOfficeController(Context context)
+        public AdminOfficeController(Context context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            this._hostEnvironment = hostEnvironment; 
         }
 
         // GET: AdminOffices
@@ -58,11 +62,21 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AdminID,UserID,FirstName,LastName,EmailAddress,ContactNo,DateHired,AccessLevel,Title,ImageName,ImageFile")] AdminOffice adminOffice)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(adminOffice.ImageFile.FileName);
+                string extension = Path.GetExtension(adminOffice.ImageFile.FileName);
+                adminOffice.ImageName = fileName = fileName + DateTime.Now.ToString("yyyymmddhhmmss") + extension;
+                string path = Path.Combine(wwwRootPath + "/Image/", fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await adminOffice.ImageFile.CopyToAsync(fileStream);
+                }
                 _context.Add(adminOffice);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+
             }
             return View(adminOffice);
         }

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Drawing;
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
@@ -15,11 +16,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
     public class ShelterController : Controller
     {
         private readonly Context _context;
-        
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public ShelterController(Context context)
+        public ShelterController(Context context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            this._hostEnvironment = hostEnvironment;
         }
 
         // GET: Shelters
@@ -59,8 +61,17 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ShelterID,ShelterName,FranchiseID,LocationID,AvailableBeds,OccupiedBeds,ContactNo,OperatingHours,ShelterType,EmailAddress, ImageUel")] Shelter shelter)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(shelter.ImageFile.FileName);
+                string extension = Path.GetExtension(shelter.ImageFile.FileName);
+                shelter.ImageName = fileName = fileName + DateTime.Now.ToString("yyyymmddhhmmss") + extension;
+                string path = Path.Combine(wwwRootPath + "/Image/", fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await shelter.ImageFile.CopyToAsync(fileStream);
+                }
                 _context.Add(shelter);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

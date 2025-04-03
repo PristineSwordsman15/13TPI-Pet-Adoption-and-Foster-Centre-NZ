@@ -18,4 +18,11 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\AdminOfficeImages\" />
+    <Folder Include="wwwroot\CoordinatorImages\" />
+    <Folder Include="wwwroot\ShelterImages\" />
+    <Folder Include="wwwroot\PetImages\" />
+  </ItemGroup>
+
 </Project>
