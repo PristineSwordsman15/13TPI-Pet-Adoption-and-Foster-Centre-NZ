@@ -34,7 +34,13 @@
                 @Html.DisplayNameFor(model => model.PetStatus)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageFile)
             </th>
             <th></th>
         </tr>
@@ -64,7 +70,13 @@
                 @Html.DisplayFor(modelItem => item.PetStatus)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ImageUrl)
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+             <td>
+                @Html.DisplayFor(modelItem => item.ImageName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImageFile)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.PetID">Edit</a> |

@@ -59,7 +59,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CoordinatorID,FranchiseID,PetGroupID,FirstName,LastName,EmailAddress,ContactNo,HireDate,ExperienceLevel,ProfileImageUrl")] Coordinator coordinator)
+        public async Task<IActionResult> Create([Bind("CoordinatorID,FranchiseID,PetGroupID,FirstName,LastName,EmailAddress,ContactNo,HireDate,ExperienceLevel,Title,ImageName,ImageFile")] Coordinator coordinator)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +91,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CoordinatorID,FranchiseID,PetGroupID,FirstName,LastName,EmailAddress,ContactNo,HireDate,ExperienceLevel,ProfileImageUrl")] Coordinator coordinator)
+        public async Task<IActionResult> Edit(int id, [Bind("CoordinatorID,FranchiseID,PetGroupID,FirstName,LastName,EmailAddress,ContactNo,HireDate,ExperienceLevel,Title,ImageName,ImageFile")] Coordinator coordinator)
         {
             if (id != coordinator.CoordinatorID)
             {

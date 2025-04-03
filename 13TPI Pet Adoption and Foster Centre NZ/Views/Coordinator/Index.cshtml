@@ -37,7 +37,13 @@
                 @Html.DisplayNameFor(model => model.ExperienceLevel)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProfileImageUrl)
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageFile)
             </th>
             <th></th>
         </tr>
@@ -70,8 +76,14 @@
                 @Html.DisplayFor(modelItem => item.ExperienceLevel)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProfileImageUrl)
+                @Html.DisplayFor(modelItem => item.Title)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImageName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImageFile)
+                </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.CoordinatorID">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.CoordinatorID">Details</a> |

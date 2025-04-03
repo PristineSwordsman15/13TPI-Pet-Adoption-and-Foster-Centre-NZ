@@ -56,7 +56,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PetID,PetName,PetGroupID,Species,Breed,PetAge,ArrivalDate,PetStatus,ImageUrl")] Pet pet)
+        public async Task<IActionResult> Create([Bind("PetID,PetName,PetGroupID,Species,Breed,PetAge,ArrivalDate,PetStatus,Titlw,ImageName,ImageFile")] Pet pet)
         {
             if (ModelState.IsValid)
             {

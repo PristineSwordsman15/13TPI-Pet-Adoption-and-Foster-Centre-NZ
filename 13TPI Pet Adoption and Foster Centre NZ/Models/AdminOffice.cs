@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -47,6 +48,16 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         [Required] // Field is required 
         [StringLength (20)] // Limits the length of adin title between 2 and 25 characters
         public string AccessLevel { get; set; }
+
+        [Column(TypeName = "nvarchar(50)")]
+        public string Title { get; set; }
+        [Column(TypeName = "nvarchar(100)")]
+        [NotMapped]
+        [DisplayName("Image Name")]
+        public string ImageName { get; set; }
+        [NotMapped]
+        [DisplayName("Upload Files")]
+        public IFormFile ImageFile { get; set; }
       
     }
 }

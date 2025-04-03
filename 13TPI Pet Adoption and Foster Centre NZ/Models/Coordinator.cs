@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -33,10 +34,17 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         public DateTime HireDate { get; set; }
         [Required]
         [StringLength(30)]
-        public string ExperienceLevel { get; set; } 
+        public string ExperienceLevel { get; set; }
 
-     [Required]
-     [Url]
-    public string ProfileImageUrl { get; set; }
+        [Column(TypeName = "nvarchar(50)")]
+        public string Title { get; set; }
+        [Column(TypeName = "nvarchar(100)")]
+        [NotMapped]
+        [DisplayName("Image Name")]
+        public string ImageName { get; set; }
+
+        [NotMapped]
+        [DisplayName("Upload Files")]
+    public IFormFile ImageFile { get; set; }
     }
 }

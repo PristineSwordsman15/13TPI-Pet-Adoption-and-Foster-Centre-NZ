@@ -89,7 +89,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ShelterID,ShelterName,FranchiseID,LocationID,AvailableBeds,OccupiedBeds,ContactNo,OperatingHours,ShelterType,EmailAddress, ImageUrl")] Shelter shelter)
+        public async Task<IActionResult> Edit(int id, [Bind("ShelterID,ShelterName,FranchiseID,LocationID,AvailableBeds,OccupiedBeds,ContactNo,OperatingHours,ShelterType,EmailAddress, Title,ImageName,ImageFile")] Shelter shelter)
         {
             if (id != shelter.ShelterID)
             {
