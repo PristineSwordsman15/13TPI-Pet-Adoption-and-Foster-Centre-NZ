@@ -37,14 +37,14 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         public string ExperienceLevel { get; set; }
 
         [Column(TypeName = "nvarchar(50)")]
-        public string Title { get; set; }
+        public string? Title { get; set; }
         [Column(TypeName = "nvarchar(100)")]
         [NotMapped]
         [DisplayName("Image Name")]
-        public string ImageName { get; set; }
+        public string? ImageName { get; set; }
 
         [NotMapped]
         [DisplayName("Upload Files")]
-    public IFormFile ImageFile { get; set; }
+    public IFormFile? ImageFile { get; set; } 
     }
 }

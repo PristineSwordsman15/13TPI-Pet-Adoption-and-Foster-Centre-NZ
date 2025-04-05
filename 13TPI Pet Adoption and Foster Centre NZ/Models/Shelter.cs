@@ -36,18 +36,18 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
 
         // Title of image 
         [Column(TypeName = "nvarchar(50)")]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         // File name for image 
         [Column(TypeName = "nvarchar(100)")]
         [NotMapped]
         [DisplayName("Image Name")]
-        public string ImageName { get; set; }
+        public string? ImageName { get; set; }
 
         // Uploadable image file (not mapped) 
         [NotMapped]
         [DisplayName("Upload Files")]
-        public IFormFile ImageFile { get; set; }
+        public IFormFile? ImageFile { get; set; }
 
     }
 }
