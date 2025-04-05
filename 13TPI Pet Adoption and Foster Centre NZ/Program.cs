@@ -17,6 +17,14 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<Context>(options => options.UseSqlServer());
 var app = builder.Build();
 
+//Ensure database is created and seeded during app startup
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<Context>();
+    DbInitializer.Initialize(context); //Call the seeding method
+}
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

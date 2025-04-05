@@ -43,6 +43,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
                     AccessLevel = "Manager",
                     Title = "Admin Assistant",
                 }
+
             );
             #endregion
 
@@ -117,7 +118,16 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
                     Region = "Auckland",
                     PostCode = "1010",
                     Country = "New Zealand"
-                }
+                },
+                new Location { Address = "789 Critter Avenue, Zoo City", Surburb = "Wild Suburb", City = "Zoo City", Region = "Region Z", PostCode = "9101", Country = "New Zealand" },
+                new Location { Address = "101 Pet Lane, Animal Kingdom", Surburb = "Furry City", City = "Animal Kingdom", Region = "Region W", PostCode = "2345", Country = "New Zealand" },
+                new Location { Address = "202 Fur Street, Petland", Surburb = "Paw Suburb", City = "Paw City", Region = "Region V", PostCode = "6789", Country = "New Zealand" },
+                new Location { Address = "303 Critter Close, Wildlife Town", Surburb = "Critter Suburb", City = "Wildlife Town", Region = "Region U", PostCode = "3456", Country = "New Zealand" },
+                new Location { Address = "404 Pet Pathway, Animal Place", Surburb = "Fur Zone", City = "Animal Place", Region = "Region T", PostCode = "5670", Country = "New Zealand" },
+                new Location { Address = "505 Critter Corner, Animal World", Surburb = "Pet Suburb", City = "Animal World", Region = "Region S", PostCode = "1239", Country = "New Zealand" },
+                new Location { Address = "606 Fur Way, Pet Paradise", Surburb = "Paw Street", City = "Pet Paradise", Region = "Region R", PostCode = "8930", Country = "New Zealand" },
+                new Location { Address = "707 Pet Avenue, Fur City", Surburb = "Paws Zone", City = "Fur City", Region = "Region Q", PostCode = "3120", Country = "New Zealand" }
+
             );
             #endregion
 
@@ -146,7 +156,80 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
                     VaccinationStatus = "Fully Vaccinated",
                     MicrochipID = 987654321,
                     SpecialNeeds = "Sensitive Teeth"
-                }
+                },
+                 new MedicalRecord
+                 {
+                     PetID = 3,
+                     VetName = "Dr. Emily Brown",
+                     ClinicName = "Paws & Claws Veterinary",
+                     VisitDate = new DateOnly(2024, 03, 20),
+                     Diagnosis = "Broken leg",
+                     Treatment = "Surgical repair",
+                     VaccinationStatus = "Not Vaccinated",
+                     MicrochipID = 1234567892,
+                     SpecialNeeds = "Needs mobility assistance"
+                 },
+                    new MedicalRecord
+                    {
+                        PetID = 4,
+                        VetName = "Dr. Alan Green",
+                        ClinicName = "Northside Animal Clinic",
+                        VisitDate = new DateOnly(2024, 04, 05),
+                        Diagnosis = "Allergy reaction",
+                        Treatment = "Steroid injection",
+                        VaccinationStatus = "Fully Vaccinated",
+                        MicrochipID = 1234567893,
+                        SpecialNeeds = "None"
+                    },
+                    new MedicalRecord
+                    {
+                        PetID = 5,
+                        VetName = "Dr. Sarah White",
+                        ClinicName = "Happy Paws Animal Care",
+                        VisitDate = new DateOnly(2024, 05, 10),
+                        Diagnosis = "Dental disease",
+                        Treatment = "Teeth cleaning",
+                        VaccinationStatus = "Fully Vaccinated",
+                        MicrochipID = 1234567894,
+                        SpecialNeeds = "Requires regular teeth checks"
+                    },
+                    new MedicalRecord
+                    {
+                        PetID = 6,
+                        VetName = "Dr. Lisa Grey",
+                        ClinicName = "Furry Friends Veterinary Clinic",
+                        VisitDate = new DateOnly(2024, 06, 15),
+                        Diagnosis = "Heartworm",
+                        Treatment = "Heartworm prevention meds",
+                        VaccinationStatus = "Not Vaccinated",
+                        MicrochipID = 1234567895,
+                        SpecialNeeds = "None"
+                    },
+                    new MedicalRecord
+                    {
+                        PetID = 7,
+                        VetName = "Dr. Mike Black",
+                        ClinicName = "Riverdale Vet Clinic",
+                        VisitDate = new DateOnly(2024, 07, 25),
+                        Diagnosis = "Skin infection",
+                        Treatment = "Antibiotics",
+                        VaccinationStatus = "Fully Vaccinated",
+                        MicrochipID = 1234567896,
+                        SpecialNeeds = "Sensitive skin"
+                    },
+                    new MedicalRecord
+                    {
+                        PetID = 8,
+                        VetName = "Dr. Karen Blue",
+                        ClinicName = "Pet Wellness Center",
+                        VisitDate = new DateOnly(2024, 08, 30),
+                        Diagnosis = "Arthritis",
+                        Treatment = "Pain relief medication",
+                        VaccinationStatus = "Fully Vaccinated",
+                        MicrochipID = 1234567897,
+                        SpecialNeeds = "Requires arthritis treatment"
+
+
             );
             #endregion
 
