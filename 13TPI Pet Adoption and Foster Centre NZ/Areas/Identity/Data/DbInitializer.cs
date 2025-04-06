@@ -228,6 +228,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
                         VaccinationStatus = "Fully Vaccinated",
                         MicrochipID = 1234567897,
                         SpecialNeeds = "Requires arthritis treatment"
+                    }
 
 
             );
