@@ -16,7 +16,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         [StringLength(25)]
         public string VetName { get; set; }
         [Required]
-        [StringLength(25)]
+        [StringLength(100)]
         public string ClinicName { get; set; }
         [Required]
         [DataType(DataType.Date)]
