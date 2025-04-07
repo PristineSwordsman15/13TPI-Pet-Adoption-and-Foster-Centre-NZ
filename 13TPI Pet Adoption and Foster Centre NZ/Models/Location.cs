@@ -29,7 +29,6 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         [StringLength(50)]
 
         // Region of Location
-        
         public string Region { get; set; }
 
         // Location PostCode 

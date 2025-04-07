@@ -19,8 +19,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         [Required]
         public int GroupID { get; set; }
         // Name of PetGroup
+        [Required]
+        [StringLength(25)]
         public string PetGroupName { get; set; }
         // Description of PetGroup
+        [Required]
+        [StringLength(100)]
         public string PeGroupDescriptiom { get; set; }
     }
 }
