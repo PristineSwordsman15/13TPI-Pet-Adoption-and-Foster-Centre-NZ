@@ -6,11 +6,14 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
 {
     public class MedicalRecord
     {
+        // ID of individual medical record of pet 
         [Required]
         [Key]
-        public int MedicalID { get; set; }
+        public int MedicalRecordID { get; set; }
+
+        // Foe
         [Required]
-        [ForeignKey("Pet")]
+        [ForeignKey("PetID")]
         public int PetID { get; set; }
         [Required]
         [StringLength(25)]

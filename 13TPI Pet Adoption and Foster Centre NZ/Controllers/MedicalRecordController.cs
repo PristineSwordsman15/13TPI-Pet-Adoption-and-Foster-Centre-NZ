@@ -36,7 +36,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             }
 
             var medicalRecord = await _context.MedicalRecord
-                .FirstOrDefaultAsync(m => m.MedicalID == id);
+                .FirstOrDefaultAsync(m => m.MedicalRecordID == id);
             if (medicalRecord == null)
             {
                 return NotFound();
@@ -90,7 +90,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("MedicalID,PetID,VetName,ClinicName,VisitDate,Diagnosis,Treatment,VaccinationStatus,MicrochipID,SpecialNeeds")] MedicalRecord medicalRecord)
         {
-            if (id != medicalRecord.MedicalID)
+            if (id != medicalRecord.MedicalRecordID)
             {
                 return NotFound();
             }
@@ -104,7 +104,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MedicalRecordExists(medicalRecord.MedicalID))
+                    if (!MedicalRecordExists(medicalRecord.MedicalRecordID))
                     {
                         return NotFound();
                     }
@@ -127,7 +127,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             }
 
             var medicalRecord = await _context.MedicalRecord
-                .FirstOrDefaultAsync(m => m.MedicalID == id);
+                .FirstOrDefaultAsync(m => m.MedicalRecordID == id);
             if (medicalRecord == null)
             {
                 return NotFound();
@@ -153,7 +153,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 
         private bool MedicalRecordExists(int id)
         {
-            return _context.MedicalRecord.Any(e => e.MedicalID == id);
+            return _context.MedicalRecord.Any(e => e.MedicalRecordID == id);
         }
     }
 }

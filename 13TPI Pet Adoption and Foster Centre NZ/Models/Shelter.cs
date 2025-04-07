@@ -8,21 +8,34 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
     public class Shelter
     {
         // ID of shelter 
+        [Required]
+        [Key]
         public int ShelterID { get; set; }
-        // ID of franchise handling shelter
+        // Name of shelter
+        [Required]
+        [StringLength(50)]
         public string ShelterName { get; set; }
+        // Links which franchise is running the shelter
+        [Required]
+        [ForeignKey("FranchiseID")]
         public int FranchiseID { get; set; }
 
         // ID of location of franchise/shelter
+        [Required]
+        [ForeignKey("LocationID")]
         public int LocationID { get; set; }
 
         // The amount of beds a shelter has 
+        [Required]
         public int  AvailableBeds { get; set; }
 
         // Amount of beds taken in a shelter 
+        [Required]
         public int OccupiedBeds { get; set; }
 
         // Contact no. of shelter  
+        [Required]
+        [RegularExpression(@"^\d{11}")]
         public string ContactNo { get; set; }
 
         // Operating houra of shelter 
@@ -31,7 +44,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         // Type of pet shelter (Government vs private) 
         public string ShelterType { get; set; }
 
-        // Shelter email address
+        //  Email address of Shelter
         public string EmailAddress { get; set; }
 
         // Title of image 
