@@ -9,7 +9,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
     {
         public int PetID { get; set; }
         public string PetName { get; set; }
-        public int  PetGroupID { get; set;}
+        public int  PetGroupName { get; set;}
         public string Species { get; set; }
         public string Breed { get; set; }
         public int PetAge { get; set; }
