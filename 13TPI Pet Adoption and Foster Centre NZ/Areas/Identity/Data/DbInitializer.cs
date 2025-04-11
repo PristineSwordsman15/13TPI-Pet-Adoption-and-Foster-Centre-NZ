@@ -239,7 +239,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
                 new Pet
                 {
                     PetName = "Bella",
-                    PetGroupName = 1,
+                    PetGroupName = "Dog Dungeon",
                     Species = "Dog",
                     Breed = "Golden Retriever",
                     PetAge = 3,
@@ -249,7 +249,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
                 new Pet
                 {
                     PetName = "Max",
-                    PetGroupName = 2,
+                    PetGroupName = "Cat Corner",
                     Species = "Cat",
                     Breed = "Siamese",
                     PetAge = 2,
