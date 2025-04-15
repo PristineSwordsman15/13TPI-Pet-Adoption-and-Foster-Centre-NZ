@@ -35,16 +35,18 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
 
         // Contact no. of shelter  
         [Required]
-        [RegularExpression(@"^\d{11}")]
+        [RegularExpression(@"^\d{11}",ErrorMessage = "Contact No must be 11 digits")]
         public string ContactNo { get; set; }
 
         // Operating houra of shelter 
         public string OperatingHours { get; set; }
 
         // Type of pet shelter (Government vs private) 
+        [Required, StringLength(50)]
         public string ShelterType { get; set; }
 
         //  Email address of Shelter
+        [EmailAddress]
         public string EmailAddress { get; set; }
 
         // Title of image 
