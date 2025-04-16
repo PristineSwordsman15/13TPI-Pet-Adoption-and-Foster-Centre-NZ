@@ -20,8 +20,8 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         public decimal Amount { get; set; }
         [Required]
         [StringLength(20)]
-        [RegularExpression(@"^\d{11}$, ErrorMessage = Only NZD is accepted")]
-        public decimal Currency { get; set; }
+        [RegularExpression(@"^NZD$", ErrorMessage = "Only NZD is accepted")]
+        public string Currency { get; set; }
         
 
         public DateTime PaymentDate { get; set; }

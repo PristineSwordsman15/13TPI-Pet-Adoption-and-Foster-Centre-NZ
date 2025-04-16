@@ -266,7 +266,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
                     UserID = 1,
                     PaymentType = "Adoption Fee",
                     Amount = 150.00m,
-                    Currency = 1, // NZD
+                    Currency = "NZD", // NZD
                     PaymentDate = DateTime.Parse("2023-02-20"),
                     PaymentMethod = "Credit Card",
                     TransactionID = 123456,
@@ -278,7 +278,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
                     UserID = 2,
                     PaymentType = "Adoption Fee",
                     Amount = 200.00m,
-                    Currency = 1, // NZD
+                    Currency = "NZD", // NZD
                     PaymentDate = DateTime.Parse("2023-03-15"),
                     PaymentMethod = "Bank Transfer",
                     TransactionID = 654321,
