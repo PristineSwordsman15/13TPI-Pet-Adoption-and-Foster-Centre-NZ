@@ -79,9 +79,9 @@
                 @Html.DisplayFor(modelItem => item.ImageFile)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.PetID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PetID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PetID">Delete</a>
+                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.PetID">Edit</a> |
+                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.PetID">Details</a> |
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.PetID">Delete</a>
             </td>
         </tr>
 }

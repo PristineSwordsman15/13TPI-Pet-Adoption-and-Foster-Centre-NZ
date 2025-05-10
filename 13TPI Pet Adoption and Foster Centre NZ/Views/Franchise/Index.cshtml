@@ -55,9 +55,9 @@
                 @Html.DisplayFor(modelItem => item.OwnerID)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.FranchiseID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.FranchiseID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.FranchiseID">Delete</a>
+                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.FranchiseID">Edit</a> |
+                <a class ="btn btn-info" asp-action="Details" asp-route-id="@item.FranchiseID">Details</a> |
+                <a class ="btm btn-danger" asp-action="Delete" asp-route-id="@item.FranchiseID">Delete</a>
             </td>
         </tr>
 }

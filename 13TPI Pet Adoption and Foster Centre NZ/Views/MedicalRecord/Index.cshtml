@@ -73,9 +73,9 @@
                 @Html.DisplayFor(modelItem => item.SpecialNeeds)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.MedicalRecordID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MedicalRecordID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MedicalRecordID">Delete</a>
+                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.MedicalRecordID">Edit</a> |
+                <a class= "btn btn-info" asp-action="Details" asp-route-id="@item.MedicalRecordID">Details</a> |
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.MedicalRecordID">Delete</a>
             </td>
         </tr>
 }
