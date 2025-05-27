@@ -32,13 +32,17 @@
 
                             <ul class="dropdown-menu">
 
-                                <li><a class="dropdown-item" asp-area="Index" asp-controller="AdminOffice" asp-action="Index">Admin Only</a></li>
-
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <li><a class="dropdown-item" asp-area="Index" asp-controller="AdminOffice" asp-action="Index">Admin Only</a></li>
+                                }
+                                @if (User.Identity.IsAuthenticated)
+                                {
                                 <li><a class="dropdown-item" asp-area="Index" asp-controller="Payment" asp-action="Index">Payments</a></li>
-
-                            </ul>
-
+                                }
+                        </ul>
                         </li>
+                                
                         <div class="dropdown">
                             <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
                                 Home and About Us
@@ -48,13 +52,6 @@
                                 <li><a class="dropdown-item" href="#">About Us</a></li>
                             </ul>
                         </div>
-                        
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Index" asp-controller="Payment" asp-action="Index"> Payments</a>
-                        </li>
-                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="Index" asp-controller="Shelter" asp-action="Index">Organization Shelters</a>
                         </li>
