@@ -42,29 +42,48 @@
                                 }
                         </ul>
                         </li>
-                                
-                        <div class="dropdown">
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                                Home and About Us
-                            </button> 
-                            <ul class=" dropdown-menu">
-                                <li><a class ="dropdown-item" href="#">Home</a></li>
-                                <li><a class="dropdown-item" href="#">About Us</a></li>
+
+                        <!--Home and About Us -->
+                         
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                             
+                                Home ane About Us
+
+                            </a>
+
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-area="Index" asp-controller="Home" asp-action="Index">Home</a></li>
+                                <li><a class="dropdown-item" asp-area="Index" asp-controller="Home" asp-action="Privacy">About Us</a></li>
                             </ul>
-                        </div>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Index" asp-controller="Shelter" asp-action="Index">Organization Shelters</a>
                         </li>
+
+                        <!--Organisatiom-->
+
+                        <li class="nav-item-dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                                Organisation
+
+                            </a>
+
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-area="Index" asp-controller="Shelter" asp-action="Index">Organisation Shelter</a></li>
+                                <li><a class="dropdown-item" asp-area="Index" asp-controller="Franchise" asp-action="Index">Organisation Franchises</a></li>
+
+                                <li>
+                            </ul>
+                        </li>
+                 
+                     
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="Index" asp-controller="Pet" asp-action="Index">Adopt and Foster Pets</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="Index" asp-controller="MedicalRecord" asp-action="Index">Medical Records</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Index" asp-controller="Franchise" asp-action="Index">Organization Franchises</a>
-                        </li>
-                        <li class="nav-item">
+                        
+                        
                             <a class="nav-link text-dark" asp-area="Index" asp-controller="Coordinator" asp-action="Index">Franchise Coordinators</a>
                         </li>
                         <li class="nav-item">
