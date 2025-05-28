@@ -69,25 +69,24 @@
 
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" asp-area="Index" asp-controller="Shelter" asp-action="Index">Organisation Shelter</a></li>
-                                <li><a class="dropdown-item" asp-area="Index" asp-controller="Franchise" asp-action="Index">Organisation Franchises</a></li>
-
-                                <li>
+                                <li><a class="dropdown-item" asp-area="Index" asp-controller="Franchise" asp-action="Index">Organisation Franchises</a></li> 
+                                <li><a class="dropdown-item" asp-area="Index" asp-controller="Location" asp-action="Index">Franchise Shelter Location  </a></li>
+                                <li><a class="dropdown-item" asp-area="Index" asp-controller="Coordinator" asp-action="Index"> Franchise Coordinators</a></li>
                             </ul>
                         </li>
-                 
-                     
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Index" asp-controller="Pet" asp-action="Index">Adopt and Foster Pets</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Index" asp-controller="MedicalRecord" asp-action="Index">Medical Records</a>
-                        </li>
-                        
-                        
-                            <a class="nav-link text-dark" asp-area="Index" asp-controller="Coordinator" asp-action="Index">Franchise Coordinators</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Index" asp-controller="Location" asp-action="Index">Franchise Shelter Locations</a>
+
+                        <!--Pets-->
+
+                        <li class="nav-item-dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                                Pets
+
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-area="Index" asp-controller="Pet" asp-action="Index">Adopt and Foster Pets </a></li>
+                                <li><a class="dropdown-item" asp-area="Index" asp-controller="MedicalRecord" asp-action="Index">Pet Medical Records</a></li>
                         </li>
                     </ul>
                 </div>
