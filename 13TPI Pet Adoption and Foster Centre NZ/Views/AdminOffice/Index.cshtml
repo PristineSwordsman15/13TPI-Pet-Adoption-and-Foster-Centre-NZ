@@ -9,6 +9,14 @@
 <p>
     <a class="btn btn-primary" asp-action="Create">Create New</a>
 </p>
+
+<form asp-controller="AdminOffice" asp-action="Index">
+    <p>
+        <label>AccessLevel: <input type="text" name="SearchString" /></label>
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
 <table class="table">
     <thead>
         <tr>

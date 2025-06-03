@@ -26,9 +26,23 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         }
 
         // GET: AdminOffices
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string AdminID)
+
         {
-            return View(await _context.AdminOffice.ToListAsync());
+            if (_context.AdminOffice == null)
+            {
+                return Problem("Entity set '13TPIPetAdoption/FosterCentreNZContext.AdminOffice'  is null.");
+            }
+
+            var adminOffices = from a in _context.AdminOffice
+                         select a;
+
+            if (!String.IsNullOrEmpty(AdminID))
+            {
+                adminOffices = adminOffices.Where(s => s.AccessLevel!.ToUpper().Contains(AdminID.ToUpper()));
+            }
+
+            return View(await adminOffices.ToListAsync());
         }
 
         // GET: AdminOffices/Details/5
