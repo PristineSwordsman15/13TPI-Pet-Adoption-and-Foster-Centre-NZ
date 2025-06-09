@@ -9,6 +9,13 @@
 <p>
     <a class="btn btn-primary" asp-action="Create">Create New</a>
 </p>
+
+<form asp-controller="Franchise" asp-action="Index">
+    <p>
+        <label>Franchise Name: <input type="text" name="SearchString" /></label>
+        <input type="submit" value="Filter" />
+    </p>
+</form>
 <table class="table">
     <thead>
         <tr>
