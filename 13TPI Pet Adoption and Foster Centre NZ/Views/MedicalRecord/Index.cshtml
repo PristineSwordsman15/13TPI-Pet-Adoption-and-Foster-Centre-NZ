@@ -10,6 +10,12 @@
     <a class=" btn btn-primary" asp-action="Create">Create New</a>
 </p>
 
+<form asp-controller="MedicalRecord" asp-action="Index">
+    <p>
+        <label>VetName: <input type="text" name="SearchString" /></label>
+        <input type="submit" value="Filter" />
+    </p>
+</form>
 
 <table class="table">
     <thead>
