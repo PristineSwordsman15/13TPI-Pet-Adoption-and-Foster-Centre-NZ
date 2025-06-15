@@ -26,12 +26,30 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         }
 
         // GET: 
-public async Task<IActionResult> Index(string sortOrder)
+       public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter,int? pageNumber)
         {
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["AccessLevelSortParm"] = sortOrder == "AccessLevel" ? "AccessLeve;_desc" : "AccessLevel";
+            ViewData["CurrentFilter"] = searchString;
+            ViewData["CurrentSort"] = sortOrder;
             var adminOffices = from s in _context.AdminOffice
                            select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                adminOffices = adminOffices.Where(s => s.AccessLevel.Contains(searchString)
+                                       || s.LastName.Contains(searchString));
+                                       
+            }
+
+            if (searchString == null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
             switch (sortOrder)
             {
                 case "name_desc":
@@ -47,7 +65,8 @@ public async Task<IActionResult> Index(string sortOrder)
                     adminOffices = adminOffices.OrderBy(s => s.LastName);
                     break;
             }
-            return View(await adminOffices.AsNoTracking().ToListAsync());
+            int pageSize = 3;
+            return View(await PaginatedList<AdminOffice>.CreateAsync(adminOffices   .AsNoTracking(), pageNumber ?? 1, pageSize));
         }
         // GET: AdminOffices/Details/5
         public async Task<IActionResult> Details(int? id)
