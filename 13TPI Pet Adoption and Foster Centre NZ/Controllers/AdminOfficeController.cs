@@ -25,26 +25,30 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             this._hostEnvironment = hostEnvironment; 
         }
 
-        // GET: AdminOffices
-        public async Task<IActionResult> Index(string AdminID)
-
+        // GET: 
+public async Task<IActionResult> Index(string sortOrder)
         {
-            if (_context.AdminOffice == null)
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["AccessLevelSortParm"] = sortOrder == "AccessLevel" ? "AccessLeve;_desc" : "AccessLevel";
+            var adminOffices = from s in _context.AdminOffice
+                           select s;
+            switch (sortOrder)
             {
-                return Problem("Entity set '13TPIPetAdoption/FosterCentreNZContext.AdminOffice'  is null.");
+                case "name_desc":
+                    adminOffices = adminOffices.OrderByDescending(s => s.LastName);
+                    break;
+                case "AccessLevel":
+                    adminOffices = adminOffices.OrderBy(s => s.AccessLevel);
+                    break;
+                case "date_desc":
+                    adminOffices = adminOffices.OrderByDescending(s => s.AccessLevel);
+                    break;
+                default:
+                    adminOffices = adminOffices.OrderBy(s => s.LastName);
+                    break;
             }
-
-            var adminOffices = from a in _context.AdminOffice
-                         select a;
-
-            if (!String.IsNullOrEmpty(AdminID))
-            {
-                adminOffices = adminOffices.Where(s => s.AccessLevel!.ToUpper().Contains(AdminID.ToUpper()));
-            }
-
-            return View(await adminOffices.ToListAsync());
+            return View(await adminOffices.AsNoTracking().ToListAsync());
         }
-
         // GET: AdminOffices/Details/5
         public async Task<IActionResult> Details(int? id)
         {

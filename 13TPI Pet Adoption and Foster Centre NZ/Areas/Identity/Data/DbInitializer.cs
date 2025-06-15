@@ -13,7 +13,6 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
             // Ensure database is created.
             context.Database.EnsureCreated();
 
-            // Check if the tables are already populated
             if (context.AdminOffice.Any())
             {
                 return; // DB has been seeded

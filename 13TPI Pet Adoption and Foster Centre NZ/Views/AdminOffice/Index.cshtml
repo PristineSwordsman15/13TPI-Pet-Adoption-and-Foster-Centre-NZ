@@ -21,8 +21,15 @@
     <thead>
         <tr>
             <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayNameFor(model => model.LastName)</a>
+
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.UserID)
             </th>
+            <<th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">@Html.DisplayNameFor(model => model.AccessLevel)</a>
+           </th> 
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
