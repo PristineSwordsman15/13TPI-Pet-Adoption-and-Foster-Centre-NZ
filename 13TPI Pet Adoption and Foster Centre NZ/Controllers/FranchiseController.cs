@@ -23,11 +23,48 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         }
 
         // GET: Franchises
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
-            return View(await _context.Franchise.ToListAsync());
-        }
+            ViewData["FranchiseNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["OperatingHoursSortParm"] = sortOrder == "OperatingHours" ? "OperatingHours;_desc" : "OperatingHours";
+            ViewData["CurrentFilter"] = searchString;
+            ViewData["CurrentSort"] = sortOrder;
+            var franchise = from s in _context.Franchise
+                              select s;
 
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                franchise = franchise.Where(s => s.OperatingHours.Contains(searchString)
+                                       || s.FranchiseName.Contains(searchString));
+
+            }
+
+            if (searchString == null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            switch (sortOrder)
+            {   
+                case "name_desc":
+                    franchise = franchise.OrderByDescending(s => s.FranchiseName);
+                    break;
+                case "AccessLevel":
+                    franchise = franchise.OrderBy(s => s.FranchiseName);
+                    break;
+                case "date_desc":
+                    franchise = franchise.OrderByDescending(s => s.OperatingHours);
+                    break;
+                default:
+                    franchise = franchise.OrderBy(s => s.OperatingHours);
+                    break;
+            }
+            int pageSize = 3;
+            return View(await PaginatedList<Franchise>.CreateAsync(franchise.AsNoTracking(), pageNumber ?? 1, pageSize));
+        }
         // GET: Franchises/Details/5
         public async Task<IActionResult> Details(int? id)
         {
