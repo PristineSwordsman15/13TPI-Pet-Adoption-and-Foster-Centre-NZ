@@ -23,10 +23,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayNameFor(model => model.LastName)</a>
-
-            </th>
+          
             <th>
                 @Html.DisplayNameFor(model => model.UserID)
             </th>
@@ -37,7 +34,8 @@
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayNameFor(model => model.LastName)</a>
+
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.EmailAddress)
@@ -48,9 +46,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.DateHired)
             </th>
+            <
             <th>
-                @Html.DisplayNameFor(model => model.AccessLevel)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">@Html.DisplayNameFor(model => model.AccessLevel)</a>
             </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>

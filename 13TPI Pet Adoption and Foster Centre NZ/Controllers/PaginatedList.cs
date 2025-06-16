@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ
+namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
     public class PaginatedList<T> : List<T>
     {
@@ -12,7 +12,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ
             PageIndex = pageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
 
-            this.AddRange(items);
+            AddRange(items);
         }
 
         public bool HasPreviousPage => PageIndex > 1;
