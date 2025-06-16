@@ -9,12 +9,14 @@
 <p>
     <a class="btn btn-primary" asp-action="Create">Create New</a>
 </p>
-
-<form asp-controller="Coordinator" asp-action="Index">
-    <p>
-        <label>Experience Level: <input type="text" name="SearchString" /></label>
-        <input type="submit" value="Filter" />
-    </p>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            <label>Find by last name or experience level: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" /></label>
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
 </form>
 
 <table class="table">
@@ -29,8 +31,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
+            <
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">@Html.DisplayNameFor(model => model.LastName)</a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.EmailAddress)
@@ -41,8 +44,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.HireDate)
             </th>
+            <
             <th>
-                @Html.DisplayNameFor(model => model.ExperienceLevel)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayNameFor(model => model.ExperienceLevel)</a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Title)

@@ -26,10 +26,49 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         }
 
         // GET: Coordinators
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
-            return View(await _context.Coordinator.ToListAsync());
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["ExperienceLevelSortParm"] = sortOrder == "ExperienceLevel" ? "ExperienceLevel;_desc" : "ExperienceLevel";
+            ViewData["CurrentFilter"] = searchString;
+            ViewData["CurrentSort"] = sortOrder;
+            var coordinator = from s in _context.Coordinator
+                              select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                coordinator = coordinator.Where(s => s.ExperienceLevel.Contains(searchString)
+                                       || s.LastName.Contains(searchString));
+
+            }
+
+            if (searchString == null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    coordinator = coordinator.OrderByDescending(s => s.LastName);
+                    break;
+                case "AccessLevel":
+                    coordinator = coordinator.OrderBy(s => s.ExperienceLevel);
+                    break;
+                case "date_desc":
+                    coordinator = coordinator.OrderByDescending(s => s.ExperienceLevel);
+                    break;
+                default:
+                    coordinator = coordinator.OrderBy(s => s.ExperienceLevel);
+                    break;
+            }
+            int pageSize = 3;
+            return View(await PaginatedList<Coordinator>.CreateAsync(coordinator.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
+
 
         // GET: Coordinators/Details/5
         public async Task<IActionResult> Details(int? id)
