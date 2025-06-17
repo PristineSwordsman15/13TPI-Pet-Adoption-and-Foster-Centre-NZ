@@ -10,11 +10,14 @@
     <a class=" btn btn-primary" asp-action="Create">Create New</a>
 </p>
 
-<form asp-controller="MedicalRecord" asp-action="Index">
-    <p>
-        <label>VetName: <input type="text" name="SearchString" /></label>
-        <input type="submit" value="Filter" />
-    </p>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            <label>Find by Name of Shelter Location PostCode or Region: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" /></label>
+            <input type="submit" value="Search" class="btn btn-default" />
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
 </form>
 
 <table class="table">
@@ -24,10 +27,10 @@
                 @Html.DisplayNameFor(model => model.PetID)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.VetName)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["VetNameSortParm"]">@Html.DisplayNameFor(model => model.VetName)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ClinicName)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["ClinicNameSortParm"]">@Html.DisplayNameFor(model => model.ClinicName)</a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.VisitDate)

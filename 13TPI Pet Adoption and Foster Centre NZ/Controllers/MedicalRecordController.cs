@@ -22,9 +22,47 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         }
 
         // GET: MedicalRecords
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
-            return View(await _context.MedicalRecord.ToListAsync());
+            ViewData["RegionSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["PostCodeSortParm"] = sortOrder == "PostCode" ? "PostCode;_desc" : "PostCode";
+            ViewData["CurrentFilter"] = searchString;
+            ViewData["CurrentSort"] = sortOrder;
+            var MedicalRecord = from s in _context.MedicalRecord
+                                select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                MedicalRecord = MedicalRecord.Where(s => s.ClinicName.Contains(searchString)
+                                       || s.VetName.Contains(searchString));
+
+            }
+
+            if (searchString == null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    MedicalRecord = MedicalRecord.OrderByDescending(s => s.ClinicName);
+                    break;
+                case "AccessLevel":
+                    MedicalRecord = MedicalRecord.OrderBy(s => s.ClinicName);
+                    break;
+                case "date_desc":
+                    MedicalRecord = MedicalRecord.OrderByDescending(s => s.VetName);
+                    break;
+                default:
+                    MedicalRecord = MedicalRecord.OrderBy(s => s.VetName);
+                    break;
+            }
+            int pageSize = 4;
+            return View(await PaginatedList<MedicalRecord>.CreateAsync(MedicalRecord.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: MedicalRecords/Details/5

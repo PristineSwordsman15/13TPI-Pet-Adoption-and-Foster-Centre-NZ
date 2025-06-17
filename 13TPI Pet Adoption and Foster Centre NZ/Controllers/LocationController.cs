@@ -62,7 +62,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                     location = location.OrderBy(s => s.PostCode);
                     break;
             }
-            int pageSize = 3;
+            int pageSize = 4;
             return View(await PaginatedList<Location>.CreateAsync(location.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
