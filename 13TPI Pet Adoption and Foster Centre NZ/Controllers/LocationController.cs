@@ -22,11 +22,49 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         }
 
         // GET: Locations
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Location.ToListAsync());
-        }
 
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber)
+        {
+            ViewData["RegionSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["PostCodeSortParm"] = sortOrder == "PostCode" ? "PostCode;_desc" : "PostCode";
+            ViewData["CurrentFilter"] = searchString;
+            ViewData["CurrentSort"] = sortOrder;
+            var location = from s in _context.Location
+                           select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                location = location.Where(s => s.PostCode.Contains(searchString)
+                                       || s.Region.Contains(searchString));
+
+            }
+
+            if (searchString == null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    location = location.OrderByDescending(s => s.Region);
+                    break;
+                case "AccessLevel":
+                    location = location.OrderBy(s => s.Region);
+                    break;
+                case "date_desc":
+                    location = location.OrderByDescending(s => s.PostCode);
+                    break;
+                default:
+                    location = location.OrderBy(s => s.PostCode);
+                    break;
+            }
+            int pageSize = 3;
+            return View(await PaginatedList<Location>.CreateAsync(location.AsNoTracking(), pageNumber ?? 1, pageSize));
+        }
 
         // GET: Locations/Details/5
         public async Task<IActionResult> Details(int? id)
