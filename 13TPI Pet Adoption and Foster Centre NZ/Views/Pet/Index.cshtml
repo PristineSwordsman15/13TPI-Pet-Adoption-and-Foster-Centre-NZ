@@ -10,11 +10,14 @@
     <a class="btn btn-primary" asp-action="Create">Create New</a>
 </p>
 
-<form asp-controller="Pet" asp-action="Index">
-    <p>
-        <label>Pet Group Name: <input type="text" name="SearchString" /></label>
-        <input type="submit" value="Filter" />
-    </p>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            <label>Find by Name of PetName or PetAge: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" /></label>
+            <input type="submit" value="Search" class="btn btn-default" />
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
 </form>
 <table class="table">
     <thead>
