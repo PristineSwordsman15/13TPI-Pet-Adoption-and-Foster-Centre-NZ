@@ -40,6 +40,8 @@
 
     </div>
 
+
+    @*Carousal controls in regards to previous/next functions*@
     <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
@@ -49,6 +51,88 @@
         <span class="visually-hidden">Next</span>
     </button>
 </div>
+
+@*Avancand Search + Promo Video*@
+<div class="row mb-5"
+
+<!--Left Colomn Search Filters-->
+<div class="col-md-8"
+<
+<div class="card shadow-sm border-0">
+            <div class="card-body">
+                <h4 class="mb-3">Advanced Search and Filter</h4>
+                <form>
+                    <div class="row g-2">
+                        <!-- Pet Type filter -->
+                        <div class="col-md-4">
+                            <select class="form-select">
+                                <option>All Pets</option>
+                                <option>Dogs</option>
+                                <option>Cats</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+
+                        <!-- Age filter -->
+                        <div class="col-md-4">
+                            <select class="form-select">
+                                <option>Any Age</option>
+                                <option>Puppy/Kitten</option>
+                                <option>Adult</option>
+                                <option>Senior</option>
+                            </select>
+                        </div>
+
+                        <!-- Submit button -->
+                        <div class="col-md-4">
+                            <button class="btn btn-info w-100">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+     <!-- RIGHT COLUMN: Embedded Video -->
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0">
+            <div class="ratio ratio-16x9">
+                <!-- Replace with your actual YouTube video link -->
+                <iframe src="https://www.youtube.com/watch?v=ytGHqE6U4vI
+                        title="Adoption Video"
+                        allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@* Tetimonials Section *@
+<h3 class="text-center mb-4">What Our Families Say</h3>
+<div class="row mb-5">
+    <!-- Testimonial 1 -->
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0 mb-3">
+            <div class="card-body">
+                <p class="mb-1">"Adopting our dog was the best decision ever. Thank you!"</p>
+                <small class="text-muted">– Sarah, Auckland</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testimonial 2 -->
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0 mb-3">
+            <div class="card-body">
+                <p class="mb-1">"Fostering cats through this centre has been so rewarding."</p>
+                <small class="text-muted">– James, Wellington</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 @section Scripts {
     <!-- If carousel needs JS, it will load via _Layout scripts -->
