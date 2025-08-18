@@ -1,11 +1,15 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-    Layout = "_Layout";   // ensure layout is applied
+    Layout = "_Layout";   // using Shared Layout (Layout.cshtml)
 }
 
+
+@*Carousal (Image carousal with captions*@
 <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
 
+
+        @*Initial Slide*@
         <div class="carousel-item active">
             <img src="https://images.unsplash.com/photo-1554830072-52d78d0d4c18?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHBldCUyMGFkb3B0aW9ufGVufDB8fDB8fHww"
                  class="d-block w-100" alt="Happy dog being adopted">
@@ -15,6 +19,7 @@
             </div>
         </div>
 
+        @*Second Slide *@
         <div class="carousel-item">
             <img src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d"
                  class="d-block w-100" alt="Cat resting at shelter">
@@ -23,7 +28,7 @@
                 <p>We care for pets like family</p>
             </div>
         </div>
-
+        @*Final Slide*@
         <div class="carousel-item">
             <img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987"
                  class="d-block w-100" alt="Volunteer walking dogs">
