@@ -8,6 +8,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\AdminOfficeImages\**" />
+    <Compile Remove="wwwroot\CoordinatorImages\**" />
+    <Compile Remove="wwwroot\PetImages\**" />
+    <Compile Remove="wwwroot\ShelterImages\**" />
+    <Content Remove="wwwroot\AdminOfficeImages\**" />
+    <Content Remove="wwwroot\CoordinatorImages\**" />
+    <Content Remove="wwwroot\PetImages\**" />
+    <Content Remove="wwwroot\ShelterImages\**" />
+    <EmbeddedResource Remove="wwwroot\AdminOfficeImages\**" />
+    <EmbeddedResource Remove="wwwroot\CoordinatorImages\**" />
+    <EmbeddedResource Remove="wwwroot\PetImages\**" />
+    <EmbeddedResource Remove="wwwroot\ShelterImages\**" />
+    <None Remove="wwwroot\AdminOfficeImages\**" />
+    <None Remove="wwwroot\CoordinatorImages\**" />
+    <None Remove="wwwroot\PetImages\**" />
+    <None Remove="wwwroot\ShelterImages\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.11" />
@@ -16,13 +35,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\AdminOfficeImages\" />
-    <Folder Include="wwwroot\CoordinatorImages\" />
-    <Folder Include="wwwroot\ShelterImages\" />
-    <Folder Include="wwwroot\PetImages\" />
   </ItemGroup>
 
 </Project>
