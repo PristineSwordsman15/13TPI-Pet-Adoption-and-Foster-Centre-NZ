@@ -12,7 +12,7 @@
     </a>
 </div>
 
-< form asp-action="Index" method="get">
+<form asp-action="Index" method="get">
     <div class="form-actions no-color">
         <p>
             <label>Find by Name of PetName or PetAge: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" /></label>
@@ -20,70 +20,8 @@
             <a asp-action="Index">Back to Full List</a>
         </p>
     </div>
-    <head>
-    <style>
-        .carousel-item {
-            height: 32rem;
-            background-color: #777;
-            color: white;
-            position: relative;
-        }
-
-            .carousel-item img {
-                object-fit: cover;
-                width: 100%;
-                height: 100%;
-                opacity: 0.8;
-            }
-
-        .carousel-caption {
-            position: absolute;
-            bottom: 20%;
-            z-index: 10;
-        }
-    </style>
-</head>
-    <body>
-
-        <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-
-                <div class="carousel-item active">
-                    <img src="https://images.unsplash.com/photo-1554830072-52d78d0d4c18?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHBldCUyMGFkb3B0aW9ufGVufDB8fDB8fHww" class="d-block w-100" alt="Happy dog being adopted">
-                    <div class="carousel-caption">
-                        <h1>Welcome to Pet Adoption NZ</h1>
-                        <p>Where every pet finds a home</p>
-                    </div>
-                </div>
-
-                <div class="carousel-item">
-                    <img src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d" class="d-block w-100" alt="Cat resting at shelter">
-                    <div class="carousel-caption">
-                        <h1>Safe Shelter for All</h1>
-                        <p>We care for pets like family</p>
-                    </div>
-                </div>
-
-                <div class="carousel-item">
-                    <img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987" class="d-block w-100" alt="Volunteer walking dogs">
-                    <div class="carousel-caption">
-                        <h1>Adopt. Foster. Love.</h1>
-                        <p>Be the reason they smile</p>
-                    </div>
-                </div>
-
-            </div>
-
-            <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>rm>
-        </body>
+    </form>
+    
 
 <table class="table">
     <thead>
