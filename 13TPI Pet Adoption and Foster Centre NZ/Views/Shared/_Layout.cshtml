@@ -55,7 +55,7 @@
                     @* Search box (middle/right) *@
                     <form class="d-flex me-3" role="search">
                         <input class="form-control form-control-sm" type="search" placeholder="Search pets..." aria-label="Search" />
-                        <button class="btn btn-sm btn-dark ms-1" type="submit">
+                        <button class="btn btn-lg btn-dark ms-1" type="submit">
                             <i class="bi bi-search"></i>
                             <span class="visually-hidden">Search</span>
                         </button>
@@ -65,7 +65,7 @@
                     @if (User?.Identity?.IsAuthenticated ?? false)
                     {
                         <div class="dropdown me-2">
-                            <button class="btn btn-outline-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button class="btn btn-outline-dark btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Admin
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
