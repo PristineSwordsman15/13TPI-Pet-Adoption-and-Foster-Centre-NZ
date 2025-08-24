@@ -2,9 +2,54 @@
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
+using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNet.Identity;
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
 {
+    public class SeedData
+    {
+        public static async Task Initialize(IServiceProvider serviceProvider, ApplicationUser? adminUser)
+        {
+            var roleManager = serviceProvider.GetRequiredService<Microsoft.AspNetCore.Identity.RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<Microsoft.AspNetCore.Identity.UserManager<ApplicationUser>>();
+
+            string[] roleNames = { "Admin", "Adopter", "Coordinator", "GeneralUser", "FosterParent", "Vet" };
+
+            foreach (var roleName in roleNames)
+            {
+                if (!await roleManager.RoleExistsAsync(roleName))
+                    {
+                    await roleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+            
+            {
+                var user = new IdentityUser
+                {
+                    UserName = "admin@petshelter.com",
+                    Email = "admin@petshelter.com",
+                    EmailConfirmed = true
+                };
+
+                var result = await userManager.CreateAsync(adminUser, "Admin@123");
+
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(adminUser, "Admin");
+                }
+            }}
+
+                    internal static async Task Initialize(IServiceProvider services, object applicationUser)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    
+
+     
+
     public class DbInitializer
     {
         public static void Initialize (

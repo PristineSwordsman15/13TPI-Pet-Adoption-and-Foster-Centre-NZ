@@ -27,7 +27,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         [Required]
         public DateTime ArrivalDate { get; set; }
         [Required]
-        public string PetStatus { get; set; }
+        public string PetStatus { get; set; } // Adopted, Fostered, Available
 
         [Column(TypeName = "nvarchar(50)")]
         public string? Title { get; set; }

@@ -6,19 +6,12 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.DependencyInjection;
 
 
-public class SeedData
-{
-    public static async Task Initialize(IServiceProvider serviceProvider)
-    {
-        var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-        var userManager = serviceProvider.GetRequiredService <UserManager<IdentityRole>>();
 
-        string[] roleNames = { "Admin", "Adopter", "Coordinator", "GeneralUser", "FosterParent", "Vet" };
 
-    }
-}
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ContextConnection") ?? throw new InvalidOperationException("Connection string 'ContextConnection' not found.");
+
+
 
 builder.Services.AddDbContext<Context>(options => options.UseSqlServer(connectionString));
 
@@ -33,6 +26,8 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
+    
+   
     var context = services.GetRequiredService<Context>();
     DbInitializer.Initialize(context); //Call the seeding method
 }
