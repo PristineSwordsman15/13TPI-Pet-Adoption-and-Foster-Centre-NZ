@@ -15,7 +15,7 @@ var connectionString = builder.Configuration.GetConnectionString("ContextConnect
 
 builder.Services.AddDbContext<Context>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<Context>();
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>().AddEntityFrameworkStores<Context>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -51,4 +51,20 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.Run();
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    var userManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    var roles = new[] { "Admin, Adopter, Coordinator, Fosterer, GeneralUser, Vet" };
+
+    foreach (var role in roles)
+    {
+        if(await roleManager.RoleExistsAsync(role))
+           await roleManager.CreateAsync(new IdentityRole(role));
+    }
+}
+          
+
+    app.Run();
