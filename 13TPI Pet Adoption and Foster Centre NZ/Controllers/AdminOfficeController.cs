@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admim")]
     public class AdminOfficeController : Controller
     {
         private readonly Context _context;
@@ -86,7 +86,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             return View(adminOffice);
         }
 
+        [Authorize(Roles = "Admin")]
+
         // GET: AdminOffices/Create
+
+        [Authorize(Roles = "Admin")]
+
         public IActionResult Create()
         {
             return View();
@@ -119,6 +124,9 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         }
 
         // GET: AdminOffices/Edit/5
+
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -139,6 +147,9 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> Edit(int id, [Bind("AdminID,UserID,FirstName,LastName,EmailAddress,ContactNo,DateHired,AccessLevel,Title,ImageName,ImageFile")] AdminOffice adminOffice)
         {
             if (id != adminOffice.AdminID)
@@ -170,6 +181,9 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         }
 
         // GET: AdminOffices/Delete/5
+
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -188,6 +202,8 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         }
 
         // POST: AdminOffices/Delete/5
+        [Authorize(Roles = "Admin")]
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

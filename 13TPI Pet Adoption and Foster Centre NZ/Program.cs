@@ -55,7 +55,27 @@ using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-    var userManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+    string email = "admin@petadoption.com";
+    string password = "Admin@123";
+
+    if (await userManager.FindByEmailAsync(email) == null)
+    { 
+        var user = new ApplicationUser
+        {
+            UserName = email,
+            Email = email,
+            EmailConfirmed = true,
+            FirstName = "Admin",
+            LastName = "User"
+        };
+        var result = await userManager.CreateAsync(user, password);
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(user, "Admin");
+        }
+    }
 
     var roles = new[] { "Admin, Adopter, Coordinator, Fosterer, GeneralUser, Vet" };
 
