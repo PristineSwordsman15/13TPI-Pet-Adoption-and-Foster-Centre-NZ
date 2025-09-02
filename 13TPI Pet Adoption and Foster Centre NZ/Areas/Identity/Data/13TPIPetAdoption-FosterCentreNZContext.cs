@@ -30,7 +30,7 @@ public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Pet> Pet { get; set
 
 public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Franchise> Franchise { get; set; } = default!;
 
-public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Coordinator> Coordinator { get; set; } = default!;
+    public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Coordinator> Coordinator { get; set; } = default!;
 
 public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Location> Location { get; set; } = default!;
 

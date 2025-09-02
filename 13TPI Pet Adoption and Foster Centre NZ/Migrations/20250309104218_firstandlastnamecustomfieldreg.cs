@@ -119,7 +119,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Migrations
                     PetID = table.Column<int>(type: "int", nullable: false),
                     VetName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     ClinicName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
-                    VisitDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    VisitDate = table.Column<DateTime>(type: "date", nullable: false),
                     Diagnosis = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Treatment = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     VaccinationStatus = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),

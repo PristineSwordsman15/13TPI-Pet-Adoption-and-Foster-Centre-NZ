@@ -37,7 +37,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                adminOffices = adminOffices.Where(s => s.AccessLevel.Contains(searchString)
+                adminOffices = adminOffices.Where(s => s.LevelName.Contains(searchString)
                                        || s.LastName.Contains(searchString));
                                        
             }

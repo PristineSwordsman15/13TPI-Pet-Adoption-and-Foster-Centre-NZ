@@ -451,7 +451,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
-                    b.Property<DateOnly>("VisitDate")
+                    b.Property<DateTime>("VisitDate")
                         .HasColumnType("date");
 
                     b.HasKey("MedicalRecordID");

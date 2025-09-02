@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        < form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="PetID" class="control-label"></label>
@@ -42,10 +42,10 @@
                 <input asp-for="Treatment" class="form-control" />
                 <span asp-validation-for="Treatment" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="VaccinationStatus" class="control-label"></label>
-                <input asp-for="VaccinationStatus" class="form-control" />
-                <span asp-validation-for="VaccinationStatus" class="text-danger"></span>
+            <label asp-for="StatusName" class="control-label"></label>
+            <input asp-for="StatusName" class="form-control" />
+            <span asp-validation-for="StatusName" class="text-danger"></span>
+
             </div>
             <div class="form-group">
                 <label asp-for="MicrochipID" class="control-label"></label>
@@ -60,7 +60,7 @@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
-        </form>
+        </ form>
     </div>
 </div>
 

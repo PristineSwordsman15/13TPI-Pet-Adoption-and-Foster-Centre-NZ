@@ -7,30 +7,30 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
     public class MedicalRecord
     {
         // ID of individual medical record of pet 
-        [Required]
         [Key]
         public int MedicalRecordID { get; set; }
 
-        // Foe
-        [Required]
-        [ForeignKey("PetID")]
+        // Fk ->  Pet
+        
         public int PetID { get; set; }
+        public virtual Pet? Pet { get; set; }
+
         [Required]
         [StringLength(25)]
-        public string VetName { get; set; }
+        public string VetName { get; set; } = string.Empty;
         [Required]
         [StringLength(100)]
-        public string ClinicName { get; set; }
+        public string ClinicName { get; set; } = string.Empty;
         [Required]
         [DataType(DataType.Date)]
-        public DateOnly VisitDate { get; set; }
+        public DateTime VisitDate { get; set; }
         [Required]
-        public string Diagnosis { get; set; }
-        
+        public string Diagnosis { get; set; }  = string.Empty;
+
         public string Treatment { get; set; }
-        [Required]
-        [StringLength(25)]
-        public string VaccinationStatus { get; set; }
+       public string VaccinationStatus { get; set; }
+        public virtual VaccinationStatus? StatusName { get; set; }
+
         [Required]
         public int MicrochipID { get; set; }
         public string SpecialNeeds { get; set; }

@@ -7,14 +7,13 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
     public class Location
     {
         // ID of Location 
-        [Required]
         [Key]
         public int LocationID { get; set; }
 
         // Address in this sense is Street of Location
         [Required]
         [StringLength(150)]
-        public string Address { get; set; }
+        public string Address { get; set; } = string.Empty;
 
         // Location Surburb
         [Required]
@@ -25,10 +24,10 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         [Required]
         [StringLength (50)]
         public string City { get; set; }
-        [Required]
-        [StringLength(50)]
 
         // Region of Location
+        [Required]
+        [StringLength(50)]       
         public string Region { get; set; }
 
         // Location PostCode 
@@ -40,6 +39,6 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         // This is the country of the location
         [Required]
         [StringLength(50)]
-        public string Country { get; set; }
+        public string Country { get; set; } = string.Empty;
     }
 }
