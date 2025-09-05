@@ -17,7 +17,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         [StringLength(50)]
 
         public int PetGroupID { get; set; }
-        public virtual PetGroup? PetGroupNamw { get; set; }
+        public virtual PetGroup? PetGroupName { get; set; }
         [Required]
         [StringLength(50)]
         public string Species { get; set; } = string.Empty;

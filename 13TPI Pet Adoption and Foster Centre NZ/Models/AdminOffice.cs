@@ -50,7 +50,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         public string LevelName { get; set; }
 
         public string TitleName { get; set; }
-        public virtual Title? Title {get; set;}
+        public virtual Title? TitleID {get; set;}
  [Column(TypeName = "nvarchar(100)")]
         
         public string? ImageName { get; set; }

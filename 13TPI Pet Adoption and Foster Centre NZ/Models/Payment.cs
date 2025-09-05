@@ -10,7 +10,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
 
         // FK → User
         public int UserID { get; set; }
-        public virtual User? User { get; set; } // Link to Identity 
+       
 
         // Normalized → PaymentType Lookup
         public int PaymentTypeID { get; set; }
