@@ -18,23 +18,23 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         // Location Surburb
         [Required]
         [StringLength(25)]
-        public string Surburb { get; set; }
+        public string Surburb { get; set; } = string.Empty;
 
         //City of Location 
         [Required]
-        [StringLength (50)]
-        public string City { get; set; }
+        [StringLength(50)]
+        public string City { get; set; } = string.Empty;
 
         // Region of Location
         [Required]
-        [StringLength(50)]       
-        public string Region { get; set; }
+        [StringLength(50)]
+        public string Region { get; set; } = string.Empty;
 
         // Location PostCode 
         [Required]
-        [RegularExpression(@"^\d{4}$",ErrorMessage = "Postcode must be 4 digits.")]
+        [RegularExpression(@"^\d{4}$", ErrorMessage = "Postcode must be 4 digits.")]
         [StringLength(4)]
-        public string PostCode { get; set; }
+        public string PostCode { get; set; } = string.Empty;
 
         // This is the country of the location
         [Required]

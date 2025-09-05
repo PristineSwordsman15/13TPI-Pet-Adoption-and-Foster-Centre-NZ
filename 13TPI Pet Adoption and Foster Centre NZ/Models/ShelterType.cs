@@ -9,7 +9,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         public int ShelterTypeID { get; set; }
 
         [Required, StringLength(50)]
-        public string TypeName { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
 
         public ICollection<Shelter>? Shelters { get; set; }
     }

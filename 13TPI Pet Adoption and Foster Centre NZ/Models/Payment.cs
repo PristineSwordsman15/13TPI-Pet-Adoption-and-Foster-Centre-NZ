@@ -1,33 +1,38 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
 {
     public class Payment
     {
-        [Required]
         [Key]
         public int PaymentID { get; set; }
-        [Required]
 
+        // FK → User
         public int UserID { get; set; }
-        [Required]
-        [StringLength(25)]
-        public string PaymentType { get; set; }
-        [Required]
+        public virtual User? User { get; set; } // Link to Identity 
+
+        // Normalized → PaymentType Lookup
+        public int PaymentTypeID { get; set; }
+        public virtual PaymentType? PaymentType { get; set; }
+
         [Range(0.01, double.MaxValue)]
         public decimal Amount { get; set; }
-        [Required]
-        [StringLength(20)]
-        [RegularExpression(@"^NZD$", ErrorMessage = "Only NZD is accepted")]
-        public string Currency { get; set; }
-        
 
+        // Currency fixed to NZD → no need for Regex
+        public string Currency { get; set; } = "NZD";
+
+        [DataType(DataType.Date)]
         public DateTime PaymentDate { get; set; }
-        public string PaymentMethod { get; set; }
+
+        public int PaymentMethodID { get; set; }
+        public virtual PaymentMethod? PaymentMethod { get; set; }
+
         public int TransactionID { get; set; }
-        public string PaymentStatus { get; set; }
-        public string Notes { get; set; }
+
+        public int PaymentStatusID { get; set; }
+        public virtual PaymentStatus? PaymentStatus { get; set; }
+
+        public string? Notes { get; set; }
     }
 }

@@ -30,7 +30,7 @@ public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Pet> Pet { get; set
 
 public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Franchise> Franchise { get; set; } = default!;
 
-    public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Coordinator> Coordinator { get; set; } = default!;
+public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Coordinator> Coordinator { get; set; } = default!;
 
 public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Location> Location { get; set; } = default!;
 
@@ -40,11 +40,23 @@ public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Payment> Payment { 
 
 public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Shelter> Shelter { get; set; } = default!;
 
+    public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.AccessLevel> AccessLevel { get; set; } = default!;
+
+    public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.PaymentType> PaymentType { get; set; } = default!;
+
+    public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Title> Title { get; set; } = default!;
+
+    public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.PaymentMethod> PaymentMethod { get; set; } = default!;
+
+    public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.PaymentStatus> PaymentStatus { get; set; } = default!;
+
+    public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.PetStatus> PetStatus { get; set; } = default!;
 
 
+    public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.PetGroup> PetGroup { get; set; } = default!;
 
+   
 
-public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.PetGroup> PetGroup { get; set; } = default!;
 }
 public class ApplicationUserEntityConfiguration : IEntityTypeConfiguration<ApplicationUser>
 {
