@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -50,7 +51,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         public string LevelName { get; set; }
 
         public string TitleName { get; set; }
-        public virtual Title? TitleID {get; set;}
+        public virtual int   TitleID {get; set;}
  [Column(TypeName = "nvarchar(100)")]
         
         public string? ImageName { get; set; }

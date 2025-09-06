@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
+using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,7 +36,7 @@ app.MapControllerRoute(
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<Context>();
-    await DbSeeder.SeedAsync(db);
+    await DbInitializer.SeedAsync(db);
 }
 
 app.Run();
