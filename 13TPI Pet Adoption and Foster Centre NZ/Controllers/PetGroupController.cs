@@ -7,14 +7,15 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
-    public class PetGroupsController : Controller
+    public class PetGroupController : Controller
     {
         private readonly Context _context;
 
-        public PetGroupsController(Context context)
+        public PetGroupController(Context context)
         {
             _context = context;
         }

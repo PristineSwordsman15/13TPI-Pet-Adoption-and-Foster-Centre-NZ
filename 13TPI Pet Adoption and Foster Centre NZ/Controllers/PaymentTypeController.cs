@@ -7,25 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
-    public class TitlesController : Controller
+    public class PaymentTypeController : Controller
     {
         private readonly Context _context;
 
-        public TitlesController(Context context)
+        public PaymentTypeController(Context context)
         {
             _context = context;
         }
 
-        // GET: Titles
+        // GET: PaymentTypes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Title.ToListAsync());
+            return View(await _context.PaymentType.ToListAsync());
         }
 
-        // GET: Titles/Details/5
+        // GET: PaymentTypes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +34,39 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var title = await _context.Title
-                .FirstOrDefaultAsync(m => m.TitleID == id);
-            if (title == null)
+            var paymentType = await _context.PaymentType
+                .FirstOrDefaultAsync(m => m.PaymentTypeID == id);
+            if (paymentType == null)
             {
                 return NotFound();
             }
 
-            return View(title);
+            return View(paymentType);
         }
 
-        // GET: Titles/Create
+        // GET: PaymentTypes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Titles/Create
+        // POST: PaymentTypes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TitleID,TitleName")] Title title)
+        public async Task<IActionResult> Create([Bind("PaymentTypeID,Name")] PaymentType paymentType)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(title);
+                _context.Add(paymentType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(title);
+            return View(paymentType);
         }
 
-        // GET: Titles/Edit/5
+        // GET: PaymentTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +74,22 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var title = await _context.Title.FindAsync(id);
-            if (title == null)
+            var paymentType = await _context.PaymentType.FindAsync(id);
+            if (paymentType == null)
             {
                 return NotFound();
             }
-            return View(title);
+            return View(paymentType);
         }
 
-        // POST: Titles/Edit/5
+        // POST: PaymentTypes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TitleID,TitleName")] Title title)
+        public async Task<IActionResult> Edit(int id, [Bind("PaymentTypeID,Name")] PaymentType paymentType)
         {
-            if (id != title.TitleID)
+            if (id != paymentType.PaymentTypeID)
             {
                 return NotFound();
             }
@@ -97,12 +98,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             {
                 try
                 {
-                    _context.Update(title);
+                    _context.Update(paymentType);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TitleExists(title.TitleID))
+                    if (!PaymentTypeExists(paymentType.PaymentTypeID))
                     {
                         return NotFound();
                     }
@@ -113,10 +114,10 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(title);
+            return View(paymentType);
         }
 
-        // GET: Titles/Delete/5
+        // GET: PaymentTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,34 +125,34 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var title = await _context.Title
-                .FirstOrDefaultAsync(m => m.TitleID == id);
-            if (title == null)
+            var paymentType = await _context.PaymentType
+                .FirstOrDefaultAsync(m => m.PaymentTypeID == id);
+            if (paymentType == null)
             {
                 return NotFound();
             }
 
-            return View(title);
+            return View(paymentType);
         }
 
-        // POST: Titles/Delete/5
+        // POST: PaymentTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var title = await _context.Title.FindAsync(id);
-            if (title != null)
+            var paymentType = await _context.PaymentType.FindAsync(id);
+            if (paymentType != null)
             {
-                _context.Title.Remove(title);
+                _context.PaymentType.Remove(paymentType);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TitleExists(int id)
+        private bool PaymentTypeExists(int id)
         {
-            return _context.Title.Any(e => e.TitleID == id);
+            return _context.PaymentType.Any(e => e.PaymentTypeID == id);
         }
     }
 }

@@ -7,25 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
-    public class PaymentTypesController : Controller
+    public class ShelterTypeController : Controller
     {
         private readonly Context _context;
 
-        public PaymentTypesController(Context context)
+        public ShelterTypeController(Context context)
         {
             _context = context;
         }
 
-        // GET: PaymentTypes
+        // GET: ShelterTypes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.PaymentType.ToListAsync());
+            return View(await _context.ShelterType.ToListAsync());
         }
 
-        // GET: PaymentTypes/Details/5
+        // GET: ShelterTypes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +34,39 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var paymentType = await _context.PaymentType
-                .FirstOrDefaultAsync(m => m.PaymentTypeID == id);
-            if (paymentType == null)
+            var shelterType = await _context.ShelterType
+                .FirstOrDefaultAsync(m => m.ShelterTypeID == id);
+            if (shelterType == null)
             {
                 return NotFound();
             }
 
-            return View(paymentType);
+            return View(shelterType);
         }
 
-        // GET: PaymentTypes/Create
+        // GET: ShelterTypes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: PaymentTypes/Create
+        // POST: ShelterTypes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PaymentTypeID,Name")] PaymentType paymentType)
+        public async Task<IActionResult> Create([Bind("ShelterTypeID,Name")] ShelterType shelterType)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(paymentType);
+                _context.Add(shelterType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(paymentType);
+            return View(shelterType);
         }
 
-        // GET: PaymentTypes/Edit/5
+        // GET: ShelterTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +74,22 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var paymentType = await _context.PaymentType.FindAsync(id);
-            if (paymentType == null)
+            var shelterType = await _context.ShelterType.FindAsync(id);
+            if (shelterType == null)
             {
                 return NotFound();
             }
-            return View(paymentType);
+            return View(shelterType);
         }
 
-        // POST: PaymentTypes/Edit/5
+        // POST: ShelterTypes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PaymentTypeID,Name")] PaymentType paymentType)
+        public async Task<IActionResult> Edit(int id, [Bind("ShelterTypeID,Name")] ShelterType shelterType)
         {
-            if (id != paymentType.PaymentTypeID)
+            if (id != shelterType.ShelterTypeID)
             {
                 return NotFound();
             }
@@ -97,12 +98,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             {
                 try
                 {
-                    _context.Update(paymentType);
+                    _context.Update(shelterType);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PaymentTypeExists(paymentType.PaymentTypeID))
+                    if (!ShelterTypeExists(shelterType.ShelterTypeID))
                     {
                         return NotFound();
                     }
@@ -113,10 +114,10 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(paymentType);
+            return View(shelterType);
         }
 
-        // GET: PaymentTypes/Delete/5
+        // GET: ShelterTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,34 +125,34 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var paymentType = await _context.PaymentType
-                .FirstOrDefaultAsync(m => m.PaymentTypeID == id);
-            if (paymentType == null)
+            var shelterType = await _context.ShelterType
+                .FirstOrDefaultAsync(m => m.ShelterTypeID == id);
+            if (shelterType == null)
             {
                 return NotFound();
             }
 
-            return View(paymentType);
+            return View(shelterType);
         }
 
-        // POST: PaymentTypes/Delete/5
+        // POST: ShelterTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var paymentType = await _context.PaymentType.FindAsync(id);
-            if (paymentType != null)
+            var shelterType = await _context.ShelterType.FindAsync(id);
+            if (shelterType != null)
             {
-                _context.PaymentType.Remove(paymentType);
+                _context.ShelterType.Remove(shelterType);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PaymentTypeExists(int id)
+        private bool ShelterTypeExists(int id)
         {
-            return _context.PaymentType.Any(e => e.PaymentTypeID == id);
+            return _context.ShelterType.Any(e => e.ShelterTypeID == id);
         }
     }
 }
