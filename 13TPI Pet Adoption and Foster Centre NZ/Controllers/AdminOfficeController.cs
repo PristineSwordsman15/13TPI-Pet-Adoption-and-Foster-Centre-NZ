@@ -1,220 +1,132 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
+using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
+
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
-using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
 using Microsoft.AspNetCore.Authorization;
-using System.IO;
-using Microsoft.AspNetCore.Identity;
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
-    [Authorize(Roles = "Admim")]
+    [Authorize(Roles = "Admin")]
     public class AdminOfficeController : Controller
     {
         private readonly Context _context;
-        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public AdminOfficeController(Context context, IWebHostEnvironment hostEnvironment)
+        public AdminOfficeController(Context context)
         {
             _context = context;
-            this._hostEnvironment = hostEnvironment; 
+            
         }
 
-        // GET: 
-       public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter,int? pageNumber)
+        // GET: AdminOffice
+        public async Task<IActionResult> Index(string searchString, int pageNumber = 1)
         {
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewData["AccessLevelSortParm"] = sortOrder == "AccessLevel" ? "AccessLeve;_desc" : "AccessLevel";
-            ViewData["CurrentFilter"] = searchString;
-            ViewData["CurrentSort"] = sortOrder;
-            var adminOffices = from s in _context.AdminOffice
-                           select s;
+            int pageSize = 6;
+            var offices = _context.AdminOffice.AsQueryable();
 
-            if (!String.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrEmpty(searchString))
             {
-                adminOffices = adminOffices.Where(s => s.LevelName.Contains(searchString)
-                                       || s.LastName.Contains(searchString));
-                                       
+                offices = offices.Where(o =>
+                    o.FirstName.Contains(searchString) ||
+                    o.LevelName.Contains(searchString));
             }
 
-            if (searchString == null)
-            {
-                pageNumber = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    adminOffices = adminOffices.OrderByDescending(s => s.LastName);
-                    break;
-                case "AccessLevel":
-                    adminOffices = adminOffices.OrderBy(s => s.AccessLevel);
-                    break;
-                case "date_desc":
-                    adminOffices = adminOffices.OrderByDescending(s => s.AccessLevel);
-                    break;
-                default:
-                    adminOffices = adminOffices.OrderBy(s => s.LastName);
-                    break;
-            }
-            int pageSize = 3;
-            return View(await PaginatedList<AdminOffice>.CreateAsync(adminOffices   .AsNoTracking(), pageNumber ?? 1, pageSize));
+            ViewData["SearchString"] = searchString;
+
+            return View(await PaginatedList<AdminOffice>.CreateAsync(
+                offices.AsNoTracking(), pageNumber, pageSize));
         }
-        // GET: AdminOffices/Details/5
+
+        // GET: AdminOffice/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var adminOffice = await _context.AdminOffice
-                .FirstOrDefaultAsync(m => m.AdminID == id);
-            if (adminOffice == null)
-            {
-                return NotFound();
-            }
+            var office = await _context.AdminOffice.FirstOrDefaultAsync(m => m.AdminID == id);
+            if (office == null) return NotFound();
 
-            return View(adminOffice);
+            return View(office);
         }
 
-        [Authorize(Roles = "Admin")]
-
-        // GET: AdminOffices/Create
-
-        [Authorize(Roles = "Admin")]
-
+        // GET: AdminOffice/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: AdminOffices/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: AdminOffice/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AdminID,UserID,FirstName,LastName,EmailAddress,ContactNo,DateHired,AccessLevel,Title,ImageName,ImageFile")] AdminOffice adminOffice)
+        public async Task<IActionResult> Create([Bind("AdminOfficeID,OfficeName,Street,City,Phone")] AdminOffice office)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                string wwwRootPath = _hostEnvironment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(adminOffice.ImageFile.FileName);
-                string extension = Path.GetExtension(adminOffice.ImageFile.FileName);
-                adminOffice.ImageName = fileName = fileName + DateTime.Now.ToString("yyyymmddhhmmss") + extension;
-                string path = Path.Combine(wwwRootPath + "/Image/", fileName);
-                using (var fileStream = new FileStream(path, FileMode.Create))
-                {
-                    await adminOffice.ImageFile.CopyToAsync(fileStream);
-                }
-                _context.Add(adminOffice);
+                _context.Add(office);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-
             }
-            return View(adminOffice);
+            return View(office);
         }
 
-        // GET: AdminOffices/Edit/5
-
-        [Authorize(Roles = "Admin")]
-
+        // GET: AdminOffice/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var adminOffice = await _context.AdminOffice.FindAsync(id);
-            if (adminOffice == null)
-            {
-                return NotFound();
-            }
-            return View(adminOffice);
+            var office = await _context.AdminOffice.FindAsync(id);
+            if (office == null) return NotFound();
+
+            return View(office);
         }
 
-        // POST: AdminOffices/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: AdminOffice/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-
-        [Authorize(Roles = "Admin")]
-
-        public async Task<IActionResult> Edit(int id, [Bind("AdminID,UserID,FirstName,LastName,EmailAddress,ContactNo,DateHired,AccessLevel,Title,ImageName,ImageFile")] AdminOffice adminOffice)
+        public async Task<IActionResult> Edit(int id, [Bind("AdminOfficeID,OfficeName,Street,City,Phone")] AdminOffice office)
         {
-            if (id != adminOffice.AdminID)
-            {
-                return NotFound();
-            }
+            if (id != office.AdminID) return NotFound();
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(adminOffice);
+                    _context.Update(office);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AdminOfficeExists(adminOffice.AdminID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!AdminOfficeExists(office.AdminID)) return NotFound();
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(adminOffice);
+            return View(office);
         }
 
-        // GET: AdminOffices/Delete/5
-
-        [Authorize(Roles = "Admin")]
-
+        // GET: AdminOffice/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var adminOffice = await _context.AdminOffice
-                .FirstOrDefaultAsync(m => m.AdminID == id);
-            if (adminOffice == null)
-            {
-                return NotFound();
-            }
+            var office = await _context.AdminOffice.FirstOrDefaultAsync(m => m.AdminID == id);
+            if (office == null) return NotFound();
 
-            return View(adminOffice);
+            return View(office);
         }
 
-        // POST: AdminOffices/Delete/5
-        [Authorize(Roles = "Admin")]
-
+        // POST: AdminOffice/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var adminOffice = await _context.AdminOffice.FindAsync(id);
-            if (adminOffice != null)
+            var office = await _context.AdminOffice.FindAsync(id);
+            if (office != null)
             {
-                _context.AdminOffice.Remove(adminOffice);
+                _context.AdminOffice.Remove(office);
+                await _context.SaveChangesAsync();
             }
-
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

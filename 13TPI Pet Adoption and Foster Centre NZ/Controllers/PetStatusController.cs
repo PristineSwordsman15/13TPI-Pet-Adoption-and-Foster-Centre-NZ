@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
-using Microsoft.AspNetCore.Authorization;
+
+using System.Linq;
+using System.Threading.Tasks;
+
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
     public class PetStatusController : Controller
@@ -20,41 +18,38 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         }
 
         // GET: PetStatus
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, int pageNumber = 1)
         {
-            return View(await _context.PetStatus.ToListAsync());
+            int pageSize = 5;
+            var statuses = _context.PetStatus.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                statuses = statuses.Where(s => s.StatusName.Contains(searchString));
+            }
+
+            ViewData["SearchString"] = searchString;
+            return View(await PaginatedList<PetStatus>.CreateAsync(statuses.AsNoTracking(), pageNumber, pageSize));
         }
 
         // GET: PetStatus/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var petStatus = await _context.PetStatus
-                .FirstOrDefaultAsync(m => m.PetStatusID == id);
-            if (petStatus == null)
-            {
-                return NotFound();
-            }
+            var status = await _context.PetStatus.FirstOrDefaultAsync(m => m.PetStatusID == id);
+            if (status == null) return NotFound();
 
-            return View(petStatus);
+            return View(status);
         }
 
         // GET: PetStatus/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() => View();
 
         // POST: PetStatus/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PetStatusID,StatusName")] PetStatus petStatus)
+        public async Task<IActionResult> Create(PetStatus petStatus)
         {
             if (ModelState.IsValid)
             {
@@ -68,30 +63,20 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         // GET: PetStatus/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var petStatus = await _context.PetStatus.FindAsync(id);
-            if (petStatus == null)
-            {
-                return NotFound();
-            }
-            return View(petStatus);
+            var status = await _context.PetStatus.FindAsync(id);
+            if (status == null) return NotFound();
+
+            return View(status);
         }
 
         // POST: PetStatus/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PetStatusID,StatusName")] PetStatus petStatus)
+        public async Task<IActionResult> Edit(int id, PetStatus petStatus)
         {
-            if (id != petStatus.PetStatusID)
-            {
-                return NotFound();
-            }
+            if (id != petStatus.PetStatusID) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -102,14 +87,9 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PetStatusExists(petStatus.PetStatusID))
-                    {
+                    if (!_context.PetStatus.Any(e => e.PetStatusID == petStatus.PetStatusID))
                         return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -119,19 +99,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         // GET: PetStatus/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var petStatus = await _context.PetStatus
-                .FirstOrDefaultAsync(m => m.PetStatusID == id);
-            if (petStatus == null)
-            {
-                return NotFound();
-            }
+            var status = await _context.PetStatus.FirstOrDefaultAsync(m => m.PetStatusID == id);
+            if (status == null) return NotFound();
 
-            return View(petStatus);
+            return View(status);
         }
 
         // POST: PetStatus/Delete/5
@@ -139,19 +112,13 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var petStatus = await _context.PetStatus.FindAsync(id);
-            if (petStatus != null)
+            var status = await _context.PetStatus.FindAsync(id);
+            if (status != null)
             {
-                _context.PetStatus.Remove(petStatus);
+                _context.PetStatus.Remove(status);
+                await _context.SaveChangesAsync();
             }
-
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool PetStatusExists(int id)
-        {
-            return _context.PetStatus.Any(e => e.PetStatusID == id);
         }
     }
 }

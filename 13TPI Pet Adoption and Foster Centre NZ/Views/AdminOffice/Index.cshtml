@@ -17,7 +17,7 @@
     <div class="form-actions no-color">
         <p>
             <label>Find by last name or access level: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" /></label>
-            <input type="submit" value="Search" class="btn btn-default" /> 
+            <input type="submit" value="Search" class="btn btn-default" />
             <a asp-action="Index">Back to Full List</a>
         </p>
     </div>
@@ -29,9 +29,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.UserID)
             </th>
-            <<th>
+            <
+            <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">@Html.DisplayNameFor(model => model.AccessLevel)</a>
-           </th> 
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
@@ -66,44 +67,45 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmailAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContactNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateHired)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AccessLevel)
-            </td>
-
-            <td class="text-center">
-                <div class="btn-group" role="group">
-                    <a asp-action="Edit" asp-route-id="@item.AdminID" class="btn btn-sm btn-warning" title="Edit">
-                        <i class="bi bi-pencil-square"></i>
-                    </a>
-                    <a asp-action="Details" asp-route-id="@item.AdminID" class="btn btn-sm btn-info" title="Details">
-                        <i class="bi bi-eye"></i>
-                    </a>
-                    <a asp-action="Delete" asp-route-id="@item.AdminID" class="btn btn-sm btn-danger" title="Delete">
-                        <i class="bi bi-trash"></i>
-                    </a>
-                </div>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserID)
                 </td>
-        </tr>
-}
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmailAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateHired)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AccessLevel)
+                </td>
+
+                <td class="text-center">
+                    <div class="btn-group" role="group">
+                        <a asp-action="Edit" asp-route-id="@item.AdminID" class="btn btn-sm btn-warning" title="Edit">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a asp-action="Details" asp-route-id="@item.AdminID" class="btn btn-sm btn-info" title="Details">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.AdminID" class="btn btn-sm btn-danger" title="Delete">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

@@ -21,7 +21,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
                     new AccessLevel { AccessLevelID = 1, LevelName = "Administrator" },
                     new AccessLevel { AccessLevelID = 5, LevelName = "Vet" },
                     new AccessLevel { AccessLevelID = 2, LevelName = "Coordinator" },
-                    new AccessLevel { AccessLevelID = 4, LevelName = "Coordinator" },
+                    new AccessLevel { AccessLevelID = 2, LevelName = "Coordinator" },
                     new AccessLevel { AccessLevelID = 1, LevelName = "Administrator" },
                     new AccessLevel { AccessLevelID = 2, LevelName = "Coordinator" },
                     new AccessLevel { AccessLevelID = 3, LevelName = "Adopter" },

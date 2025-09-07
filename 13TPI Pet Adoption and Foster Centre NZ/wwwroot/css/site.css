@@ -1,3 +1,45 @@
+:root {
+    --white: #ffffff;
+    --light-blue: #E6F7FF;
+    --accent-blue: #66B2FF;
+    --coral: #FF6F61;
+    --muted: #6c757d;
+}
+
+/* navbar */
+.navbar {
+    background: linear-gradient(90deg, var(--light-blue), #f5fbff);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+/* coral button */
+.btn-coral {
+    background: var(--coral);
+    color: white;
+    border: none;
+    padding: .5rem 1rem;
+    border-radius: .35rem;
+}
+
+    .btn-coral:hover {
+        opacity: 0.92;
+    }
+
+/* card title accent */
+.text-coral {
+    color: var(--coral);
+}
+
+/* input focus */
+.form-control:focus {
+    box-shadow: 0 0 0 .2rem rgba(102,178,255,0.25);
+    border-color: var(--accent-blue);
+}
+
+/* cards */
+.card {
+    border-radius: .5rem;
+}
 html {
   font-size: 20px;
 }
