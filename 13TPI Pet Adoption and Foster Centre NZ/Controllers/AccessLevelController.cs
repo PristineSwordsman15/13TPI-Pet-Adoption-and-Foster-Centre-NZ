@@ -66,7 +66,6 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             }
             return View(accessLevel);
         }
-
         // GET: AccessLevels/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -99,7 +98,18 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             {
                 try
                 {
-                    _context.Update(accessLevel);
+                    // This is the most reliable way to handle the update.
+                    // First, check if an entity with the same key is already being tracked.
+                    var existingEntry = _context.AccessLevel.Local.FirstOrDefault(e => e.AccessLevelID == accessLevel.AccessLevelID);
+                    if (existingEntry != null)
+                    {
+                        // If it is, detach the existing tracked entity.
+                        _context.Entry(existingEntry).State = EntityState.Detached;
+                    }
+
+                    // Now, explicitly attach the incoming entity and set its state to Modified.
+                    _context.Entry(accessLevel).State = EntityState.Modified;
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -136,6 +146,8 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             return View(accessLevel);
         }
 
+
+        
         // POST: AccessLevels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

@@ -18,132 +18,128 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
             // ---- LOOKUPS ----
             if (!context.AccessLevel.Any())
                 context.AccessLevel.AddRange(
-                    new AccessLevel { AccessLevelID = 1, LevelName = "Administrator" },
-                    new AccessLevel { AccessLevelID = 5, LevelName = "Vet" },
-                    new AccessLevel { AccessLevelID = 2, LevelName = "Coordinator" },
-                    new AccessLevel { AccessLevelID = 2, LevelName = "Coordinator" },
-                    new AccessLevel { AccessLevelID = 1, LevelName = "Administrator" },
-                    new AccessLevel { AccessLevelID = 2, LevelName = "Coordinator" },
-                    new AccessLevel { AccessLevelID = 3, LevelName = "Adopter" },
-                    new AccessLevel { AccessLevelID = 4, LevelName = "Fosterer" },
-                    new AccessLevel { AccessLevelID = 5, LevelName = "Vet" },
-                    new AccessLevel { AccessLevelID = 6, LevelName = "GeneralUser" }
+                    new AccessLevel { LevelName = "Administrator" },
+                    new AccessLevel { LevelName = "Coordinator" },
+                    new AccessLevel { LevelName = "Vet" },
+                    new AccessLevel { LevelName = "Adopter" },
+                    new AccessLevel {  LevelName = "Fosterer" },
+                    new AccessLevel {  LevelName = "GeneralUser" }
+                
                 );
 
             if (!context.Title.Any())
                 context.Title.AddRange(
-                    new Title { TitleID = 1, TitleName = "Mr" },
-                    new Title { TitleID = 2, TitleName = "Mrs" },
-                    new Title { TitleID = 3, TitleName = "Miss" },
-                    new Title { TitleID = 4, TitleName = "Ms" },
-                    new Title { TitleID = 5, TitleName = "Dr" },
-                    new Title { TitleID = 6, TitleName = "Prof" },
-                    new Title { TitleID = 7, TitleName = "Sir" },
-                    new Title { TitleID = 8, TitleName = "Madam" },
-                    new Title { TitleID = 9, TitleName = "Mx" },
-                    new Title { TitleID = 10, TitleName = "Rev" }
+                    new Title { TitleName = "Mr" },
+                    new Title {  TitleName = "Mrs" },
+                    new Title {  TitleName = "Miss" },
+                    new Title {  TitleName = "Ms" },
+                    new Title {  TitleName = "Dr" },
+                    new Title {  TitleName = "Prof" },
+                    new Title {  TitleName = "Sir" },
+                    new Title {  TitleName = "Madam" },
+                    new Title { TitleName = "Mx" },
+                    new Title {  TitleName = "Rev" }
                 );
 
             if (!context.PetStatus.Any())
                 context.PetStatus.AddRange(
-                    new PetStatus { PetStatusID = 1, StatusName = "Available" },
-                    new PetStatus { PetStatusID = 2, StatusName = "Adopted" },
-                    new PetStatus { PetStatusID = 3, StatusName = "Fostered" },
-                    new PetStatus { PetStatusID = 4, StatusName = "Pending Adoption" },
-                    new PetStatus { PetStatusID = 5, StatusName = "Quarantined" },
-                    new PetStatus { PetStatusID = 6, StatusName = "Medical Hold" },
-                    new PetStatus { PetStatusID = 7, StatusName = "Training" },
-                    new PetStatus { PetStatusID = 8, StatusName = "Transferred" },
-                    new PetStatus { PetStatusID = 9, StatusName = "Deceased" },
-                    new PetStatus { PetStatusID = 10, StatusName = "Returned" }
+                    new PetStatus { StatusName = "Available" },
+                    new PetStatus { StatusName = "Adopted" },
+                    new PetStatus { StatusName = "Fostered" },
+                    new PetStatus { StatusName = "Pending Adoption" },
+                    new PetStatus { StatusName = "Quarantined" },
+                    new PetStatus { StatusName = "Medical Hold" },
+                    new PetStatus { StatusName = "Training" },
+                    new PetStatus { StatusName = "Transferred" },
+                    new PetStatus { StatusName = "Deceased" },
+                    new PetStatus { StatusName = "Returned" }
                 );
 
             if (!context.ShelterType.Any())
                 context.ShelterType.AddRange(
-                    new ShelterType { ShelterTypeID = 1, Name = "Government" },
-                    new ShelterType { ShelterTypeID = 2, Name = "Private" },
-                    new ShelterType { ShelterTypeID = 3, Name = "Non-Profit" },
-                    new ShelterType { ShelterTypeID = 4, Name = "Community" },
-                    new ShelterType { ShelterTypeID = 5, Name = "Rescue Group" },
-                    new ShelterType { ShelterTypeID = 6, Name = "Charity" },
-                    new ShelterType { ShelterTypeID = 7, Name = "Regional Council" },
-                    new ShelterType { ShelterTypeID = 8, Name = "Wildlife Rescue" },
-                    new ShelterType { ShelterTypeID = 9, Name = "Veterinary Shelter" },
-                    new ShelterType { ShelterTypeID = 10, Name = "Foster Network" }
+                    new ShelterType { Name = "Government" },
+                    new ShelterType { Name = "Private" },
+                    new ShelterType { Name = "Non-Profit" },
+                    new ShelterType { Name = "Community" },
+                    new ShelterType { Name = "Rescue Group" },
+                    new ShelterType { Name = "Charity" },
+                    new ShelterType { Name = "Regional Council" },
+                    new ShelterType { Name = "Wildlife Rescue" },
+                    new ShelterType { Name = "Veterinary Shelter" },
+                    new ShelterType { Name = "Foster Network" }
                 );
 
             if (!context.VaccinationStatus.Any())
                 context.VaccinationStatus.AddRange(
-                    new VaccinationStatus { VaccinationStatusID = 1, StatusName = "Up-to-date" },
-                    new VaccinationStatus { VaccinationStatusID = 2, StatusName = "Partial" },
-                    new VaccinationStatus { VaccinationStatusID = 3, StatusName = "Not vaccinated" },
-                    new VaccinationStatus { VaccinationStatusID = 4, StatusName = "Rabies only" },
-                    new VaccinationStatus { VaccinationStatusID = 5, StatusName = "Parvo only" },
-                    new VaccinationStatus { VaccinationStatusID = 6, StatusName = "Distemper only" },
-                    new VaccinationStatus { VaccinationStatusID = 7, StatusName = "Core vaccines complete" },
-                    new VaccinationStatus { VaccinationStatusID = 8, StatusName = "Optional vaccines pending" },
-                    new VaccinationStatus { VaccinationStatusID = 9, StatusName = "Expired" },
-                    new VaccinationStatus { VaccinationStatusID = 10, StatusName = "Unknown" }
+                    new VaccinationStatus { StatusName = "Up-to-date" },
+                    new VaccinationStatus { StatusName = "Partial" },
+                    new VaccinationStatus { StatusName = "Not vaccinated" },
+                    new VaccinationStatus { StatusName = "Rabies only" },
+                    new VaccinationStatus { StatusName = "Parvo only" },
+                    new VaccinationStatus { StatusName = "Distemper only" },
+                    new VaccinationStatus { StatusName = "Core vaccines complete" },
+                    new VaccinationStatus { StatusName = "Optional vaccines pending" },
+                    new VaccinationStatus { StatusName = "Expired" },
+                    new VaccinationStatus { StatusName = "Unknown" }
                 );
 
             if (!context.PaymentType.Any())
                 context.PaymentType.AddRange(
-                    new PaymentType { PaymentTypeID = 1, Name = "Adoption Fee" },
-                    new PaymentType { PaymentTypeID = 2, Name = "Donation" },
-                    new PaymentType { PaymentTypeID = 3, Name = "Medical Fee" },
-                    new PaymentType { PaymentTypeID = 4, Name = "Sponsorship" },
-                    new PaymentType { PaymentTypeID = 5, Name = "Membership" },
-                    new PaymentType { PaymentTypeID = 6, Name = "Foster Supplies" },
-                    new PaymentType { PaymentTypeID = 7, Name = "Training Fee" },
-                    new PaymentType { PaymentTypeID = 8, Name = "Microchip Fee" },
-                    new PaymentType { PaymentTypeID = 9, Name = "Neuter/Spay Fee" },
-                    new PaymentType { PaymentTypeID = 10, Name = "Other" }
+                    new PaymentType { Name = "Adoption Fee" },
+                    new PaymentType { Name = "Donation" },
+                    new PaymentType { Name = "Medical Fee" },
+                    new PaymentType { Name = "Sponsorship" },
+                    new PaymentType { Name = "Membership" },
+                    new PaymentType { Name = "Foster Supplies" },
+                    new PaymentType { Name = "Training Fee" },
+                    new PaymentType { Name = "Microchip Fee" },
+                    new PaymentType { Name = "Neuter/Spay Fee" },
+                    new PaymentType { Name = "Other" }
                 );
 
             if (!context.PaymentMethod.Any())
                 context.PaymentMethod.AddRange(
-                    new PaymentMethod { PaymentMethodID = 1, MethodName = "Credit Card" },
-                    new PaymentMethod { PaymentMethodID = 2, MethodName = "Bank Transfer" },
-                    new PaymentMethod { PaymentMethodID = 3, MethodName = "Cash" },
-                    new PaymentMethod { PaymentMethodID = 4, MethodName = "EFTPOS" },
-                    new PaymentMethod { PaymentMethodID = 5, MethodName = "PayPal" },
-                    new PaymentMethod { PaymentMethodID = 6, MethodName = "Cheque" },
-                    new PaymentMethod { PaymentMethodID = 7, MethodName = "Manual POS" },
-                    new PaymentMethod { PaymentMethodID = 8, MethodName = "Gift Card" },
-                    new PaymentMethod { PaymentMethodID = 9, MethodName = "Stripe" },
-                    new PaymentMethod { PaymentMethodID = 10, MethodName = "Other" }
+                    new PaymentMethod {  MethodName = "Credit Card" },
+                    new PaymentMethod {  MethodName = "Bank Transfer" },
+                    new PaymentMethod {  MethodName = "Cash" },
+                    new PaymentMethod {  MethodName = "EFTPOS" },
+                    new PaymentMethod {  MethodName = "PayPal" },
+                    new PaymentMethod {  MethodName = "Cheque" },
+                    new PaymentMethod {  MethodName = "Manual POS" },
+                    new PaymentMethod { MethodName = "Gift Card" },
+                    new PaymentMethod { MethodName = "Stripe" },
+                    new PaymentMethod {  MethodName = "Other" }
                 );
 
             if (!context.PaymentStatus.Any())
                 context.PaymentStatus.AddRange(
-                    new PaymentStatus { PaymentStatusID = 1, StatusName = "Pending" },
-                    new PaymentStatus { PaymentStatusID = 2, StatusName = "Completed" },
-                    new PaymentStatus { PaymentStatusID = 3, StatusName = "Failed" },
-                    new PaymentStatus { PaymentStatusID = 4, StatusName = "Refunded" },
-                    new PaymentStatus { PaymentStatusID = 5, StatusName = "Cancelled" },
-                    new PaymentStatus { PaymentStatusID = 6, StatusName = "Chargeback" },
-                    new PaymentStatus { PaymentStatusID = 7, StatusName = "On Hold" },
-                    new PaymentStatus { PaymentStatusID = 8, StatusName = "Partially Refunded" },
-                    new PaymentStatus { PaymentStatusID = 9, StatusName = "Authorized" },
-                    new PaymentStatus { PaymentStatusID = 10, StatusName = "Expired" }
+                    new PaymentStatus { StatusName = "Pending" },
+                    new PaymentStatus { StatusName = "Completed" },
+                    new PaymentStatus { StatusName = "Failed" },
+                    new PaymentStatus { StatusName = "Refunded" },
+                    new PaymentStatus { StatusName = "Cancelled" },
+                    new PaymentStatus { StatusName = "Chargeback" },
+                    new PaymentStatus { StatusName = "On Hold" },
+                    new PaymentStatus { StatusName = "Partially Refunded" },
+                    new PaymentStatus { StatusName = "Authorized" },
+                    new PaymentStatus { StatusName = "Expired" }
                 );
 
-            await context.SaveChangesAsync();
-
+            
             // ---- LOCATIONS (10) ----
             if (!context.Location.Any())
             {
                 context.Location.AddRange(
-                    new Location { LocationID = 1, Address = "123 Queen St", Surburb = "CBD", City = "Auckland", Region = "Auckland", PostCode = "1010", Country = "New Zealand" },
-                    new Location { LocationID = 2, Address = "45 Cuba St", Surburb = "Te Aro", City = "Wellington", Region = "Wellington", PostCode = "6011", Country = "New Zealand" },
-                    new Location { LocationID = 3, Address = "67 Riccarton Rd", Surburb = "Riccarton", City = "Christchurch", Region = "Canterbury", PostCode = "8011", Country = "New Zealand" },
-                    new Location { LocationID = 4, Address = "89 George St", Surburb = "Central", City = "Dunedin", Region = "Otago", PostCode = "9016", Country = "New Zealand" },
-                    new Location { LocationID = 5, Address = "22 Devon St", Surburb = "Central", City = "New Plymouth", Region = "Taranaki", PostCode = "4310", Country = "New Zealand" },
-                    new Location { LocationID = 6, Address = "14 Grey St", Surburb = "Hamilton East", City = "Hamilton", Region = "Waikato", PostCode = "3204", Country = "New Zealand" },
-                    new Location { LocationID = 7, Address = "33 High St", Surburb = "Central", City = "Lower Hutt", Region = "Wellington", PostCode = "5010", Country = "New Zealand" },
-                    new Location { LocationID = 8, Address = "77 Main St", Surburb = "Central", City = "Palmerston North", Region = "Manawatu", PostCode = "4410", Country = "New Zealand" },
-                    new Location { LocationID = 9, Address = "5 Karamu Rd", Surburb = "Hastings", City = "Hastings", Region = "Hawke's Bay", PostCode = "4122", Country = "New Zealand" },
-                    new Location { LocationID = 10, Address = "11 Gladstone Rd", Surburb = "Central", City = "Gisborne", Region = "Gisborne", PostCode = "4010", Country = "New Zealand" }
+                    new Location {  Address = "123 Queen St", Surburb = "CBD", City = "Auckland", Region = "Auckland", PostCode = "1010", Country = "New Zealand" },
+                    new Location {  Address = "45 Cuba St", Surburb = "Te Aro", City = "Wellington", Region = "Wellington", PostCode = "6011", Country = "New Zealand" },
+                    new Location {   Address = "67 Riccarton Rd", Surburb = "Riccarton", City = "Christchurch", Region = "Canterbury", PostCode = "8011", Country = "New Zealand" },
+                    new Location {  Address = "89 George St", Surburb = "Central", City = "Dunedin", Region = "Otago", PostCode = "9016", Country = "New Zealand" },
+                    new Location {  Address = "22 Devon St", Surburb = "Central", City = "New Plymouth", Region = "Taranaki", PostCode = "4310", Country = "New Zealand" },
+                    new Location { Address = "14 Grey St", Surburb = "Hamilton East", City = "Hamilton", Region = "Waikato", PostCode = "3204", Country = "New Zealand" },
+                    new Location {   Address = "33 High St", Surburb = "Central", City = "Lower Hutt", Region = "Wellington", PostCode = "5010", Country = "New Zealand" },
+                    new Location {  Address = "77 Main St", Surburb = "Central", City = "Palmerston North", Region = "Manawatu", PostCode = "4410", Country = "New Zealand" },
+                    new Location {   Address = "5 Karamu Rd", Surburb = "Hastings", City = "Hastings", Region = "Hawke's Bay", PostCode = "4122", Country = "New Zealand" },
+                    new Location {   Address = "11 Gladstone Rd", Surburb = "Central", City = "Gisborne", Region = "Gisborne", PostCode = "4010", Country = "New Zealand" }
                 );
                 await context.SaveChangesAsync();
             }
