@@ -13,7 +13,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
     {
         public static async Task SeedAsync(Context context)
         {
-             await context.Database.MigrateAsync();
+            await context.Database.MigrateAsync();
 
             // ---- LOOKUPS ----
             if (!context.AccessLevel.Any())
@@ -22,23 +22,23 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
                     new AccessLevel { LevelName = "Coordinator" },
                     new AccessLevel { LevelName = "Vet" },
                     new AccessLevel { LevelName = "Adopter" },
-                    new AccessLevel {  LevelName = "Fosterer" },
-                    new AccessLevel {  LevelName = "GeneralUser" }
-                
+                    new AccessLevel { LevelName = "Fosterer" },
+                    new AccessLevel { LevelName = "GeneralUser" }
+
                 );
 
             if (!context.Title.Any())
                 context.Title.AddRange(
                     new Title { TitleName = "Mr" },
-                    new Title {  TitleName = "Mrs" },
-                    new Title {  TitleName = "Miss" },
-                    new Title {  TitleName = "Ms" },
-                    new Title {  TitleName = "Dr" },
-                    new Title {  TitleName = "Prof" },
-                    new Title {  TitleName = "Sir" },
-                    new Title {  TitleName = "Madam" },
+                    new Title { TitleName = "Mrs" },
+                    new Title { TitleName = "Miss" },
+                    new Title { TitleName = "Ms" },
+                    new Title { TitleName = "Dr" },
+                    new Title { TitleName = "Prof" },
+                    new Title { TitleName = "Sir" },
+                    new Title { TitleName = "Madam" },
                     new Title { TitleName = "Mx" },
-                    new Title {  TitleName = "Rev" }
+                    new Title { TitleName = "Rev" }
                 );
 
             if (!context.PetStatus.Any())
@@ -58,16 +58,10 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
             if (!context.ShelterType.Any())
                 context.ShelterType.AddRange(
                     new ShelterType { Name = "Government" },
-                    new ShelterType { Name = "Private" },
-                    new ShelterType { Name = "Non-Profit" },
-                    new ShelterType { Name = "Community" },
-                    new ShelterType { Name = "Rescue Group" },
-                    new ShelterType { Name = "Charity" },
-                    new ShelterType { Name = "Regional Council" },
-                    new ShelterType { Name = "Wildlife Rescue" },
-                    new ShelterType { Name = "Veterinary Shelter" },
-                    new ShelterType { Name = "Foster Network" }
+                    new ShelterType { Name = "Private" }
                 );
+               
+                   
 
             if (!context.VaccinationStatus.Any())
                 context.VaccinationStatus.AddRange(
@@ -148,16 +142,16 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
             if (!context.Franchise.Any())
             {
                 context.Franchise.AddRange(
-                    new Franchise { FranchiseID = 1, FranchiseName = "Auckland Shelter", ContactNo = "098765432", LocationID = 1, EmailAddress = "akl.shelter@example.com", OperatingHours = "9am-5pm", OwnerID = 1 },
-                    new Franchise { FranchiseID = 2, FranchiseName = "Wellington Shelter", ContactNo = "098765433", LocationID = 2, EmailAddress = "wlg.shelter@example.com", OperatingHours = "9am-5pm", OwnerID = 2 },
-                    new Franchise { FranchiseID = 3, FranchiseName = "Christchurch Shelter", ContactNo = "098765434", LocationID = 3, EmailAddress = "chc.shelter@example.com", OperatingHours = "9am-5pm", OwnerID = 3 },
-                    new Franchise { FranchiseID = 4, FranchiseName = "Dunedin Shelter", ContactNo = "098765435", LocationID = 4, EmailAddress = "dun.shelter@example.com", OperatingHours = "9am-5pm", OwnerID = 4 },
-                    new Franchise { FranchiseID = 5, FranchiseName = "New Plymouth Shelter", ContactNo = "098765436", LocationID = 5, EmailAddress = "np.shelter@example.com", OperatingHours = "9am-5pm", OwnerID = 5 },
-                    new Franchise { FranchiseID = 6, FranchiseName = "Hamilton Shelter", ContactNo = "098765437", LocationID = 6, EmailAddress = "ham.shelter@example.com", OperatingHours = "9am-5pm", OwnerID = 6 },
-                    new Franchise { FranchiseID = 7, FranchiseName = "Lower Hutt Shelter", ContactNo = "098765438", LocationID = 7, EmailAddress = "lh.shelter@example.com", OperatingHours = "9am-5pm", OwnerID = 7 },
-                    new Franchise { FranchiseID = 8, FranchiseName = "Palmerston North Shelter", ContactNo = "098765439", LocationID = 8, EmailAddress = "pn.shelter@example.com", OperatingHours = "9am-5pm", OwnerID = 8 },
-                    new Franchise { FranchiseID = 9, FranchiseName = "Hastings Shelter", ContactNo = "098765440", LocationID = 9, EmailAddress = "has.shelter@example.com", OperatingHours = "9am-5pm", OwnerID = 9 },
-                    new Franchise { FranchiseID = 10, FranchiseName = "Gisborne Shelter", ContactNo = "098765441", LocationID = 10, EmailAddress = "gis.shelter@example.com", OperatingHours = "9am-5pm", OwnerID = 10 }
+                    new Franchise { FranchiseName = "Auckland Shelter", ContactNo = "098765432", EmailAddress = "akl.shelter@example.com", OperatingHours = "9am-5pm"},
+                    new Franchise { FranchiseName = "Wellington Shelter", ContactNo = "098765433", EmailAddress = "wlg.shelter@example.com", OperatingHours = "9am-5pm" },
+                    new Franchise { FranchiseName = "Christchurch Shelter", ContactNo = "098765434", EmailAddress = "chc.shelter@example.com", OperatingHours = "9am-5pm" },
+                    new Franchise { FranchiseName = "Dunedin Shelter", ContactNo = "098765435", EmailAddress = "dun.shelter@example.com", OperatingHours = "9am-5pm" },
+                    new Franchise { FranchiseName = "New Plymouth Shelter", ContactNo = "098765436", EmailAddress = "np.shelter@example.com", OperatingHours = "9am-5pm" },
+                    new Franchise { FranchiseName = "Hamilton Shelter", ContactNo = "098765437", EmailAddress = "ham.shelter@example.com", OperatingHours = "9am-5pm" },
+                    new Franchise { FranchiseName = "Lower Hutt Shelter", ContactNo = "098765438", EmailAddress = "lh.shelter@example.com", OperatingHours = "9am-5pm" },
+                    new Franchise { FranchiseName = "Palmerston North Shelter", ContactNo = "098765439", EmailAddress = "pn.shelter@example.com", OperatingHours = "9am-5pm" },
+                    new Franchise {FranchiseName = "Hastings Shelter", ContactNo = "098765440" , EmailAddress = "has.shelter@example.com", OperatingHours = "9am-5pm" },
+                    new Franchise {  FranchiseName = "Gisborne Shelter", ContactNo = "098765441", EmailAddress = "gis.shelter@example.com", OperatingHours = "9am-5pm" }
                 );
                 await context.SaveChangesAsync();
             }
@@ -166,16 +160,16 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
             if (!context.PetGroup.Any())
             {
                 context.PetGroup.AddRange(
-                    new PetGroup { PetGroupID = 1, PetGroupName = "Dogs", PetGroupDescription = "All dog breeds" },
-                    new PetGroup { PetGroupID = 2, PetGroupName = "Cats", PetGroupDescription = "All cat breeds" },
-                    new PetGroup { PetGroupID = 3, PetGroupName = "Rabbits", PetGroupDescription = "All rabbit breeds" },
-                    new PetGroup { PetGroupID = 4, PetGroupName = "Birds", PetGroupDescription = "All bird species" },
-                    new PetGroup { PetGroupID = 5, PetGroupName = "Reptiles", PetGroupDescription = "Snakes, lizards, turtles" },
-                    new PetGroup { PetGroupID = 6, PetGroupName = "Rodents", PetGroupDescription = "Mice, rats, hamsters" },
-                    new PetGroup { PetGroupID = 7, PetGroupName = "Farm", PetGroupDescription = "Goats, sheep, pigs" },
-                    new PetGroup { PetGroupID = 8, PetGroupName = "Horses", PetGroupDescription = "Equines" },
-                    new PetGroup { PetGroupID = 9, PetGroupName = "Fish", PetGroupDescription = "Aquatic" },
-                    new PetGroup { PetGroupID = 10, PetGroupName = "Other", PetGroupDescription = "Miscellaneous" }
+                    new PetGroup {   PetGroupName = "Dogs", PetGroupDescription = "All dog breeds" },
+                    new PetGroup { PetGroupName = "Cats", PetGroupDescription = "All cat breeds" },
+                    new PetGroup {  PetGroupName = "Rabbits", PetGroupDescription = "All rabbit breeds" },
+                    new PetGroup { PetGroupName = "Birds", PetGroupDescription = "All bird species" },
+                    new PetGroup { PetGroupName = "Reptiles", PetGroupDescription = "Snakes, lizards, turtles" },
+                    new PetGroup { PetGroupName = "Rodents", PetGroupDescription = "Mice, rats, hamsters" },
+                    new PetGroup { PetGroupName = "Farm", PetGroupDescription = "Goats, sheep, pigs" },
+                    new PetGroup { PetGroupName = "Horses", PetGroupDescription = "Equines" },
+                    new PetGroup { PetGroupName = "Fish", PetGroupDescription = "Aquatic" },
+                    new PetGroup { PetGroupName = "Other", PetGroupDescription = "Miscellaneous" }
                 );
                 await context.SaveChangesAsync();
             }
@@ -184,16 +178,16 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
             if (!context.Pet.Any())
             {
                 context.Pet.AddRange(
-                    new Pet { PetID = 1, PetName = "Bella", Species = "Canine", Breed = "Labrador", PetAge = 3, ArrivalDate = DateTime.UtcNow.AddDays(-30), PetStatusID = 1 },
-                    new Pet { PetID = 2, PetName = "Charlie", Species = "Canine", Breed = "Beagle", PetAge = 4, ArrivalDate = DateTime.UtcNow.AddDays(-40), PetStatusID = 2 },
-                    new Pet { PetID = 3, PetName = "Milo", Species = "Feline", Breed = "Persian", PetAge = 2, ArrivalDate = DateTime.UtcNow.AddDays(-15), PetStatusID = 1 },
-                    new Pet { PetID = 4, PetName = "Luna", Species = "Feline", Breed = "Siamese", PetAge = 1, ArrivalDate = DateTime.UtcNow.AddDays(-20), PetStatusID = 3 },
-                    new Pet { PetID = 5, PetName = "Max", Species = "Canine", Breed = "Bulldog", PetAge = 5, ArrivalDate = DateTime.UtcNow.AddDays(-60), PetStatusID = 4 },
-                    new Pet { PetID = 6, PetName = "Daisy", Species = "Lagomorph", Breed = "Netherland Dwarf", PetAge = 2, ArrivalDate = DateTime.UtcNow.AddDays(-10), PetStatusID = 1 },
-                    new Pet { PetID = 7, PetName = "Rocky", Species = "Canine", Breed = "German Shepherd", PetAge = 6, ArrivalDate = DateTime.UtcNow.AddDays(-90), PetStatusID = 2 },
-                    new Pet { PetID = 8, PetName = "Coco", Species = "Avian", Breed = "Parakeet", PetAge = 1, ArrivalDate = DateTime.UtcNow.AddDays(-5), PetStatusID = 1 },
-                    new Pet { PetID = 9, PetName = "Buddy", Species = "Canine", Breed = "Golden Retriever", PetAge = 4, ArrivalDate = DateTime.UtcNow.AddDays(-25), PetStatusID = 7 },
-                    new Pet { PetID = 10, PetName = "Nala", Species = "Feline", Breed = "Bengal", PetAge = 2, ArrivalDate = DateTime.UtcNow.AddDays(-35), PetStatusID = 1 }
+                    new Pet { PetName = "Bella", Species = "Canine", Breed = "Labrador", PetAge = 3, ArrivalDate = DateTime.UtcNow.AddDays(-30)},
+                    new Pet { PetName = "Charlie", Species = "Canine", Breed = "Beagle", PetAge = 4, ArrivalDate = DateTime.UtcNow.AddDays(-40) },
+                    new Pet { PetName = "Milo", Species = "Feline", Breed = "Persian", PetAge = 2, ArrivalDate = DateTime.UtcNow.AddDays(-15), },
+                    new Pet { PetName = "Luna", Species = "Feline", Breed = "Siamese", PetAge = 1, ArrivalDate = DateTime.UtcNow.AddDays(-20)},
+                    new Pet { PetName = "Max", Species = "Canine", Breed = "Bulldog", PetAge = 5, ArrivalDate = DateTime.UtcNow.AddDays(-60) },
+                    new Pet { PetName = "Daisy", Species = "Lagomorph", Breed = "Netherland Dwarf", PetAge = 2, ArrivalDate = DateTime.UtcNow.AddDays(-10) },
+                    new Pet { PetName = "Rocky", Species = "Canine", Breed = "German Shepherd", PetAge = 6, ArrivalDate = DateTime.UtcNow.AddDays(-90) },
+                    new Pet { PetName = "Coco", Species = "Avian", Breed = "Parakeet", PetAge = 1, ArrivalDate = DateTime.UtcNow.AddDays(-5) },
+                    new Pet { PetName = "Buddy", Species = "Canine", Breed = "Golden Retriever", PetAge = 4, ArrivalDate = DateTime.UtcNow.AddDays(-25) },
+                    new Pet { PetName = "Nala", Species = "Feline", Breed = "Bengal", PetAge = 2, ArrivalDate = DateTime.UtcNow.AddDays(-35) }
                 );
                 await context.SaveChangesAsync();
             }
@@ -202,16 +196,16 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
             if (!context.Shelter.Any())
             {
                 context.Shelter.AddRange(
-                    new Shelter { ShelterID = 1, ShelterName = "Auckland Shelter", FranchiseID = 1, LocationID = 1, AvailableBeds = 50, OccupiedBeds = 30, ContactNo = "02123456789", OperatingHours = "9am-6pm", ShelterTypeID = 1, EmailAddress = "auckland@shelters.nz" },
-                    new Shelter { ShelterID = 2, ShelterName = "Wellington Shelter", FranchiseID = 2, LocationID = 2, AvailableBeds = 40, OccupiedBeds = 25, ContactNo = "02123456780", OperatingHours = "9am-5pm", ShelterTypeID = 2, EmailAddress = "wellington@shelters.nz" },
-                    new Shelter { ShelterID = 3, ShelterName = "Christchurch Shelter", FranchiseID = 3, LocationID = 3, AvailableBeds = 60, OccupiedBeds = 45, ContactNo = "02123456781", OperatingHours = "8am-6pm", ShelterTypeID = 3, EmailAddress = "chch@shelters.nz" },
-                    new Shelter { ShelterID = 4, ShelterName = "Hamilton Shelter", FranchiseID = 4, LocationID = 4, AvailableBeds = 35, OccupiedBeds = 20, ContactNo = "02123456782", OperatingHours = "10am-6pm", ShelterTypeID = 4, EmailAddress = "hamilton@shelters.nz" },
-                    new Shelter { ShelterID = 5, ShelterName = "Dunedin Shelter", FranchiseID = 5, LocationID = 5, AvailableBeds = 25, OccupiedBeds = 10, ContactNo = "02123456783", OperatingHours = "9am-5pm", ShelterTypeID = 5, EmailAddress = "dunedin@shelters.nz" },
-                    new Shelter { ShelterID = 6, ShelterName = "Tauranga Shelter", FranchiseID = 6, LocationID = 6, AvailableBeds = 45, OccupiedBeds = 30, ContactNo = "02123456784", OperatingHours = "9am-7pm", ShelterTypeID = 6, EmailAddress = "tauranga@shelters.nz" },
-                    new Shelter { ShelterID = 7, ShelterName = "Napier Shelter", FranchiseID = 7, LocationID = 7, AvailableBeds = 20, OccupiedBeds = 12, ContactNo = "02123456785", OperatingHours = "9am-4pm", ShelterTypeID = 7, EmailAddress = "napier@shelters.nz" },
-                    new Shelter { ShelterID = 8, ShelterName = "Nelson Shelter", FranchiseID = 8, LocationID = 8, AvailableBeds = 30, OccupiedBeds = 18, ContactNo = "02123456786", OperatingHours = "8am-5pm", ShelterTypeID = 8, EmailAddress = "nelson@shelters.nz" },
-                    new Shelter { ShelterID = 9, ShelterName = "Rotorua Shelter", FranchiseID = 9, LocationID = 9, AvailableBeds = 40, OccupiedBeds = 28, ContactNo = "02123456787", OperatingHours = "9am-6pm", ShelterTypeID = 9, EmailAddress = "rotorua@shelters.nz" },
-                    new Shelter { ShelterID = 10, ShelterName = "Palmerston Shelter", FranchiseID = 10, LocationID = 10, AvailableBeds = 55, OccupiedBeds = 35, ContactNo = "02123456788", OperatingHours = "9am-6pm", ShelterTypeID = 10, EmailAddress = "palmerston@shelters.nz" }
+                    new Shelter {  ShelterName = "Auckland Shelter", FranchiseID = 1, LocationID = 1, AvailableBeds = 50, OccupiedBeds = 30, ContactNo = "02123456789", OperatingHours = "9am-6pm",  EmailAddress = "auckland@shelters.nz" },
+                    new Shelter { ShelterName = "Wellington Shelter", FranchiseID = 2, LocationID = 2, AvailableBeds = 40, OccupiedBeds = 25, ContactNo = "02123456780", OperatingHours = "9am-5pm",  EmailAddress = "wellington@shelters.nz" },
+                    new Shelter { ShelterName = "Christchurch Shelter", FranchiseID = 3, LocationID = 3, AvailableBeds = 60, OccupiedBeds = 45, ContactNo = "02123456781", OperatingHours = "8am-6pm",  EmailAddress = "chch@shelters.nz" },
+                    new Shelter { ShelterName = "Hamilton Shelter", FranchiseID = 4, LocationID = 4, AvailableBeds = 35, OccupiedBeds = 20, ContactNo = "02123456782", OperatingHours = "10am-6pm",  EmailAddress = "hamilton@shelters.nz" },
+                    new Shelter { ShelterName = "Dunedin Shelter", FranchiseID = 5, LocationID = 5, AvailableBeds = 25, OccupiedBeds = 10, ContactNo = "02123456783", OperatingHours = "9am-5pm",  EmailAddress = "dunedin@shelters.nz" },
+                    new Shelter { ShelterName = "Tauranga Shelter", FranchiseID = 6, LocationID = 6, AvailableBeds = 45, OccupiedBeds = 30, ContactNo = "02123456784", OperatingHours = "9am-7pm", EmailAddress = "tauranga@shelters.nz" },
+                    new Shelter { ShelterName = "Napier Shelter", FranchiseID = 7, LocationID = 7, AvailableBeds = 20, OccupiedBeds = 12, ContactNo = "02123456785", OperatingHours = "9am-4pm",  EmailAddress = "napier@shelters.nz" },
+                    new Shelter { ShelterName = "Nelson Shelter", FranchiseID = 8, LocationID = 8, AvailableBeds = 30, OccupiedBeds = 18, ContactNo = "02123456786", OperatingHours = "8am-5pm",  EmailAddress = "nelson@shelters.nz" },
+                    new Shelter { ShelterName = "Rotorua Shelter", FranchiseID = 9, LocationID = 9, AvailableBeds = 40, OccupiedBeds = 28, ContactNo = "02123456787", OperatingHours = "9am-6pm",  EmailAddress = "rotorua@shelters.nz" },
+                    new Shelter { ShelterName = "Palmerston Shelter", FranchiseID = 10, LocationID = 10, AvailableBeds = 55, OccupiedBeds = 35, ContactNo = "02123456788", OperatingHours = "9am-6pm",  EmailAddress = "palmerston@shelters.nz" }
                 );
                 await context.SaveChangesAsync();
             }
@@ -220,16 +214,16 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
             if (!context.AdminOffice.Any())
             {
                 context.AdminOffice.AddRange(
-                    new AdminOffice { AdminID = 1, UserID = 1, FirstName = "John", LastName = "Doe", EmailAddress = "john.doe@example.com", ContactNo = "01234567890", DateHired = DateTime.UtcNow.AddYears(-3), AccessLevelID = 1, TitleID = 5 },
-                    new AdminOffice { AdminID = 2, UserID = 2, FirstName = "Jane", LastName = "Smith", EmailAddress = "jane.smith@example.com", ContactNo = "01234567891", DateHired = DateTime.UtcNow.AddYears(-2), AccessLevelID = 2, TitleID = 4 },
-                    new AdminOffice { AdminID = 3, UserID = 3, FirstName = "Mike", LastName = "Brown", EmailAddress = "mike.brown@example.com", ContactNo = "01234567892", DateHired = DateTime.UtcNow.AddYears(-4), AccessLevelID = 3, TitleID = 1 },
-                    new AdminOffice { AdminID = 4, UserID = 4, FirstName = "Emily", LastName = "Clark", EmailAddress = "emily.clark@example.com", ContactNo = "01234567893", DateHired = DateTime.UtcNow.AddYears(-5), AccessLevelID = 4, TitleID = 3 },
-                    new AdminOffice { AdminID = 5, UserID = 5, FirstName = "Daniel", LastName = "Wilson", EmailAddress = "daniel.wilson@example.com", ContactNo = "01234567894", DateHired = DateTime.UtcNow.AddYears(-1), AccessLevelID = 5, TitleID = 1 },
-                    new AdminOffice { AdminID = 6, UserID = 6, FirstName = "Sophie", LastName = "Taylor", EmailAddress = "sophie.taylor@example.com", ContactNo = "01234567895", DateHired = DateTime.UtcNow.AddYears(-3), AccessLevelID = 1, TitleID = 4 },
-                    new AdminOffice { AdminID = 7, UserID = 7, FirstName = "Chris", LastName = "Evans", EmailAddress = "chris.evans@example.com", ContactNo = "01234567896", DateHired = DateTime.UtcNow.AddMonths(-8), AccessLevelID = 1, TitleID = 1 },
-                    new AdminOffice { AdminID = 8, UserID = 8, FirstName = "Laura", LastName = "Adams", EmailAddress = "laura.adams@example.com", ContactNo = "01234567897", DateHired = DateTime.UtcNow.AddYears(-6), AccessLevelID = 1, TitleID = 4 },
-                    new AdminOffice { AdminID = 9, UserID = 9, FirstName = "Peter", LastName = "Wright", EmailAddress = "peter.wright@example.com", ContactNo = "01234567898", DateHired = DateTime.UtcNow.AddMonths(-14), AccessLevelID = 1, TitleID = 1 },
-                    new AdminOffice { AdminID = 10, UserID = 10, FirstName = "Olivia", LastName = "Scott", EmailAddress = "olivia.scott@example.com", ContactNo = "01234567899", DateHired = DateTime.UtcNow.AddMonths(-3), AccessLevelID = 1, TitleID = 2}
+                    new AdminOffice { FirstName = "John", LastName = "Doe", EmailAddress = "john.doe@example.com", ContactNo = "01234567890", DateHired = DateTime.UtcNow.AddYears(-3) },
+                    new AdminOffice { FirstName = "Jane", LastName = "Smith", EmailAddress = "jane.smith@example.com", ContactNo = "01234567891", DateHired = DateTime.UtcNow.AddYears(-2)},
+                    new AdminOffice { FirstName = "Mike", LastName = "Brown", EmailAddress = "mike.brown@example.com", ContactNo = "01234567892", DateHired = DateTime.UtcNow.AddYears(-4)},
+                    new AdminOffice {FirstName = "Emily", LastName = "Clark", EmailAddress = "emily.clark@example.com", ContactNo = "01234567893", DateHired = DateTime.UtcNow.AddYears(-5) },
+                    new AdminOffice {FirstName = "Daniel", LastName = "Wilson", EmailAddress = "daniel.wilson@example.com", ContactNo = "01234567894", DateHired = DateTime.UtcNow.AddYears(-1) },
+                    new AdminOffice {FirstName = "Sophie", LastName = "Taylor", EmailAddress = "sophie.taylor@example.com", ContactNo = "01234567895", DateHired = DateTime.UtcNow.AddYears(-3) },
+                    new AdminOffice { FirstName = "Chris", LastName = "Evans", EmailAddress = "chris.evans@example.com", ContactNo = "01234567896", DateHired = DateTime.UtcNow.AddMonths(-8)},
+                    new AdminOffice {FirstName = "Laura", LastName = "Adams", EmailAddress = "laura.adams@example.com", ContactNo = "01234567897", DateHired = DateTime.UtcNow.AddYears(-6) },
+                    new AdminOffice { FirstName = "Peter", LastName = "Wright", EmailAddress = "peter.wright@example.com", ContactNo = "01234567898", DateHired = DateTime.UtcNow.AddMonths(-14) },
+                    new AdminOffice {FirstName = "Olivia", LastName = "Scott", EmailAddress = "olivia.scott@example.com", ContactNo = "01234567899", DateHired = DateTime.UtcNow.AddMonths(-3) }
                 );
                 await context.SaveChangesAsync();
             }
@@ -238,17 +232,17 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
             if (!context.Coordinator.Any())
             {
                 context.Coordinator.AddRange(
-                    new Coordinator { CoordinatorID = 1, FranchiseID = 1, PetGroupID = 1, FirstName = "Alice", LastName = "Johnson", EmailAddress = "alice.johnson@example.com", ContactNo = "021123456", HireDate = DateTime.UtcNow.AddYears(-4), ExperienceLevel = "Expert" },
-                    new Coordinator { CoordinatorID = 2, FranchiseID = 2, PetGroupID = 2, FirstName = "Bob", LastName = "Williams", EmailAddress = "bob.williams@example.com", ContactNo = "021234567", HireDate = DateTime.UtcNow.AddYears(-3), ExperienceLevel = "Intermediate" },
-                    new Coordinator { CoordinatorID = 3, FranchiseID = 3, PetGroupID = 1, FirstName = "Clara", LastName = "Davis", EmailAddress = "clara.davis@example.com", ContactNo = "021345678", HireDate = DateTime.UtcNow.AddYears(-5), ExperienceLevel = "Expert" },
-                    new Coordinator { CoordinatorID = 4, FranchiseID = 4, PetGroupID = 2, FirstName = "David", LastName = "Miller", EmailAddress = "david.miller@example.com", ContactNo = "021456789", HireDate = DateTime.UtcNow.AddYears(-2), ExperienceLevel = "Beginner" },
-                    new Coordinator { CoordinatorID = 5, FranchiseID = 5, PetGroupID = 1, FirstName = "Ella", LastName = "Wilson", EmailAddress = "ella.wilson@example.com", ContactNo = "021567890", HireDate = DateTime.UtcNow.AddYears(-6), ExperienceLevel = "Expert" },
-                    new Coordinator { CoordinatorID = 6, FranchiseID = 6, PetGroupID = 2, FirstName = "Frank", LastName = "Moore", EmailAddress = "frank.moore@example.com", ContactNo = "021678901", HireDate = DateTime.UtcNow.AddYears(-4), ExperienceLevel = "Intermediate" },
-                    new Coordinator { CoordinatorID = 7, FranchiseID = 7, PetGroupID = 1, FirstName = "Grace", LastName = "Taylor", EmailAddress = "grace.taylor@example.com", ContactNo = "021789012", HireDate = DateTime.UtcNow.AddYears(-7), ExperienceLevel = "Expert" },
-                    new Coordinator { CoordinatorID = 8, FranchiseID = 8, PetGroupID = 2, FirstName = "Henry", LastName = "Anderson", EmailAddress = "henry.anderson@example.com", ContactNo = "021890123", HireDate = DateTime.UtcNow.AddYears(-5), ExperienceLevel = "Intermediate" },
-                    new Coordinator { CoordinatorID = 9, FranchiseID = 9, PetGroupID = 1, FirstName = "Isla", LastName = "Thomas", EmailAddress = "isla.thomas@example.com", ContactNo = "021901234", HireDate = DateTime.UtcNow.AddYears(-1), ExperienceLevel = "Beginner" },
-                    new Coordinator { CoordinatorID = 10, FranchiseID = 10, PetGroupID = 2, FirstName = "Jack", LastName = "Martin", EmailAddress = "jack.martin@example.com", ContactNo = "021012345", HireDate = DateTime.UtcNow.AddYears(-3), ExperienceLevel = "Expert" }
-                );
+                    new Coordinator { FirstName = "Alice", LastName = "Johnson", EmailAddress = "alice.johnson@example.com", ContactNo = "021123456", HireDate = DateTime.UtcNow.AddYears(-4), ExperienceLevel = "Expert" },
+                    new Coordinator {  FirstName = "Bob", LastName = "Williams", EmailAddress = "bob.williams@example.com", ContactNo = "021234567", HireDate = DateTime.UtcNow.AddYears(-3), ExperienceLevel = "Intermediate" },
+                    new Coordinator {  FirstName = "Clara", LastName = "Davis", EmailAddress = "clara.davis@example.com", ContactNo = "021345678", HireDate = DateTime.UtcNow.AddYears(-5), ExperienceLevel = "Expert" },
+                    new Coordinator {    FirstName = "David", LastName = "Miller", EmailAddress = "david.miller@example.com", ContactNo = "021456789", HireDate = DateTime.UtcNow.AddYears(-2), ExperienceLevel = "Beginner" },
+                    new Coordinator {  FirstName = "Ella", LastName = "Wilson", EmailAddress = "ella.wilson@example.com", ContactNo = "021567890", HireDate = DateTime.UtcNow.AddYears(-6), ExperienceLevel = "Expert" },
+                    new Coordinator { FirstName = "Frank", LastName = "Moore", EmailAddress = "frank.moore@example.com", ContactNo = "021678901", HireDate = DateTime.UtcNow.AddYears(-4), ExperienceLevel = "Intermediate" },
+                    new Coordinator { FirstName = "Grace", LastName = "Taylor", EmailAddress = "grace.taylor@example.com", ContactNo = "021789012", HireDate = DateTime.UtcNow.AddYears(-7), ExperienceLevel = "Expert" },
+                    new Coordinator {  FirstName = "Henry", LastName = "Anderson", EmailAddress = "henry.anderson@example.com", ContactNo = "021890123", HireDate = DateTime.UtcNow.AddYears(-5), ExperienceLevel = "Intermediate" },
+                    new Coordinator { FirstName = "Isla", LastName = "Thomas", EmailAddress = "isla.thomas@example.com", ContactNo = "021901234", HireDate = DateTime.UtcNow.AddYears(-1), ExperienceLevel = "Beginner" },
+                    new Coordinator { FirstName = "Jack", LastName = "Martin", EmailAddress = "jack.martin@example.com", ContactNo = "021012345", HireDate = DateTime.UtcNow.AddYears(-3), ExperienceLevel = "Expert" }
+                );  
                 await context.SaveChangesAsync();
             }
 
@@ -256,16 +250,16 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
             if (!context.MedicalRecord.Any())
             {
                 context.MedicalRecord.AddRange(
-                    new MedicalRecord { PetID = 1, VetName = "Dr. Smith", ClinicName = "Healthy Pets Clinic", VisitDate = DateTime.UtcNow.AddMonths(-6), Diagnosis = "Routine Checkup", Treatment = "None", MedicalRecordID = 1, MicrochipID = 1234567001, SpecialNeeds = "None" },
-                    new MedicalRecord { PetID = 2, VetName = "Dr. Jones", ClinicName = "City Vet Clinic", VisitDate = DateTime.UtcNow.AddMonths(-4), Diagnosis = "Dental Cleaning", Treatment = "Teeth cleaning", MedicalRecordID = 1, MicrochipID = 1234567002, SpecialNeeds = "Sensitive teeth" },
-                    new MedicalRecord { PetID = 3, VetName = "Dr. Brown", ClinicName = "Paws & Claws Vet", VisitDate = DateTime.UtcNow.AddMonths(-2), Diagnosis = "Allergy", Treatment = "Antihistamines", MedicalRecordID = 7, MicrochipID = 1234567003, SpecialNeeds = "Hypoallergenic diet" },
-                    new MedicalRecord { PetID = 4, VetName = "Dr. Green", ClinicName = "Northside Vet", VisitDate = DateTime.UtcNow.AddMonths(-1), Diagnosis = "Skin infection", Treatment = "Antibiotics", MedicalRecordID = 1, MicrochipID = 1234567004, SpecialNeeds = "Sensitive skin" },
-                    new MedicalRecord { PetID = 5, VetName = "Dr. White", ClinicName = "Happy Paws", VisitDate = DateTime.UtcNow.AddMonths(-8), Diagnosis = "Arthritis", Treatment = "Pain relief", MedicalRecordID = 9, MicrochipID = 1234567005, SpecialNeeds = "Joint supplements" },
-                    new MedicalRecord { PetID = 6, VetName = "Dr. Grey", ClinicName = "Furry Friends Vet", VisitDate = DateTime.UtcNow.AddMonths(-3), Diagnosis = "Heartworm", Treatment = "Prevention meds", MedicalRecordID = 3, MicrochipID = 1234567006, SpecialNeeds = "None" },
-                    new MedicalRecord { PetID = 7, VetName = "Dr. Black", ClinicName = "Riverdale Vet", VisitDate = DateTime.UtcNow.AddMonths(-5), Diagnosis = "Sprain", Treatment = "Rest", MedicalRecordID = 1, MicrochipID = 1234567007, SpecialNeeds = "None" },
-                    new MedicalRecord { PetID = 8, VetName = "Dr. Blue", ClinicName = "Pet Wellness Center", VisitDate = DateTime.UtcNow.AddMonths(-1), Diagnosis = "Mites", Treatment = "Topical", MedicalRecordID = 2, MicrochipID = 1234567008, SpecialNeeds = "Follow up in 2w" },  
-                    new MedicalRecord { PetID = 9, VetName = "Dr. Violet", ClinicName = "Well Vet", VisitDate = DateTime.UtcNow.AddMonths(-7), Diagnosis = "Obesity", Treatment = "Diet plan", MedicalRecordID = 1, MicrochipID = 1234567009, SpecialNeeds = "Dietary monitoring" },
-                    new MedicalRecord { PetID = 10, VetName = "Dr. Amber", ClinicName = "Central Vet", VisitDate = DateTime.UtcNow.AddMonths(-9), Diagnosis = "URI", Treatment = "Antibiotics", MedicalRecordID = 8, MicrochipID = 1234567010, SpecialNeeds = "Warm environment" }
+                    new MedicalRecord { PetID = 1, VetName = "Dr. Smith", ClinicName = "Healthy Pets Clinic", VisitDate = DateTime.UtcNow.AddMonths(-6), Diagnosis = "Routine Checkup", Treatment = "None",SpecialNeeds = "None" },
+                    new MedicalRecord { VetName = "Dr. Jones", ClinicName = "City Vet Clinic", VisitDate = DateTime.UtcNow.AddMonths(-4), Diagnosis = "Dental Cleaning", Treatment = "Teeth cleaning", SpecialNeeds = "Sensitive teeth" },
+                    new MedicalRecord { VetName = "Dr. Brown", ClinicName = "Paws & Claws Vet", VisitDate = DateTime.UtcNow.AddMonths(-2), Diagnosis = "Allergy", Treatment = "Antihistamines",  SpecialNeeds = "Hypoallergenic diet" },
+                    new MedicalRecord { VetName = "Dr. Green", ClinicName = "Northside Vet", VisitDate = DateTime.UtcNow.AddMonths(-1), Diagnosis = "Skin infection", Treatment = "Antibiotics", SpecialNeeds = "Sensitive skin" },
+                    new MedicalRecord { VetName = "Dr. White", ClinicName = "Happy Paws", VisitDate = DateTime.UtcNow.AddMonths(-8), Diagnosis = "Arthritis", Treatment = "Pain relief" , SpecialNeeds = "Joint supplements" },
+                    new MedicalRecord {  VetName = "Dr. Grey", ClinicName = "Furry Friends Vet", VisitDate = DateTime.UtcNow.AddMonths(-3), Diagnosis = "Heartworm", Treatment = "Prevention meds",  SpecialNeeds = "None" },
+                    new MedicalRecord {VetName = "Dr. Black", ClinicName = "Riverdale Vet", VisitDate = DateTime.UtcNow.AddMonths(-5), Diagnosis = "Sprain", Treatment = "Rest", SpecialNeeds = "None" },
+                    new MedicalRecord { VetName = "Dr. Blue", ClinicName = "Pet Wellness Center", VisitDate = DateTime.UtcNow.AddMonths(-1), Diagnosis = "Mites", Treatment = "Topical", SpecialNeeds = "Follow up in 2w" },  
+                    new MedicalRecord {VetName = "Dr. Violet", ClinicName = "Well Vet", VisitDate = DateTime.UtcNow.AddMonths(-7), Diagnosis = "Obesity", Treatment = "Diet plan", SpecialNeeds = "Dietary monitoring" },
+                    new MedicalRecord {VetName = "Dr. Amber", ClinicName = "Central Vet", VisitDate = DateTime.UtcNow.AddMonths(-9), Diagnosis = "URI", Treatment = "Antibiotics", SpecialNeeds = "Warm environment" }
                 );
                 await context.SaveChangesAsync();
             }
@@ -274,16 +268,16 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
             if (!context.Payment.Any())
             {
                 context.Payment.AddRange(
-                    new Payment { PaymentID = 1, UserID = 1, PaymentTypeID = 1, Amount = 150.00m, Currency = "NZD", PaymentDate = DateTime.UtcNow.AddDays(-30), PaymentMethodID = 1, TransactionID = 90001, PaymentStatusID = 2, Notes = "Adoption fee for Bella" },
-                    new Payment { PaymentID = 2, UserID = 2, PaymentTypeID = 2, Amount = 50.00m, Currency = "NZD", PaymentDate = DateTime.UtcNow.AddDays(-25), PaymentMethodID = 2, TransactionID = 90002, PaymentStatusID = 2, Notes = "Donation" },
-                    new Payment { PaymentID = 3, UserID = 3, PaymentTypeID = 3, Amount = 80.00m, Currency = "NZD", PaymentDate = DateTime.UtcNow.AddDays(-20), PaymentMethodID = 1, TransactionID = 90003, PaymentStatusID = 2, Notes = "Medical fee" },
-                    new Payment { PaymentID = 4, UserID = 4, PaymentTypeID = 4, Amount = 200.00m, Currency = "NZD", PaymentDate = DateTime.UtcNow.AddDays(-18), PaymentMethodID = 5, TransactionID = 90004, PaymentStatusID = 1, Notes = "Sponsorship - pending" },
-                    new Payment { PaymentID = 5, UserID = 5, PaymentTypeID = 5, Amount = 30.00m, Currency = "NZD", PaymentDate = DateTime.UtcNow.AddDays(-15), PaymentMethodID = 3, TransactionID = 90005, PaymentStatusID = 2, Notes = "Membership fee" },
-                    new Payment { PaymentID = 6, UserID = 6, PaymentTypeID = 6, Amount = 40.00m, Currency = "NZD", PaymentDate = DateTime.UtcNow.AddDays(-12), PaymentMethodID = 4, TransactionID = 90006, PaymentStatusID = 2, Notes = "Foster supplies" },
-                    new Payment { PaymentID = 7, UserID = 7, PaymentTypeID = 7, Amount = 120.00m, Currency = "NZD", PaymentDate = DateTime.UtcNow.AddDays(-10), PaymentMethodID = 1, TransactionID = 90007, PaymentStatusID = 3, Notes = "Training fee - failed" },
-                    new Payment { PaymentID = 8, UserID = 8, PaymentTypeID = 8, Amount = 25.00m, Currency = "NZD", PaymentDate = DateTime.UtcNow.AddDays(-8), PaymentMethodID = 9, TransactionID = 90008, PaymentStatusID = 2, Notes = "Microchip fee" },
-                    new Payment { PaymentID = 9, UserID = 9, PaymentTypeID = 9, Amount = 90.00m, Currency = "NZD", PaymentDate = DateTime.UtcNow.AddDays(-5), PaymentMethodID = 2, TransactionID = 90009, PaymentStatusID = 2, Notes = "Neuter/spay fee" },
-                    new Payment { PaymentID = 10, UserID = 10, PaymentTypeID = 10, Amount = 10.00m, Currency = "NZD", PaymentDate = DateTime.UtcNow.AddDays(-2), PaymentMethodID = 3, TransactionID = 90010, PaymentStatusID = 2, Notes = "Other" }
+                    new Payment { Amount = 150.00m, Currency = "NZD", PaymentDate = DateTime.UtcNow.AddDays(-30), Notes = "Adoption fee for Bella" },
+                    new Payment { Amount = 50.00m, Currency = "NZD", PaymentDate = DateTime.UtcNow.AddDays(-25), Notes = "Donation" },
+                    new Payment {Amount = 80.00m, Currency = "NZD", PaymentDate = DateTime.UtcNow.AddDays(-20), Notes = "Medical fee" },
+                    new Payment {Amount = 200.00m, Currency = "NZD", PaymentDate = DateTime.UtcNow.AddDays(-18), Notes = "Sponsorship - pending" },
+                    new Payment {Amount = 30.00m, Currency = "NZD", PaymentDate = DateTime.UtcNow.AddDays(-15), Notes = "Membership fee" },
+                    new Payment {Amount = 40.00m, Currency = "NZD", PaymentDate = DateTime.UtcNow.AddDays(-12), Notes = "Foster supplies" },
+                    new Payment { Amount = 120.00m, Currency = "NZD", PaymentDate = DateTime.UtcNow.AddDays(-10), Notes = "Training fee - failed" },
+                    new Payment {Amount = 25.00m, Currency = "NZD", PaymentDate = DateTime.UtcNow.AddDays(-8), Notes = "Microchip fee" },
+                    new Payment {Amount = 90.00m, Currency = "NZD", PaymentDate = DateTime.UtcNow.AddDays(-5), Notes = "Neuter/spay fee" },
+                    new Payment {Amount = 10.00m, Currency = "NZD", PaymentDate = DateTime.UtcNow.AddDays(-2), Notes = "Other" }
                 );
                 await context.SaveChangesAsync();
             }
