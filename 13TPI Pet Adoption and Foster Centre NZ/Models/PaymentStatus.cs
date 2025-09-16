@@ -5,12 +5,9 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
 {
     public class PaymentStatus
     {
-        [Key]
         public int PaymentStatusID { get; set; }
-
-        [Required, StringLength(25)]
-        public string StatusName { get; set; } = string.Empty;
-
-        public ICollection<Payment>? Payments { get; set; }
+        [Required] public string StatusName { get; set; }
+        public ICollection<Payment> Payments { get; set; }
     }
 }
+

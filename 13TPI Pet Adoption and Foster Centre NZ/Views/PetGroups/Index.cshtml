@@ -1,4 +1,4 @@
-﻿@model IEnumerable<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.PetGroup>
+﻿@model IEnumerable<PetGroup>
 
 @{
     ViewData["Title"] = "Index";
@@ -15,15 +15,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.PetGroupName)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PetGroupDescription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PetID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GroupID)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -32,15 +23,6 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.PetGroupName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PetGroupDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PetID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GroupID)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.PetGroupID">Edit</a> |

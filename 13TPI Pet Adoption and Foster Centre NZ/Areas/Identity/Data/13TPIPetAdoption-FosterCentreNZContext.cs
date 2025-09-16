@@ -32,28 +32,100 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
         public DbSet<PaymentStatus> PaymentStatus => Set<PaymentStatus>();
         public DbSet<Payment> Payment => Set<Payment>();
 
-        protected override void OnModelCreating(ModelBuilder mb)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(mb);
+            base.OnModelCreating(builder);
 
-            // minimal constraints/fluent config examples
-            mb.Entity<Shelter>()
-              .HasOne(s => s.ShelterType)
-              .WithMany(t => t.Shelters)
-              .HasForeignKey(s => s.ShelterTypeID)
-              .OnDelete(DeleteBehavior.Restrict);
+            // Franchise ↔ Location (many franchises per location)
+            builder.Entity<Franchise>()
+                .HasOne(f => f.Location)
+                .WithMany(l => l.Franchises)
+                .HasForeignKey(f => f.LocationID)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            mb.Entity<Franchise>()
-              .HasOne(f => f.Location)
-              .WithMany()
-              .HasForeignKey(f => f.LocationID)
-              .OnDelete(DeleteBehavior.Restrict);
+            // Coordinator ↔ Franchise
+            builder.Entity<Coordinator>()
+                .HasOne(c => c.Franchise)
+                .WithMany(f => f.Coordinators)
+                .HasForeignKey(c => c.FranchiseID)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            mb.Entity<MedicalRecord>()
-              .HasOne(m => m.Pet)
-              .WithMany()
-              .HasForeignKey(m => m.PetID)
-              .OnDelete(DeleteBehavior.Cascade);
+            // Coordinator ↔ PetGroup
+            builder.Entity<Coordinator>()
+                .HasOne(c => c.PetGroup)
+                .WithMany(pg => pg.Coordinators)
+                .HasForeignKey(c => c.PetGroupID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Shelter ↔ Franchise
+            builder.Entity<Shelter>()
+                .HasOne(s => s.Franchise)
+                .WithMany(f => f.Shelters)
+                .HasForeignKey(s => s.FranchiseID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Shelter ↔ Location
+            builder.Entity<Shelter>()
+                .HasOne(s => s.Location)
+                .WithMany(l => l.Shelters)
+                .HasForeignKey(s => s.LocationID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Shelter ↔ ShelterType
+            builder.Entity<Shelter>()
+                .HasOne(s => s.ShelterType)
+                .WithMany(st => st.Shelters)
+                .HasForeignKey(s => s.ShelterTypeID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Pet ↔ PetGroup
+            builder.Entity<Pet>()
+                .HasOne(p => p.PetGroup)
+                .WithMany(pg => pg.Pets)
+                .HasForeignKey(p => p.PetGroupID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Pet ↔ PetStatus
+            builder.Entity<Pet>()
+                .HasOne(p => p.PetStatus)
+                .WithMany(ps => ps.Pets)
+                .HasForeignKey(p => p.PetStatusID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // MedicalRecord ↔ Pet
+            builder.Entity<MedicalRecord>()
+                .HasOne(mr => mr.Pet)
+                .WithMany(p => p.MedicalRecords)
+                .HasForeignKey(mr => mr.PetID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // MedicalRecord ↔ VaccinationStatus
+            builder.Entity<MedicalRecord>()
+                .HasOne(mr => mr.VaccinationStatus)
+                .WithMany(vs => vs.MedicalRecords)
+                .HasForeignKey(mr => mr.VaccinationStatusID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Payment ↔ PaymentType
+            builder.Entity<Payment>()
+                .HasOne(p => p.PaymentType)
+                .WithMany(pt => pt.Payments)
+                .HasForeignKey(p => p.PaymentTypeID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Payment ↔ PaymentMethod
+            builder.Entity<Payment>()
+                .HasOne(p => p.PaymentMethod)
+                .WithMany(pm => pm.Payments)
+                .HasForeignKey(p => p.PaymentMethodID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Payment ↔ PaymentStatus
+            builder.Entity<Payment>()
+                .HasOne(p => p.PaymentStatus)
+                .WithMany(ps => ps.Payments)
+                .HasForeignKey(p => p.PaymentStatusID)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

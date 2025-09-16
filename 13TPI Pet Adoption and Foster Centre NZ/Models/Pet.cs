@@ -1,47 +1,18 @@
-﻿using System;
-using System.ComponentModel;
+﻿using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
+public class Pet
 {
-    public class Pet
-    {
+    public int PetID { get; set; }
+    [Required] public string Name { get; set; }
+    public DateTime DateOfBirth { get; set; }
 
-        [Key]
-        public int PetID { get; set; }
-        [Required]
-        [StringLength(50)]
-        public string PetName { get; set; } = string.Empty;
-        [Required]
-        [StringLength(50)]
+    // FKs
+    public int PetGroupID { get; set; }
+    public PetGroup PetGroup { get; set; }
 
-        public int PetGroupID { get; set; }
-        public virtual PetGroup? PetGroupName { get; set; }
-        [Required]
-        [StringLength(50)]
-        public string Species { get; set; } = string.Empty;
-        [Required]
-        [StringLength(50)]
-        public string Breed { get; set; } = string.Empty;
-        [Required]
-        public int PetAge { get; set; }
-        [Required]
-        [DataType(DataType.Date)]
-        public DateTime ArrivalDate { get; set; }
+    public int PetStatusID { get; set; }
+    public PetStatus PetStatus { get; set; }
 
-        //Normalised -. PetStatus Lookup
-
-        public int PetStatusID { get; set; } // Adopted, Fostered, Available
-        public virtual PetStatus? PetStatus { get; set; }
-
-        [Column(TypeName = "nvarchar(100)")]
-        [NotMapped]
-        [DisplayName("Image Name")]
-        
-        public string? ImageName { get; set; }
-
-        [NotMapped, DisplayName("Upload File")]
-        public IFormFile? ImageFile { get; set; }
-    }
+    public ICollection<MedicalRecord> MedicalRecords { get; set; }
 }

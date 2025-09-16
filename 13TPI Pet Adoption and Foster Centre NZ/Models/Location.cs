@@ -40,5 +40,9 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         [Required]
         [StringLength(50)]
         public string Country { get; set; } = string.Empty;
+
+
+        public ICollection<Franchise> Franchises { get; set; }
+        public ICollection<Shelter> Shelters { get; set; }
     }
 }

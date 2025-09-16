@@ -1,38 +1,23 @@
-﻿using System;
+﻿using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
+public class Payment
 {
-    public class Payment
-    {
-        [Key]
-        public int PaymentID { get; set; }
+    public int PaymentID { get; set; }
+    public decimal Amount { get; set; }
+    public DateTime Date { get; set; }
 
-        // FK → User
-        public int UserID { get; set; }
-       
+    // FKs
+    public int PaymentTypeID { get; set; }
+    public PaymentType PaymentType { get; set; }
 
-        // Normalized → PaymentType Lookup
-        public int PaymentTypeID { get; set; }
-        public virtual PaymentType? PaymentType { get; set; }
+    public int PaymentMethodID { get; set; }
+    public PaymentMethod PaymentMethod { get; set; }
 
-        [Range(0.01, double.MaxValue)]
-        public decimal Amount { get; set; }
+    public int PaymentStatusID { get; set; }
+    public PaymentStatus PaymentStatus { get; set; }
 
-        // Currency fixed to NZD → no need for Regex
-        public string Currency { get; set; } = "NZD";
-
-        [DataType(DataType.Date)]
-        public DateTime PaymentDate { get; set; }
-
-        public int PaymentMethodID { get; set; }
-        public virtual PaymentMethod? PaymentMethod { get; set; }
-
-        public int TransactionID { get; set; }
-
-        public int PaymentStatusID { get; set; }
-        public virtual PaymentStatus? PaymentStatus { get; set; }
-
-        public string? Notes { get; set; }
-    }
+    // Link to Identity User
+    [Required] public string UserID { get; set; }
 }
+

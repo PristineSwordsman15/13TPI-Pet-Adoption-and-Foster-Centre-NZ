@@ -22,6 +22,145 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Franchise", b =>
+                {
+                    b.Property<int>("FranchiseID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FranchiseID"));
+
+                    b.Property<string>("FranchiseName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LocationID")
+                        .HasColumnType("int");
+
+                    b.HasKey("FranchiseID");
+
+                    b.HasIndex("LocationID");
+
+                    b.ToTable("Franchise");
+                });
+
+            modelBuilder.Entity("Payment", b =>
+                {
+                    b.Property<int>("PaymentID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentID"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PaymentMethodID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PaymentStatusID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PaymentTypeID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PaymentID");
+
+                    b.HasIndex("PaymentMethodID");
+
+                    b.HasIndex("PaymentStatusID");
+
+                    b.HasIndex("PaymentTypeID");
+
+                    b.ToTable("Payment");
+                });
+
+            modelBuilder.Entity("Pet", b =>
+                {
+                    b.Property<int>("PetID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PetID"));
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PetGroupID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PetStatusID")
+                        .HasColumnType("int");
+
+                    b.HasKey("PetID");
+
+                    b.HasIndex("PetGroupID");
+
+                    b.HasIndex("PetStatusID");
+
+                    b.ToTable("Pet");
+                });
+
+            modelBuilder.Entity("PetGroup", b =>
+                {
+                    b.Property<int>("PetGroupID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PetGroupID"));
+
+                    b.Property<string>("PetGroupName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PetGroupID");
+
+                    b.ToTable("PetGroup");
+                });
+
+            modelBuilder.Entity("Shelter", b =>
+                {
+                    b.Property<int>("ShelterID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ShelterID"));
+
+                    b.Property<int>("FranchiseID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LocationID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ShelterTypeID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ShelterID");
+
+                    b.HasIndex("FranchiseID");
+
+                    b.HasIndex("LocationID");
+
+                    b.HasIndex("ShelterTypeID");
+
+                    b.ToTable("Shelter");
+                });
+
             modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.AccessLevel", b =>
                 {
                     b.Property<int>("AccessLevelID")
@@ -94,8 +233,6 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Migrations
 
                     b.HasIndex("AccessLevelID");
 
-                    b.HasIndex("TitleID");
-
                     b.ToTable("AdminOffice");
                 });
 
@@ -107,41 +244,19 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CoordinatorID"));
 
-                    b.Property<string>("ContactNo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EmailAddress")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("ExperienceLevel")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("FranchiseID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("HireDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PetGroupID")
                         .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("CoordinatorID");
 
@@ -150,45 +265,6 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Migrations
                     b.HasIndex("PetGroupID");
 
                     b.ToTable("Coordinator");
-                });
-
-            modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Franchise", b =>
-                {
-                    b.Property<int>("FranchiseID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FranchiseID"));
-
-                    b.Property<string>("ContactNo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EmailAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FranchiseName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("LocationID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("OperatingHours")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.Property<int>("OwnerID")
-                        .HasColumnType("int");
-
-                    b.HasKey("FranchiseID");
-
-                    b.HasIndex("LocationID");
-
-                    b.ToTable("Franchise");
                 });
 
             modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Location", b =>
@@ -242,98 +318,26 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MedicalRecordID"));
 
-                    b.Property<string>("ClinicName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Diagnosis")
+                    b.Property<string>("Notes")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("MicrochipID")
-                        .HasColumnType("int");
 
                     b.Property<int>("PetID")
                         .HasColumnType("int");
 
-                    b.Property<string>("SpecialNeeds")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("StatusNameVaccinationStatusID")
+                    b.Property<int>("VaccinationStatusID")
                         .HasColumnType("int");
-
-                    b.Property<string>("Treatment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("VaccinationStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("VetName")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.Property<DateTime>("VisitDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("MedicalRecordID");
 
                     b.HasIndex("PetID");
 
-                    b.HasIndex("StatusNameVaccinationStatusID");
+                    b.HasIndex("VaccinationStatusID");
 
                     b.ToTable("MedicalRecord");
-                });
-
-            modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Payment", b =>
-                {
-                    b.Property<int>("PaymentID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentID"));
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Currency")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("PaymentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PaymentMethodID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PaymentStatusID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PaymentTypeID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TransactionID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserID")
-                        .HasColumnType("int");
-
-                    b.HasKey("PaymentID");
-
-                    b.HasIndex("PaymentMethodID");
-
-                    b.HasIndex("PaymentStatusID");
-
-                    b.HasIndex("PaymentTypeID");
-
-                    b.ToTable("Payment");
                 });
 
             modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.PaymentMethod", b =>
@@ -344,10 +348,9 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentMethodID"));
 
-                    b.Property<string>("MethodName")
+                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PaymentMethodID");
 
@@ -364,8 +367,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Migrations
 
                     b.Property<string>("StatusName")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PaymentStatusID");
 
@@ -382,86 +384,11 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PaymentTypeID");
 
                     b.ToTable("PaymentType");
-                });
-
-            modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Pet", b =>
-                {
-                    b.Property<int>("PetID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PetID"));
-
-                    b.Property<DateTime>("ArrivalDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Breed")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("PetAge")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PetGroupID")
-                        .HasMaxLength(50)
-                        .HasColumnType("int");
-
-                    b.Property<string>("PetName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("PetStatusID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Species")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("PetID");
-
-                    b.HasIndex("PetGroupID");
-
-                    b.HasIndex("PetStatusID");
-
-                    b.ToTable("Pet");
-                });
-
-            modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.PetGroup", b =>
-                {
-                    b.Property<int>("PetGroupID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PetGroupID"));
-
-                    b.Property<int>("GroupID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PetGroupDescription")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("PetGroupName")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.Property<int>("PetID")
-                        .HasColumnType("int");
-
-                    b.HasKey("PetGroupID");
-
-                    b.ToTable("PetGroup");
                 });
 
             modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.PetStatus", b =>
@@ -472,68 +399,13 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PetStatusID"));
 
-                    b.Property<string>("StatusName")
+                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PetStatusID");
 
                     b.ToTable("PetStatus");
-                });
-
-            modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Shelter", b =>
-                {
-                    b.Property<int>("ShelterID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ShelterID"));
-
-                    b.Property<int>("AvailableBeds")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ContactNo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EmailAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("FranchiseID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ImageName")
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("LocationID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OccupiedBeds")
-                        .HasColumnType("int");
-
-                    b.Property<string>("OperatingHours")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.Property<string>("ShelterName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("ShelterTypeID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ShelterID");
-
-                    b.HasIndex("FranchiseID");
-
-                    b.HasIndex("LocationID");
-
-                    b.HasIndex("ShelterTypeID");
-
-                    b.ToTable("Shelter");
                 });
 
             modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.ShelterType", b =>
@@ -564,8 +436,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Migrations
 
                     b.Property<string>("TitleName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TitleID");
 
@@ -590,46 +461,10 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Migrations
                     b.ToTable("VaccinationStatus");
                 });
 
-            modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.AdminOffice", b =>
-                {
-                    b.HasOne("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.AccessLevel", "AccessLevel")
-                        .WithMany("Admins")
-                        .HasForeignKey("AccessLevelID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Title", null)
-                        .WithMany("Admins")
-                        .HasForeignKey("TitleID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AccessLevel");
-                });
-
-            modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Coordinator", b =>
-                {
-                    b.HasOne("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Franchise", "Franchise")
-                        .WithMany()
-                        .HasForeignKey("FranchiseID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.PetGroup", "PetGroup")
-                        .WithMany()
-                        .HasForeignKey("PetGroupID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Franchise");
-
-                    b.Navigation("PetGroup");
-                });
-
-            modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Franchise", b =>
+            modelBuilder.Entity("Franchise", b =>
                 {
                     b.HasOne("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Location", "Location")
-                        .WithMany()
+                        .WithMany("Franchises")
                         .HasForeignKey("LocationID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -637,41 +472,24 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Migrations
                     b.Navigation("Location");
                 });
 
-            modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.MedicalRecord", b =>
-                {
-                    b.HasOne("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Pet", "Pet")
-                        .WithMany()
-                        .HasForeignKey("PetID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.VaccinationStatus", "StatusName")
-                        .WithMany("MedicalRecords")
-                        .HasForeignKey("StatusNameVaccinationStatusID");
-
-                    b.Navigation("Pet");
-
-                    b.Navigation("StatusName");
-                });
-
-            modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Payment", b =>
+            modelBuilder.Entity("Payment", b =>
                 {
                     b.HasOne("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.PaymentMethod", "PaymentMethod")
                         .WithMany("Payments")
                         .HasForeignKey("PaymentMethodID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.PaymentStatus", "PaymentStatus")
                         .WithMany("Payments")
                         .HasForeignKey("PaymentStatusID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.PaymentType", "PaymentType")
                         .WithMany("Payments")
                         .HasForeignKey("PaymentTypeID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("PaymentMethod");
@@ -681,37 +499,37 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Migrations
                     b.Navigation("PaymentType");
                 });
 
-            modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Pet", b =>
+            modelBuilder.Entity("Pet", b =>
                 {
-                    b.HasOne("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.PetGroup", "PetGroupName")
+                    b.HasOne("PetGroup", "PetGroup")
                         .WithMany("Pets")
                         .HasForeignKey("PetGroupID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.PetStatus", "PetStatus")
                         .WithMany("Pets")
                         .HasForeignKey("PetStatusID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("PetGroupName");
+                    b.Navigation("PetGroup");
 
                     b.Navigation("PetStatus");
                 });
 
-            modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Shelter", b =>
+            modelBuilder.Entity("Shelter", b =>
                 {
-                    b.HasOne("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Franchise", "Franchise")
-                        .WithMany()
+                    b.HasOne("Franchise", "Franchise")
+                        .WithMany("Shelters")
                         .HasForeignKey("FranchiseID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Location", "Location")
-                        .WithMany()
+                        .WithMany("Shelters")
                         .HasForeignKey("LocationID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.ShelterType", "ShelterType")
@@ -727,9 +545,79 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Migrations
                     b.Navigation("ShelterType");
                 });
 
-            modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.AccessLevel", b =>
+            modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.AdminOffice", b =>
                 {
-                    b.Navigation("Admins");
+                    b.HasOne("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.AccessLevel", "AccessLevel")
+                        .WithMany()
+                        .HasForeignKey("AccessLevelID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AccessLevel");
+                });
+
+            modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Coordinator", b =>
+                {
+                    b.HasOne("Franchise", "Franchise")
+                        .WithMany("Coordinators")
+                        .HasForeignKey("FranchiseID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("PetGroup", "PetGroup")
+                        .WithMany("Coordinators")
+                        .HasForeignKey("PetGroupID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Franchise");
+
+                    b.Navigation("PetGroup");
+                });
+
+            modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.MedicalRecord", b =>
+                {
+                    b.HasOne("Pet", "Pet")
+                        .WithMany("MedicalRecords")
+                        .HasForeignKey("PetID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.VaccinationStatus", "VaccinationStatus")
+                        .WithMany("MedicalRecords")
+                        .HasForeignKey("VaccinationStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Pet");
+
+                    b.Navigation("VaccinationStatus");
+                });
+
+            modelBuilder.Entity("Franchise", b =>
+                {
+                    b.Navigation("Coordinators");
+
+                    b.Navigation("Shelters");
+                });
+
+            modelBuilder.Entity("Pet", b =>
+                {
+                    b.Navigation("MedicalRecords");
+                });
+
+            modelBuilder.Entity("PetGroup", b =>
+                {
+                    b.Navigation("Coordinators");
+
+                    b.Navigation("Pets");
+                });
+
+            modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Location", b =>
+                {
+                    b.Navigation("Franchises");
+
+                    b.Navigation("Shelters");
                 });
 
             modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.PaymentMethod", b =>
@@ -747,11 +635,6 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Migrations
                     b.Navigation("Payments");
                 });
 
-            modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.PetGroup", b =>
-                {
-                    b.Navigation("Pets");
-                });
-
             modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.PetStatus", b =>
                 {
                     b.Navigation("Pets");
@@ -760,11 +643,6 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Migrations
             modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.ShelterType", b =>
                 {
                     b.Navigation("Shelters");
-                });
-
-            modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Title", b =>
-                {
-                    b.Navigation("Admins");
                 });
 
             modelBuilder.Entity("_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.VaccinationStatus", b =>
