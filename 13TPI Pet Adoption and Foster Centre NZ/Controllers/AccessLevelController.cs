@@ -6,26 +6,28 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
+using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
-    public class FranchisesController : Controller
+    [Authorize]
+    public class AccessLevelController : Controller
     {
         private readonly Context _context;
 
-        public FranchisesController(Context context)
+        public AccessLevelController(Context context)
         {
             _context = context;
         }
 
-        // GET: Franchises
+        // GET: AccessLevels
         public async Task<IActionResult> Index()
         {
-            var context = _context.Franchise.Include(f => f.Location);
-            return View(await context.ToListAsync());
+            return View(await _context.AccessLevel.ToListAsync());
         }
 
-        // GET: Franchises/Details/5
+        // GET: AccessLevels/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,42 +35,39 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var franchise = await _context.Franchise
-                .Include(f => f.Location)
-                .FirstOrDefaultAsync(m => m.FranchiseID == id);
-            if (franchise == null)
+            var accessLevel = await _context.AccessLevel
+                .FirstOrDefaultAsync(m => m.AccessLevelID == id);
+            if (accessLevel == null)
             {
                 return NotFound();
             }
 
-            return View(franchise);
+            return View(accessLevel);
         }
 
-        // GET: Franchises/Create
+        // GET: AccessLevels/Create
         public IActionResult Create()
         {
-            ViewData["LocationID"] = new SelectList(_context.Location, "LocationID", "Address");
             return View();
         }
 
-        // POST: Franchises/Create
+        // POST: AccessLevels/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FranchiseID,FranchiseName,LocationID")] Franchise franchise)
+        public async Task<IActionResult> Create([Bind("AccessLevelID,LevelName")] AccessLevel accessLevel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(franchise);
+                _context.Add(accessLevel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["LocationID"] = new SelectList(_context.Location, "LocationID", "Address", franchise.LocationID);
-            return View(franchise);
+            return View(accessLevel);
         }
 
-        // GET: Franchises/Edit/5
+        // GET: AccessLevels/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -76,23 +75,22 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var franchise = await _context.Franchise.FindAsync(id);
-            if (franchise == null)
+            var accessLevel = await _context.AccessLevel.FindAsync(id);
+            if (accessLevel == null)
             {
                 return NotFound();
             }
-            ViewData["LocationID"] = new SelectList(_context.Location, "LocationID", "Address", franchise.LocationID);
-            return View(franchise);
+            return View(accessLevel);
         }
 
-        // POST: Franchises/Edit/5
+        // POST: AccessLevels/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FranchiseID,FranchiseName,LocationID")] Franchise franchise)
+        public async Task<IActionResult> Edit(int id, [Bind("AccessLevelID,LevelName")] AccessLevel accessLevel)
         {
-            if (id != franchise.FranchiseID)
+            if (id != accessLevel.AccessLevelID)
             {
                 return NotFound();
             }
@@ -101,12 +99,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             {
                 try
                 {
-                    _context.Update(franchise);
+                    _context.Update(accessLevel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FranchiseExists(franchise.FranchiseID))
+                    if (!AccessLevelExists(accessLevel.AccessLevelID))
                     {
                         return NotFound();
                     }
@@ -117,11 +115,10 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["LocationID"] = new SelectList(_context.Location, "LocationID", "Address", franchise.LocationID);
-            return View(franchise);
+            return View(accessLevel);
         }
 
-        // GET: Franchises/Delete/5
+        // GET: AccessLevels/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -129,35 +126,34 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var franchise = await _context.Franchise
-                .Include(f => f.Location)
-                .FirstOrDefaultAsync(m => m.FranchiseID == id);
-            if (franchise == null)
+            var accessLevel = await _context.AccessLevel
+                .FirstOrDefaultAsync(m => m.AccessLevelID == id);
+            if (accessLevel == null)
             {
                 return NotFound();
             }
 
-            return View(franchise);
+            return View(accessLevel);
         }
 
-        // POST: Franchises/Delete/5
+        // POST: AccessLevels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var franchise = await _context.Franchise.FindAsync(id);
-            if (franchise != null)
+            var accessLevel = await _context.AccessLevel.FindAsync(id);
+            if (accessLevel != null)
             {
-                _context.Franchise.Remove(franchise);
+                _context.AccessLevel.Remove(accessLevel);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool FranchiseExists(int id)
+        private bool AccessLevelExists(int id)
         {
-            return _context.Franchise.Any(e => e.FranchiseID == id);
+            return _context.AccessLevel.Any(e => e.AccessLevelID == id);
         }
     }
 }

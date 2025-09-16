@@ -6,26 +6,28 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
-using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
-    public class AccessLevelsController : Controller
+    [Authorize]
+    public class PetController : Controller
     {
         private readonly Context _context;
 
-        public AccessLevelsController(Context context)
+        public PetController(Context context)
         {
             _context = context;
         }
 
-        // GET: AccessLevels
+        // GET: Pets
         public async Task<IActionResult> Index()
         {
-            return View(await _context.AccessLevel.ToListAsync());
+            var context = _context.Pet.Include(p => p.PetGroup).Include(p => p.PetStatus);
+            return View(await context.ToListAsync());
         }
 
-        // GET: AccessLevels/Details/5
+        // GET: Pets/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +35,45 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var accessLevel = await _context.AccessLevel
-                .FirstOrDefaultAsync(m => m.AccessLevelID == id);
-            if (accessLevel == null)
+            var pet = await _context.Pet
+                .Include(p => p.PetGroup)
+                .Include(p => p.PetStatus)
+                .FirstOrDefaultAsync(m => m.PetID == id);
+            if (pet == null)
             {
                 return NotFound();
             }
 
-            return View(accessLevel);
+            return View(pet);
         }
 
-        // GET: AccessLevels/Create
+        // GET: Pets/Create
         public IActionResult Create()
         {
+            ViewData["PetGroupID"] = new SelectList(_context.PetGroup, "PetGroupID", "PetGroupID");
+            ViewData["PetStatusID"] = new SelectList(_context.PetStatus, "PetStatusID", "Name");
             return View();
         }
 
-        // POST: AccessLevels/Create
+        // POST: Pets/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AccessLevelID,LevelName")] AccessLevel accessLevel)
+        public async Task<IActionResult> Create([Bind("PetID,Name,DateOfBirth,PetGroupID,PetStatusID")] Pet pet)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(accessLevel);
+                _context.Add(pet);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(accessLevel);
+            ViewData["PetGroupID"] = new SelectList(_context.PetGroup, "PetGroupID", "PetGroupID", pet.PetGroupID);
+            ViewData["PetStatusID"] = new SelectList(_context.PetStatus, "PetStatusID", "Name", pet.PetStatusID);
+            return View(pet);
         }
 
-        // GET: AccessLevels/Edit/5
+        // GET: Pets/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +81,24 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var accessLevel = await _context.AccessLevel.FindAsync(id);
-            if (accessLevel == null)
+            var pet = await _context.Pet.FindAsync(id);
+            if (pet == null)
             {
                 return NotFound();
             }
-            return View(accessLevel);
+            ViewData["PetGroupID"] = new SelectList(_context.PetGroup, "PetGroupID", "PetGroupID", pet.PetGroupID);
+            ViewData["PetStatusID"] = new SelectList(_context.PetStatus, "PetStatusID", "Name", pet.PetStatusID);
+            return View(pet);
         }
 
-        // POST: AccessLevels/Edit/5
+        // POST: Pets/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AccessLevelID,LevelName")] AccessLevel accessLevel)
+        public async Task<IActionResult> Edit(int id, [Bind("PetID,Name,DateOfBirth,PetGroupID,PetStatusID")] Pet pet)
         {
-            if (id != accessLevel.AccessLevelID)
+            if (id != pet.PetID)
             {
                 return NotFound();
             }
@@ -97,12 +107,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             {
                 try
                 {
-                    _context.Update(accessLevel);
+                    _context.Update(pet);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AccessLevelExists(accessLevel.AccessLevelID))
+                    if (!PetExists(pet.PetID))
                     {
                         return NotFound();
                     }
@@ -113,10 +123,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(accessLevel);
+            ViewData["PetGroupID"] = new SelectList(_context.PetGroup, "PetGroupID", "PetGroupID", pet.PetGroupID);
+            ViewData["PetStatusID"] = new SelectList(_context.PetStatus, "PetStatusID", "Name", pet.PetStatusID);
+            return View(pet);
         }
 
-        // GET: AccessLevels/Delete/5
+        // GET: Pets/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,34 +136,36 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var accessLevel = await _context.AccessLevel
-                .FirstOrDefaultAsync(m => m.AccessLevelID == id);
-            if (accessLevel == null)
+            var pet = await _context.Pet
+                .Include(p => p.PetGroup)
+                .Include(p => p.PetStatus)
+                .FirstOrDefaultAsync(m => m.PetID == id);
+            if (pet == null)
             {
                 return NotFound();
             }
 
-            return View(accessLevel);
+            return View(pet);
         }
 
-        // POST: AccessLevels/Delete/5
+        // POST: Pets/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var accessLevel = await _context.AccessLevel.FindAsync(id);
-            if (accessLevel != null)
+            var pet = await _context.Pet.FindAsync(id);
+            if (pet != null)
             {
-                _context.AccessLevel.Remove(accessLevel);
+                _context.Pet.Remove(pet);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AccessLevelExists(int id)
+        private bool PetExists(int id)
         {
-            return _context.AccessLevel.Any(e => e.AccessLevelID == id);
+            return _context.Pet.Any(e => e.PetID == id);
         }
     }
 }

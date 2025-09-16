@@ -6,26 +6,27 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
-using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
-    public class PaymentMethodsController : Controller
+    [Authorize]
+    public class PetGroupController : Controller
     {
         private readonly Context _context;
 
-        public PaymentMethodsController(Context context)
+        public PetGroupController(Context context)
         {
             _context = context;
         }
 
-        // GET: PaymentMethods
+        // GET: PetGroups
         public async Task<IActionResult> Index()
         {
-            return View(await _context.PaymentMethod.ToListAsync());
+            return View(await _context.PetGroup.ToListAsync());
         }
 
-        // GET: PaymentMethods/Details/5
+        // GET: PetGroups/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +34,39 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var paymentMethod = await _context.PaymentMethod
-                .FirstOrDefaultAsync(m => m.PaymentMethodID == id);
-            if (paymentMethod == null)
+            var petGroup = await _context.PetGroup
+                .FirstOrDefaultAsync(m => m.PetGroupID == id);
+            if (petGroup == null)
             {
                 return NotFound();
             }
 
-            return View(paymentMethod);
+            return View(petGroup);
         }
 
-        // GET: PaymentMethods/Create
+        // GET: PetGroups/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: PaymentMethods/Create
+        // POST: PetGroups/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PaymentMethodID,Name")] PaymentMethod paymentMethod)
+        public async Task<IActionResult> Create([Bind("PetGroupID,PetGroupName")] PetGroup petGroup)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(paymentMethod);
+                _context.Add(petGroup);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(paymentMethod);
+            return View(petGroup);
         }
 
-        // GET: PaymentMethods/Edit/5
+        // GET: PetGroups/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +74,22 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var paymentMethod = await _context.PaymentMethod.FindAsync(id);
-            if (paymentMethod == null)
+            var petGroup = await _context.PetGroup.FindAsync(id);
+            if (petGroup == null)
             {
                 return NotFound();
             }
-            return View(paymentMethod);
+            return View(petGroup);
         }
 
-        // POST: PaymentMethods/Edit/5
+        // POST: PetGroups/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PaymentMethodID,Name")] PaymentMethod paymentMethod)
+        public async Task<IActionResult> Edit(int id, [Bind("PetGroupID,PetGroupName")] PetGroup petGroup)
         {
-            if (id != paymentMethod.PaymentMethodID)
+            if (id != petGroup.PetGroupID)
             {
                 return NotFound();
             }
@@ -97,12 +98,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             {
                 try
                 {
-                    _context.Update(paymentMethod);
+                    _context.Update(petGroup);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PaymentMethodExists(paymentMethod.PaymentMethodID))
+                    if (!PetGroupExists(petGroup.PetGroupID))
                     {
                         return NotFound();
                     }
@@ -113,10 +114,10 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(paymentMethod);
+            return View(petGroup);
         }
 
-        // GET: PaymentMethods/Delete/5
+        // GET: PetGroups/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,34 +125,34 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var paymentMethod = await _context.PaymentMethod
-                .FirstOrDefaultAsync(m => m.PaymentMethodID == id);
-            if (paymentMethod == null)
+            var petGroup = await _context.PetGroup
+                .FirstOrDefaultAsync(m => m.PetGroupID == id);
+            if (petGroup == null)
             {
                 return NotFound();
             }
 
-            return View(paymentMethod);
+            return View(petGroup);
         }
 
-        // POST: PaymentMethods/Delete/5
+        // POST: PetGroups/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var paymentMethod = await _context.PaymentMethod.FindAsync(id);
-            if (paymentMethod != null)
+            var petGroup = await _context.PetGroup.FindAsync(id);
+            if (petGroup != null)
             {
-                _context.PaymentMethod.Remove(paymentMethod);
+                _context.PetGroup.Remove(petGroup);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PaymentMethodExists(int id)
+        private bool PetGroupExists(int id)
         {
-            return _context.PaymentMethod.Any(e => e.PaymentMethodID == id);
+            return _context.PetGroup.Any(e => e.PetGroupID == id);
         }
     }
 }

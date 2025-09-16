@@ -7,25 +7,28 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
-    public class TitlesController : Controller
+    [Authorize]
+    public class AdminOfficeController : Controller
     {
         private readonly Context _context;
 
-        public TitlesController(Context context)
+        public AdminOfficeController(Context context)
         {
             _context = context;
         }
 
-        // GET: Titles
+        // GET: AdminOffices
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Title.ToListAsync());
+            var context = _context.AdminOffice.Include(a => a.AccessLevel);
+            return View(await context.ToListAsync());
         }
 
-        // GET: Titles/Details/5
+        // GET: AdminOffices/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +36,42 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var title = await _context.Title
-                .FirstOrDefaultAsync(m => m.TitleID == id);
-            if (title == null)
+            var adminOffice = await _context.AdminOffice
+                .Include(a => a.AccessLevel)
+                .FirstOrDefaultAsync(m => m.AdminID == id);
+            if (adminOffice == null)
             {
                 return NotFound();
             }
 
-            return View(title);
+            return View(adminOffice);
         }
 
-        // GET: Titles/Create
+        // GET: AdminOffices/Create
         public IActionResult Create()
         {
+            ViewData["AccessLevelID"] = new SelectList(_context.AccessLevel, "AccessLevelID", "LevelName");
             return View();
         }
 
-        // POST: Titles/Create
+        // POST: AdminOffices/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TitleID,TitleName")] Title title)
+        public async Task<IActionResult> Create([Bind("AdminID,UserID,FirstName,LastName,EmailAddress,ContactNo,DateHired,AccessLevelID,LevelName,TitleName,TitleID,ImageName")] AdminOffice adminOffice)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(title);
+                _context.Add(adminOffice);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(title);
+            ViewData["AccessLevelID"] = new SelectList(_context.AccessLevel, "AccessLevelID", "LevelName", adminOffice.AccessLevelID);
+            return View(adminOffice);
         }
 
-        // GET: Titles/Edit/5
+        // GET: AdminOffices/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +79,23 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var title = await _context.Title.FindAsync(id);
-            if (title == null)
+            var adminOffice = await _context.AdminOffice.FindAsync(id);
+            if (adminOffice == null)
             {
                 return NotFound();
             }
-            return View(title);
+            ViewData["AccessLevelID"] = new SelectList(_context.AccessLevel, "AccessLevelID", "LevelName", adminOffice.AccessLevelID);
+            return View(adminOffice);
         }
 
-        // POST: Titles/Edit/5
+        // POST: AdminOffices/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TitleID,TitleName")] Title title)
+        public async Task<IActionResult> Edit(int id, [Bind("AdminID,UserID,FirstName,LastName,EmailAddress,ContactNo,DateHired,AccessLevelID,LevelName,TitleName,TitleID,ImageName")] AdminOffice adminOffice)
         {
-            if (id != title.TitleID)
+            if (id != adminOffice.AdminID)
             {
                 return NotFound();
             }
@@ -97,12 +104,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             {
                 try
                 {
-                    _context.Update(title);
+                    _context.Update(adminOffice);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TitleExists(title.TitleID))
+                    if (!AdminOfficeExists(adminOffice.AdminID))
                     {
                         return NotFound();
                     }
@@ -113,10 +120,11 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(title);
+            ViewData["AccessLevelID"] = new SelectList(_context.AccessLevel, "AccessLevelID", "LevelName", adminOffice.AccessLevelID);
+            return View(adminOffice);
         }
 
-        // GET: Titles/Delete/5
+        // GET: AdminOffices/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,34 +132,35 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var title = await _context.Title
-                .FirstOrDefaultAsync(m => m.TitleID == id);
-            if (title == null)
+            var adminOffice = await _context.AdminOffice
+                .Include(a => a.AccessLevel)
+                .FirstOrDefaultAsync(m => m.AdminID == id);
+            if (adminOffice == null)
             {
                 return NotFound();
             }
 
-            return View(title);
+            return View(adminOffice);
         }
 
-        // POST: Titles/Delete/5
+        // POST: AdminOffices/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var title = await _context.Title.FindAsync(id);
-            if (title != null)
+            var adminOffice = await _context.AdminOffice.FindAsync(id);
+            if (adminOffice != null)
             {
-                _context.Title.Remove(title);
+                _context.AdminOffice.Remove(adminOffice);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TitleExists(int id)
+        private bool AdminOfficeExists(int id)
         {
-            return _context.Title.Any(e => e.TitleID == id);
+            return _context.AdminOffice.Any(e => e.AdminID == id);
         }
     }
 }

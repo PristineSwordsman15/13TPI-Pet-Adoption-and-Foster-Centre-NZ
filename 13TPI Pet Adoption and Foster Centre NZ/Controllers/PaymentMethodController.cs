@@ -7,26 +7,27 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
-    public class AdminOfficesController : Controller
+    [Authorize]
+    public class PaymentMethodController : Controller
     {
         private readonly Context _context;
 
-        public AdminOfficesController(Context context)
+        public PaymentMethodController(Context context)
         {
             _context = context;
         }
 
-        // GET: AdminOffices
+        // GET: PaymentMethods
         public async Task<IActionResult> Index()
         {
-            var context = _context.AdminOffice.Include(a => a.AccessLevel);
-            return View(await context.ToListAsync());
+            return View(await _context.PaymentMethod.ToListAsync());
         }
 
-        // GET: AdminOffices/Details/5
+        // GET: PaymentMethods/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,42 +35,39 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var adminOffice = await _context.AdminOffice
-                .Include(a => a.AccessLevel)
-                .FirstOrDefaultAsync(m => m.AdminID == id);
-            if (adminOffice == null)
+            var paymentMethod = await _context.PaymentMethod
+                .FirstOrDefaultAsync(m => m.PaymentMethodID == id);
+            if (paymentMethod == null)
             {
                 return NotFound();
             }
 
-            return View(adminOffice);
+            return View(paymentMethod);
         }
 
-        // GET: AdminOffices/Create
+        // GET: PaymentMethods/Create
         public IActionResult Create()
         {
-            ViewData["AccessLevelID"] = new SelectList(_context.AccessLevel, "AccessLevelID", "LevelName");
             return View();
         }
 
-        // POST: AdminOffices/Create
+        // POST: PaymentMethods/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AdminID,UserID,FirstName,LastName,EmailAddress,ContactNo,DateHired,AccessLevelID,LevelName,TitleName,TitleID,ImageName")] AdminOffice adminOffice)
+        public async Task<IActionResult> Create([Bind("PaymentMethodID,Name")] PaymentMethod paymentMethod)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(adminOffice);
+                _context.Add(paymentMethod);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AccessLevelID"] = new SelectList(_context.AccessLevel, "AccessLevelID", "LevelName", adminOffice.AccessLevelID);
-            return View(adminOffice);
+            return View(paymentMethod);
         }
 
-        // GET: AdminOffices/Edit/5
+        // GET: PaymentMethods/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,23 +75,22 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var adminOffice = await _context.AdminOffice.FindAsync(id);
-            if (adminOffice == null)
+            var paymentMethod = await _context.PaymentMethod.FindAsync(id);
+            if (paymentMethod == null)
             {
                 return NotFound();
             }
-            ViewData["AccessLevelID"] = new SelectList(_context.AccessLevel, "AccessLevelID", "LevelName", adminOffice.AccessLevelID);
-            return View(adminOffice);
+            return View(paymentMethod);
         }
 
-        // POST: AdminOffices/Edit/5
+        // POST: PaymentMethods/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AdminID,UserID,FirstName,LastName,EmailAddress,ContactNo,DateHired,AccessLevelID,LevelName,TitleName,TitleID,ImageName")] AdminOffice adminOffice)
+        public async Task<IActionResult> Edit(int id, [Bind("PaymentMethodID,Name")] PaymentMethod paymentMethod)
         {
-            if (id != adminOffice.AdminID)
+            if (id != paymentMethod.PaymentMethodID)
             {
                 return NotFound();
             }
@@ -102,12 +99,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             {
                 try
                 {
-                    _context.Update(adminOffice);
+                    _context.Update(paymentMethod);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AdminOfficeExists(adminOffice.AdminID))
+                    if (!PaymentMethodExists(paymentMethod.PaymentMethodID))
                     {
                         return NotFound();
                     }
@@ -118,11 +115,10 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AccessLevelID"] = new SelectList(_context.AccessLevel, "AccessLevelID", "LevelName", adminOffice.AccessLevelID);
-            return View(adminOffice);
+            return View(paymentMethod);
         }
 
-        // GET: AdminOffices/Delete/5
+        // GET: PaymentMethods/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -130,35 +126,34 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var adminOffice = await _context.AdminOffice
-                .Include(a => a.AccessLevel)
-                .FirstOrDefaultAsync(m => m.AdminID == id);
-            if (adminOffice == null)
+            var paymentMethod = await _context.PaymentMethod
+                .FirstOrDefaultAsync(m => m.PaymentMethodID == id);
+            if (paymentMethod == null)
             {
                 return NotFound();
             }
 
-            return View(adminOffice);
+            return View(paymentMethod);
         }
 
-        // POST: AdminOffices/Delete/5
+        // POST: PaymentMethods/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var adminOffice = await _context.AdminOffice.FindAsync(id);
-            if (adminOffice != null)
+            var paymentMethod = await _context.PaymentMethod.FindAsync(id);
+            if (paymentMethod != null)
             {
-                _context.AdminOffice.Remove(adminOffice);
+                _context.PaymentMethod.Remove(paymentMethod);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AdminOfficeExists(int id)
+        private bool PaymentMethodExists(int id)
         {
-            return _context.AdminOffice.Any(e => e.AdminID == id);
+            return _context.PaymentMethod.Any(e => e.PaymentMethodID == id);
         }
     }
 }

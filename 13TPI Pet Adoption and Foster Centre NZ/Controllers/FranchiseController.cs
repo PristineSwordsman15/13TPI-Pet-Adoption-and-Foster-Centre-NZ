@@ -6,26 +6,28 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
-using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
-    public class PaymentTypesController : Controller
+    [Authorize]
+    public class FranchiseController : Controller
     {
         private readonly Context _context;
 
-        public PaymentTypesController(Context context)
+        public FranchiseController(Context context)
         {
             _context = context;
         }
 
-        // GET: PaymentTypes
+        // GET: Franchises
         public async Task<IActionResult> Index()
         {
-            return View(await _context.PaymentType.ToListAsync());
+            var context = _context.Franchise.Include(f => f.Location);
+            return View(await context.ToListAsync());
         }
 
-        // GET: PaymentTypes/Details/5
+        // GET: Franchises/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +35,42 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var paymentType = await _context.PaymentType
-                .FirstOrDefaultAsync(m => m.PaymentTypeID == id);
-            if (paymentType == null)
+            var franchise = await _context.Franchise
+                .Include(f => f.Location)
+                .FirstOrDefaultAsync(m => m.FranchiseID == id);
+            if (franchise == null)
             {
                 return NotFound();
             }
 
-            return View(paymentType);
+            return View(franchise);
         }
 
-        // GET: PaymentTypes/Create
+        // GET: Franchises/Create
         public IActionResult Create()
         {
+            ViewData["LocationID"] = new SelectList(_context.Location, "LocationID", "Address");
             return View();
         }
 
-        // POST: PaymentTypes/Create
+        // POST: Franchises/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PaymentTypeID,Name")] PaymentType paymentType)
+        public async Task<IActionResult> Create([Bind("FranchiseID,FranchiseName,LocationID")] Franchise franchise)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(paymentType);
+                _context.Add(franchise);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(paymentType);
+            ViewData["LocationID"] = new SelectList(_context.Location, "LocationID", "Address", franchise.LocationID);
+            return View(franchise);
         }
 
-        // GET: PaymentTypes/Edit/5
+        // GET: Franchises/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +78,23 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var paymentType = await _context.PaymentType.FindAsync(id);
-            if (paymentType == null)
+            var franchise = await _context.Franchise.FindAsync(id);
+            if (franchise == null)
             {
                 return NotFound();
             }
-            return View(paymentType);
+            ViewData["LocationID"] = new SelectList(_context.Location, "LocationID", "Address", franchise.LocationID);
+            return View(franchise);
         }
 
-        // POST: PaymentTypes/Edit/5
+        // POST: Franchises/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PaymentTypeID,Name")] PaymentType paymentType)
+        public async Task<IActionResult> Edit(int id, [Bind("FranchiseID,FranchiseName,LocationID")] Franchise franchise)
         {
-            if (id != paymentType.PaymentTypeID)
+            if (id != franchise.FranchiseID)
             {
                 return NotFound();
             }
@@ -97,12 +103,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             {
                 try
                 {
-                    _context.Update(paymentType);
+                    _context.Update(franchise);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PaymentTypeExists(paymentType.PaymentTypeID))
+                    if (!FranchiseExists(franchise.FranchiseID))
                     {
                         return NotFound();
                     }
@@ -113,10 +119,11 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(paymentType);
+            ViewData["LocationID"] = new SelectList(_context.Location, "LocationID", "Address", franchise.LocationID);
+            return View(franchise);
         }
 
-        // GET: PaymentTypes/Delete/5
+        // GET: Franchises/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,34 +131,35 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 return NotFound();
             }
 
-            var paymentType = await _context.PaymentType
-                .FirstOrDefaultAsync(m => m.PaymentTypeID == id);
-            if (paymentType == null)
+            var franchise = await _context.Franchise
+                .Include(f => f.Location)
+                .FirstOrDefaultAsync(m => m.FranchiseID == id);
+            if (franchise == null)
             {
                 return NotFound();
             }
 
-            return View(paymentType);
+            return View(franchise);
         }
 
-        // POST: PaymentTypes/Delete/5
+        // POST: Franchises/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var paymentType = await _context.PaymentType.FindAsync(id);
-            if (paymentType != null)
+            var franchise = await _context.Franchise.FindAsync(id);
+            if (franchise != null)
             {
-                _context.PaymentType.Remove(paymentType);
+                _context.Franchise.Remove(franchise);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PaymentTypeExists(int id)
+        private bool FranchiseExists(int id)
         {
-            return _context.PaymentType.Any(e => e.PaymentTypeID == id);
+            return _context.Franchise.Any(e => e.FranchiseID == id);
         }
     }
 }
