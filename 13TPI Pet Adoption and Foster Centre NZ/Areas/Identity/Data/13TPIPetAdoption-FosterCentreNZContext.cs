@@ -1,13 +1,17 @@
 ﻿// Data/ApplicationDbContext.cs
+using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Areas.Identity.Data;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
 {
-    public class Context : DbContext
+    public class Context : IdentityDbContext<ApplicationUser>
     {
-        public Context (DbContextOptions options) : base(options) { }
+        public Context(DbContextOptions <Context> options) : base(options) 
+        { 
+        }
 
         // DbSets
         public DbSet<AccessLevel> AccessLevel => Set<AccessLevel>();
@@ -31,6 +35,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
         public DbSet<PaymentMethod> PaymentMethod => Set<PaymentMethod>();
         public DbSet<PaymentStatus> PaymentStatus => Set<PaymentStatus>();
         public DbSet<Payment> Payment => Set<Payment>();
+       
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
