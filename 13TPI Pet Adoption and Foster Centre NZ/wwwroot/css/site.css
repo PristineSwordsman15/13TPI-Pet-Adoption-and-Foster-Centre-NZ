@@ -1,75 +1,132 @@
-:root {
-    --white: #ffffff;
-    --light-blue: #E6F7FF;
-    --accent-blue: #66B2FF;
-    --coral: #FF6F61;
-    --muted: #6c757d;
-}
-
-/* navbar */
+/* ================================
+   NAVBAR
+=================================== */
 .navbar {
-    background: linear-gradient(90deg, var(--light-blue), #f5fbff);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    background-color: #4DA6FF !important; /* Light Blue */
 }
 
-/* coral button */
-.btn-coral {
-    background: var(--coral);
-    color: white;
-    border: none;
-    padding: .5rem 1rem;
-    border-radius: .35rem;
-}
-
-    .btn-coral:hover {
-        opacity: 0.92;
+    .navbar .nav-link,
+    .navbar .navbar-brand {
+        color: #FFFFFF !important;
     }
 
-/* card title accent */
-.text-coral {
-    color: var(--coral);
-}
+        .navbar .nav-link:hover {
+            color: #FF6F61 !important; /* Coral Orange */
+        }
 
-/* input focus */
-.form-control:focus {
-    box-shadow: 0 0 0 .2rem rgba(102,178,255,0.25);
-    border-color: var(--accent-blue);
-}
-
-/* cards */
-.card {
-    border-radius: .5rem;
-}
-html {
-  font-size: 20px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 20px;
-  }
-}
-
-/* Main buttons (coral) */
-.btn-primary, .btn-info {
-    background-color: #FF6F61 !important;
+/* ================================
+   BUTTONS
+=================================== */
+.btn-primary {
+    background-color: #FF6F61 !important; /* Coral Orange */
     border-color: #FF6F61 !important;
     color: #fff !important;
-    font-weight: 600;
 }
 
-    .btn-primary:hover, .btn-info:hover {
-        background-color: #e85b50 !important;
-        border-color: #e85b50 !important;
+    .btn-primary:hover {
+        background-color: #e65b50 !important;
+        border-color: #e65b50 !important;
     }
 
-/* Navbar hover links */
-.navbar-nav .nav-link:hover {
-    color: #FF6F61 !important;
+.btn-secondary {
+    background-color: #4DA6FF !important; /* Light Blue */
+    border-color: #4DA6FF !important;
+    color: #fff !important;
 }
 
-/* Footer background (optional) */
+    .btn-secondary:hover {
+        background-color: #3b94e0 !important;
+        border-color: #3b94e0 !important;
+    }
 
+/* ================================
+   CARDS
+=================================== */
+.card {
+    border: none !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
 
+.card-header {
+    background-color: #FF6F61 !important;
+    color: #FFFFFF !important;
+}
 
+/* ================================
+   ALERTS
+=================================== */
+.alert-primary {
+    background-color: #FF6F61 !important;
+    color: #fff !important;
+    border: none !important;
+}
 
+.alert-secondary {
+    background-color: #4DA6FF !important;
+    color: #fff !important;
+    border: none !important;
+}
+
+.alert-success {
+    background-color: #4CAF50 !important; /* Optional extra brand green */
+    color: #fff !important;
+    border: none !important;
+}
+
+/* ================================
+   BADGES
+=================================== */
+.badge-primary {
+    background-color: #FF6F61 !important;
+}
+
+.badge-secondary {
+    background-color: #4DA6FF !important;
+}
+
+.badge-light {
+    background-color: #FFFFFF !important;
+    color: #2C3E50 !important;
+}
+
+/* ================================
+   FORMS
+=================================== */
+input.form-control,
+textarea.form-control,
+select.form-select {
+    border: 2px solid #4DA6FF !important; /* Light Blue border */
+    border-radius: 8px !important;
+    box-shadow: none !important;
+}
+
+    input.form-control:focus,
+    textarea.form-control:focus,
+    select.form-select:focus {
+        border-color: #FF6F61 !important; /* Coral focus highlight */
+        box-shadow: 0 0 6px rgba(255, 111, 97, 0.5) !important;
+    }
+
+/* Labels */
+.form-label {
+    color: #2C3E50 !important;
+    font-weight: 600 !important;
+}
+
+/* ================================
+   FOOTER
+=================================== */
+footer {
+    background-color: #2C3E50 !important;
+    color: #FFFFFF !important;
+    padding: 2rem 0 !important;
+}
+
+    footer a {
+        color: #4DA6FF !important;
+    }
+
+        footer a:hover {
+            color: #FF6F61 !important;
+        }
