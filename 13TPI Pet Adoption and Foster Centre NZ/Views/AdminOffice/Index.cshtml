@@ -1,4 +1,6 @@
-﻿@model IEnumerable<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.AdminOffice>
+﻿
+
+@model IEnumerable<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.AdminOffice>
 
 @{
     ViewData["Title"] = "Admin Office - Index";
@@ -25,7 +27,9 @@
             <th>@Html.DisplayNameFor(model => model.AccessLevel)</th>
             <th>@Html.DisplayNameFor(model => model.TitleName)</th>
             <th>@Html.DisplayNameFor(model => model.ImageName)</th>
-            <th>Actions</th>
+            <th>Actions
+                <
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -33,15 +37,16 @@
         {
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.UserID)</td>
+                <td>@Html.DisplayFor(modelItem=> item.AdminID)</td>
                 <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
                 <td>@Html.DisplayFor(modelItem => item.LastName)</td>
                 <td>@Html.DisplayFor(modelItem => item.EmailAddress)</td>
                 <td>@Html.DisplayFor(modelItem => item.ContactNo)</td>
                 <td>@item.DateHired.ToString("dd/MM/yyyy")</td>
-                <td>@Html.DisplayFor(modelItem => item.AccessLevel.LevelName)</td>
+                <td>@Html.DisplayFor(modelItem => item.LevelName)</td>
                 <td>@Html.DisplayFor(modelItem => item.TitleName)</td>
                 <td>@Html.DisplayFor(modelItem => item.ImageName)</td>
-                <td>
+                <td>Actions
                     <a asp-action="Edit" asp-route-id="@item.AdminID" class="btn btn-sm btn-outline-primary me-1">
                         <i class="bi bi-pencil-square"></i>
                     </a>
@@ -56,3 +61,4 @@
         }
     </tbody>
 </table>
+}

@@ -17,6 +17,13 @@
             @Html.DisplayFor(model => model.UserID)
         </dd>
         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AdminID)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AdminID)
+        </dd>
+
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.FirstName)
         </dt>
         <dd class = "col-sm-10">
@@ -45,12 +52,6 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.DateHired)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AccessLevel)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AccessLevel.LevelName)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.LevelName)
