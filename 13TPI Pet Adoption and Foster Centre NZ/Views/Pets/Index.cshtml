@@ -43,9 +43,15 @@
                 @Html.DisplayFor(modelItem => item.PetStatus.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.PetID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PetID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PetID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.PetGroupID" class="btn btn-sm btn-outline-primary me-1">
+                <i class="bi bi-pencil-square"></i>
+                </a>
+                    <a asp-action="Edit" asp-route-id="@item.PetGroupID" class="btn btn-sm btn-outline-primary me-1">
+                    <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a asp-action="Edit" asp-route-id="@item.PetGroupID" class="btn btn-sm btn-outline-primary me-1">
+                    <i class="bi bi-pencil-square"></i>
+                    </a>
             </td>
         </tr>
 }
