@@ -25,9 +25,15 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ShelterTypeID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ShelterTypeID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ShelterTypeID">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.ShelterTypeID" class="btn btn-sm btn-outline-primary me-1">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a asp-action="Edit" asp-route-id="@item.ShelterTypeID" class="btn btn-sm btn-outline-primary me-1">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a asp-action="Edit" asp-route-id="@item.ShelterTypeID" class="btn btn-sm btn-outline-primary me-1">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
             </td>
         </tr>
 }
