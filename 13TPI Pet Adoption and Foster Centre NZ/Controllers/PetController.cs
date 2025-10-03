@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
+using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
-using Microsoft.AspNetCore.Authorization;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
@@ -21,10 +22,31 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         }
 
         // GET: Pets
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
-            var context = _context.Pet.Include(p => p.PetGroup).Include(p => p.PetStatus);
-            return View(await context.ToListAsync());
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DobSortParm"] = sortOrder == "dob" ? "dob_desc" : "dob";
+
+            if (searchString != null) pageNumber = 1;
+            else searchString = currentFilter;
+            ViewData["CurrentFilter"] = searchString;
+
+            var pets = _context.Pet.Include(p => p.PetGroup).Include(p => p.PetStatus).AsQueryable();
+
+            if (!String.IsNullOrEmpty(searchString))
+                pets = pets.Where(p => p.Name.Contains(searchString));
+
+            pets = sortOrder switch
+            {
+                "name_desc" => pets.OrderByDescending(p => p.Name),
+                "dob" => pets.OrderBy(p => p.DateOfBirth),
+                "dob_desc" => pets.OrderByDescending(p => p.DateOfBirth),
+                _ => pets.OrderBy(p => p.Name),
+            };
+
+            int pageSize = 5;
+            return View(await PaginatedList<Pet>.CreateAsync(pets.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Pets/Details/5
