@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿// Models/PaginatedList.cs
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,13 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
     {
         public int PageIndex { get; private set; }
         public int TotalPages { get; private set; }
+        public int PageSize { get; private set; }
 
         public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
         {
             PageIndex = pageIndex;
+            PageSize = pageSize;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-
             this.AddRange(items);
         }
 

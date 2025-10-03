@@ -1,132 +1,68 @@
-/* ================================
-   NAVBAR
-=================================== */
-.navbar {
-    background-color: #4DA6FF !important; /* Light Blue */
+/* wwwroot/css/site-theme.css */
+:root {
+    --brand-blue: #0d6efd; /* primary blue */
+    --brand-coral: #ff6f61; /* coral orange */
+    --brand-white: #ffffff;
+    --card-bg: #ffffff;
+    --muted: #6c757d;
 }
 
-    .navbar .nav-link,
-    .navbar .navbar-brand {
-        color: #FFFFFF !important;
+/* Card layout */
+.card-custom {
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(13,110,253,0.08);
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Heading */
+.page-heading {
+    background: linear-gradient(90deg, var(--brand-blue) 0%, var(--brand-coral) 100%);
+    color: var(--brand-white);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+/* Table header dark background (back heading requirement) */
+.table-dark-custom thead {
+    background: linear-gradient(90deg, rgba(13,110,253,0.95), rgba(255,111,97,0.95));
+    color: #fff;
+}
+
+.btn-outline-primary {
+    border-color: var(--brand-blue);
+    color: var(--brand-blue);
+}
+
+.btn-success {
+    background-color: var(--brand-blue);
+    border-color: var(--brand-blue);
+}
+
+/* Pagination */
+.page-link {
+    color: var(--brand-blue);
+}
+
+.page-item.active .page-link {
+    background-color: var(--brand-blue);
+    border-color: var(--brand-blue);
+}
+
+/* Small responsive tweaks */
+.table-responsive {
+    overflow-x: auto;
+}
+
+@media (max-width:768px) {
+    .card-custom {
+        padding: 0.5rem;
     }
 
-        .navbar .nav-link:hover {
-            color: #FF6F61 !important; /* Coral Orange */
-        }
-
-/* ================================
-   BUTTONS
-=================================== */
-.btn-primary {
-    background-color: #FF6F61 !important; /* Coral Orange */
-    border-color: #FF6F61 !important;
-    color: #fff !important;
-}
-
-    .btn-primary:hover {
-        background-color: #e65b50 !important;
-        border-color: #e65b50 !important;
+    .page-heading {
+        font-size: 1rem;
     }
-
-.btn-secondary {
-    background-color: #4DA6FF !important; /* Light Blue */
-    border-color: #4DA6FF !important;
-    color: #fff !important;
 }
-
-    .btn-secondary:hover {
-        background-color: #3b94e0 !important;
-        border-color: #3b94e0 !important;
-    }
-
-/* ================================
-   CARDS
-=================================== */
-.card {
-    border: none !important;
-    border-radius: 12px !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
-}
-
-.card-header {
-    background-color: #FF6F61 !important;
-    color: #FFFFFF !important;
-}
-
-/* ================================
-   ALERTS
-=================================== */
-.alert-primary {
-    background-color: #FF6F61 !important;
-    color: #fff !important;
-    border: none !important;
-}
-
-.alert-secondary {
-    background-color: #4DA6FF !important;
-    color: #fff !important;
-    border: none !important;
-}
-
-.alert-success {
-    background-color: #4CAF50 !important; /* Optional extra brand green */
-    color: #fff !important;
-    border: none !important;
-}
-
-/* ================================
-   BADGES
-=================================== */
-.badge-primary {
-    background-color: #FF6F61 !important;
-}
-
-.badge-secondary {
-    background-color: #4DA6FF !important;
-}
-
-.badge-light {
-    background-color: #FFFFFF !important;
-    color: #2C3E50 !important;
-}
-
-/* ================================
-   FORMS
-=================================== */
-input.form-control,
-textarea.form-control,
-select.form-select {
-    border: 2px solid #4DA6FF !important; /* Light Blue border */
-    border-radius: 8px !important;
-    box-shadow: none !important;
-}
-
-    input.form-control:focus,
-    textarea.form-control:focus,
-    select.form-select:focus {
-        border-color: #FF6F61 !important; /* Coral focus highlight */
-        box-shadow: 0 0 6px rgba(255, 111, 97, 0.5) !important;
-    }
-
-/* Labels */
-.form-label {
-    color: #2C3E50 !important;
-    font-weight: 600 !important;
-}
-
-/* ================================
-   FOOTER
-=================================== */
-footer {
-    background-color: #2C3E50 !important;
-    color: #FFFFFF !important;
-    padding: 2rem 0 !important;
-}
-
-    footer a {
-        color: #4DA6FF !important;
-    }
-
-        footer a:hover {
-            color: #FF6F61 !important;
-        }

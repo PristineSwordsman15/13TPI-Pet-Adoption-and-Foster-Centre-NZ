@@ -22,10 +22,29 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         }
 
         // GET: PaymentStatus
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
-            return View(await _context.PaymentStatus.ToListAsync());
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["StatusSortParm"] = String.IsNullOrEmpty(sortOrder) ? "status_desc" : "";
+
+            if (searchString != null) pageNumber = 1;
+            else searchString = currentFilter;
+            ViewData["CurrentFilter"] = searchString;
+
+            var statuses = from s in _context.PaymentStatus select s;
+            if (!String.IsNullOrEmpty(searchString))
+                statuses = statuses.Where(s => s.StatusName.Contains(searchString));
+
+            statuses = sortOrder switch
+            {
+                "status_desc" => statuses.OrderByDescending(s => s.StatusName),
+                _ => statuses.OrderBy(s => s.StatusName),
+            };
+
+            int pageSize = 5;
+            return View(await PaginatedList<PaymentStatus>.CreateAsync(statuses.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
+
 
         // GET: PaymentStatus/Details/5
         public async Task<IActionResult> Details(int? id)
