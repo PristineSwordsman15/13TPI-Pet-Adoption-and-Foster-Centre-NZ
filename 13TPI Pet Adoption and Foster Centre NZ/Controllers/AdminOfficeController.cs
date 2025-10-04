@@ -1,111 +1,117 @@
 ﻿using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
+using X.PagedList;
+using X.PagedList.Extensions;
+
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
-    // All controller actions and members must be within these braces
+    [Authorize]
     public class AdminOfficeController : Controller
     {
         private readonly Context _context;
-
-        // Define a constant for pagination
-        private const int PageSize = 10; // You can choose your desired page size
+        private const int PageSize = 5;
 
         public AdminOfficeController(Context context)
         {
             _context = context;
         }
 
-        // GET: AdminOffices
-        // Index with search, sort, and paging
-        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
+        // GET: AdminOffice
+        // GET: AdminOffice
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            ViewData["CurrentSort"] = sortOrder;
+            // Sorting params
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
 
-            // Sort order toggles
-            ViewData["FirstNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "fname_desc" : "";
-            ViewData["LastNameSortParm"] = sortOrder == "lname" ? "lname_desc" : "lname";
-            ViewData["EmailSortParm"] = sortOrder == "email" ? "email_desc" : "email";
-            ViewData["DateSortParm"] = sortOrder == "date" ? "date_desc" : "date";
-
+            // Search handling
             if (searchString != null)
             {
-                pageNumber = 1;
+                page = 1; // reset to first page when searching
             }
             else
             {
                 searchString = currentFilter;
             }
+            ViewBag.CurrentFilter = searchString;
 
-            ViewData["CurrentFilter"] = searchString;
+            // Query
+            var query = _context.AdminOffice
+                .Include(a => a.AccessLevel)
+                .AsQueryable();
 
-            var admins = from a in _context.AdminOffice
-                         select a;
-
-            // Search
-            if (!String.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrWhiteSpace(searchString))
             {
-                admins = admins.Where(a =>
+                query = query.Where(a =>
                     a.FirstName.Contains(searchString) ||
                     a.LastName.Contains(searchString) ||
                     a.EmailAddress.Contains(searchString) ||
-                    a.ContactNo.Contains(searchString));
+                    a.ContactNo.Contains(searchString) ||
+                    a.AccessLevel.LevelName.Contains(searchString) ||
+                    a.TitleName.Contains(searchString));
             }
 
             // Sorting
-            admins = sortOrder switch
+            query = sortOrder switch
             {
-                "fname_desc" => admins.OrderByDescending(a => a.FirstName),
-                "lname" => admins.OrderBy(a => a.LastName),
-                "lname_desc" => admins.OrderByDescending(a => a.LastName),
-                "email" => admins.OrderBy(a => a.EmailAddress),
-                "email_desc" => admins.OrderByDescending(a => a.EmailAddress),
-                "date" => admins.OrderBy(a => a.DateHired),
-                "date_desc" => admins.OrderByDescending(a => a.DateHired),
-                _ => admins.OrderBy(a => a.FirstName),
+                "name_desc" => query.OrderByDescending(a => a.LastName),
+                "Date" => query.OrderBy(a => a.DateHired),
+                "date_desc" => query.OrderByDescending(a => a.DateHired),
+                _ => query.OrderBy(a => a.LastName),
             };
 
-            int currentPage = pageNumber ?? 1;
-            // NOTE: PaginatedList<T> is assumed to be defined elsewhere in your project
-            return View(await PaginatedList<AdminOffice>.CreateAsync(admins.AsNoTracking(), currentPage, PageSize));
+            // Pagination
+            
+
+            // ...
+
+            int pageNumber = page ?? 1;
+
+            // materialize the query first
+            var list = await query.ToListAsync();
+
+            // then paginate
+            var pagedList = list.ToPagedList(pageNumber, PageSize);
+
+            return View(pagedList);
+
         }
 
-        // GET: AdminOffices/Details/5
+
+        // GET: AdminOffice/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var adminOffice = await _context.AdminOffice
                 .Include(a => a.AccessLevel)
+                .Include(a => a.TitleName)
                 .FirstOrDefaultAsync(m => m.AdminID == id);
-            if (adminOffice == null)
-            {
-                return NotFound();
-            }
 
+            if (adminOffice == null) return NotFound();
             return View(adminOffice);
         }
 
-        // GET: AdminOffices/Create
+        // GET: AdminOffice/Create
         public IActionResult Create()
         {
             ViewData["AccessLevelID"] = new SelectList(_context.AccessLevel, "AccessLevelID", "LevelName");
+            ViewData["TitleID"] = new SelectList(_context.Title, "TitleID", "TitleName");
             return View();
         }
 
-        // POST: AdminOffices/Create
+        // POST: AdminOffice/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AdminID,UserID,FirstName,LastName,EmailAddress,ContactNo,DateHired,AccessLevelID,LevelName,TitleName,TitleID,ImageName")] AdminOffice adminOffice)
+        public async Task<IActionResult> Create([Bind("UserID,FirstName,LastName,EmailAddress,ContactNo,DateHired,AccessLevelID,TitleID,ImageName")] AdminOffice adminOffice)
         {
             if (ModelState.IsValid)
             {
@@ -113,36 +119,31 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["AccessLevelID"] = new SelectList(_context.AccessLevel, "AccessLevelID", "LevelName", adminOffice.AccessLevelID);
+            ViewData["TitleID"] = new SelectList(_context.TitleName, "TitleID", "TitleName", adminOffice.TitleID);
             return View(adminOffice);
         }
 
-        // GET: AdminOffices/Edit/5
+        // GET: AdminOffice/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var adminOffice = await _context.AdminOffice.FindAsync(id);
-            if (adminOffice == null)
-            {
-                return NotFound();
-            }
+            if (adminOffice == null) return NotFound();
+
             ViewData["AccessLevelID"] = new SelectList(_context.AccessLevel, "AccessLevelID", "LevelName", adminOffice.AccessLevelID);
+            ViewData["TitleID"] = new SelectList(_context.TitleName, "TitleID", "TitleName", adminOffice.TitleID);
             return View(adminOffice);
         }
 
-        // POST: AdminOffices/Edit/5
+        // POST: AdminOffice/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AdminID,UserID,FirstName,LastName,EmailAddress,ContactNo,DateHired,AccessLevelID,LevelName,TitleName,TitleID,ImageName")] AdminOffice adminOffice)
+        public async Task<IActionResult> Edit(int id, [Bind("AdminID,UserID,FirstName,LastName,EmailAddress,ContactNo,DateHired,AccessLevelID,TitleID,ImageName")] AdminOffice adminOffice)
         {
-            if (id != adminOffice.AdminID)
-            {
-                return NotFound();
-            }
+            if (id != adminOffice.AdminID) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -153,41 +154,32 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AdminOfficeExists(adminOffice.AdminID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!AdminOfficeExists(adminOffice.AdminID)) return NotFound();
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["AccessLevelID"] = new SelectList(_context.AccessLevel, "AccessLevelID", "LevelName", adminOffice.AccessLevelID);
+            ViewData["TitleID"] = new SelectList(_context.TitleName, "TitleID", "TitleName", adminOffice.TitleID);
             return View(adminOffice);
         }
 
-        // GET: AdminOffices/Delete/5
+        // GET: AdminOffice/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var adminOffice = await _context.AdminOffice
                 .Include(a => a.AccessLevel)
+                .Include(a => a.TitleName)
                 .FirstOrDefaultAsync(m => m.AdminID == id);
-            if (adminOffice == null)
-            {
-                return NotFound();
-            }
 
+            if (adminOffice == null) return NotFound();
             return View(adminOffice);
         }
 
-        // POST: AdminOffices/Delete/5
+        // POST: AdminOffice/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -196,9 +188,8 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             if (adminOffice != null)
             {
                 _context.AdminOffice.Remove(adminOffice);
+                await _context.SaveChangesAsync();
             }
-
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
