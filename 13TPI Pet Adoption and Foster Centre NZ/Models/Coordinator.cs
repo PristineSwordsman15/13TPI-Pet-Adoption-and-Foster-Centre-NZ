@@ -6,6 +6,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
 {
     public class Coordinator
     {
+
         public int CoordinatorID { get; set; }
         [Required] public string FirstName { get; set; }
         [Required] public string LastName { get; set; }
@@ -16,5 +17,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
 
         public int PetGroupID { get; set; }
         public PetGroup PetGroup { get; set; }
+
+        public string EmailAddress { get; set; }
+
+        public string ContactNo { get; set; }
+
+        public IFormFile? ImageFile { get; set;}
+        public string? ImageName { get; set; }
     }
 }

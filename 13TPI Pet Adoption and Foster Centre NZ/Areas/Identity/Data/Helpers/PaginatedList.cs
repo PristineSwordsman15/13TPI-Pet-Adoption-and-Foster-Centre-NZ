@@ -1,24 +1,17 @@
-﻿// Models/PaginatedList.cs
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
+namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Areas.Identity.Data.Helpers
 {
     public class PaginatedList<T> : List<T>
     {
         public int PageIndex { get; private set; }
         public int TotalPages { get; private set; }
-        public int PageSize { get; private set; }
 
         public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
         {
             PageIndex = pageIndex;
-            PageSize = pageSize;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-            this.AddRange(items);
+            AddRange(items);
         }
 
         public bool HasPreviousPage => PageIndex > 1;

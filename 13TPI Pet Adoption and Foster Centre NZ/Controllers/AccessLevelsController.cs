@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Areas.Identity.Data.Helpers;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
@@ -15,35 +16,23 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
     public class AccessLevelsController : Controller
     {
         private readonly Context _context;
+        public AccessLevelsController(Context context) => _context = context;
 
-        public AccessLevelsController(Context context)
+        public async Task<IActionResult> Index(string searchString, string sortOrder, int? pageNumber = 1)
         {
-            _context = context;
+            ViewData["CurrentFilter"] = searchString;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
+            var levels = _context.AccessLevel.AsQueryable();
+            if (!string.IsNullOrEmpty(searchString))
+                levels = levels.Where(x => x.LevelName.Contains(searchString));
+
+            levels = sortOrder == "name_desc" ? levels.OrderByDescending(x => x.LevelName) : levels.OrderBy(x => x.LevelName);
+            int pageSize = 6;
+            return View(await PaginatedList<AccessLevel>.CreateAsync(levels.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
-        // GET: AccessLevels
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.AccessLevel.ToListAsync());
-        }
 
-        // GET: AccessLevels/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var accessLevel = await _context.AccessLevel
-                .FirstOrDefaultAsync(m => m.AccessLevelID == id);
-            if (accessLevel == null)
-            {
-                return NotFound();
-            }
-
-            return View(accessLevel);
-        }
 
         // GET: AccessLevels/Create
         public IActionResult Create()

@@ -1,4 +1,5 @@
-﻿@model PaginatedList<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.PaymentMethod>
+﻿@using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Areas.Identity.Data.Helpers
+@model PaginatedList<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.PaymentMethod>
 
 @{
     ViewData["Title"] = "Payment Methods";
@@ -63,7 +64,7 @@
                 <li class="page-item">
                     <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Next</a>
                 </li>
+
+
+
             }
-        </ul>
-    </nav>
-</div>

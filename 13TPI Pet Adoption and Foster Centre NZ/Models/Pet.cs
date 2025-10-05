@@ -14,5 +14,9 @@ public class Pet
     public int PetStatusID { get; set; }
     public PetStatus PetStatus { get; set; }
 
+    public IFormFile? ImageFile { get; set; }
+
+    public string? ImageName { get; set; }
+
     public ICollection<MedicalRecord> MedicalRecords { get; set; }
 }

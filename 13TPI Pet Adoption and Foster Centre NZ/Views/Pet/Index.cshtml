@@ -1,4 +1,6 @@
-﻿@model PaginatedList<Pet>
+﻿
+@using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Areas.Identity.Data.Helpers
+@model PaginatedList<Pet>
 <h1>Pets</h1>
 <p><a asp-action="Create" class="btn btn-success">Create New</a></p>
 <form asp-action="Index"><input type="text" name="searchString" value="@ViewData["CurrentFilter"]" class="form-control mb-2" placeholder="Search..." /></form>
@@ -29,4 +31,36 @@
         }
     </tbody>
 </table>
-<partial name="_Pagination" model="Model" />
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<nav>
+    <ul class="pagination">
+        <li class="page-item @prevDisabled">
+            <a class="page-link" asp-action="Index"
+               asp-route-page="@(Model.PageIndex - 1)"
+               asp-route-searchString="@ViewData["CurrentFilter"]"
+               asp-route-sortOrder="@ViewData["CurrentSort"]">Previous</a>
+        </li>
+
+        @for (var i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                <a class="page-link" asp-action="Index"
+                   asp-route-page="@i"
+                   asp-route-searchString="@ViewData["CurrentFilter"]"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]">@i</a>
+            </li>
+        }
+
+        <li class="page-item @nextDisabled">
+            <a class="page-link" asp-action="Index"
+               asp-route-page="@(Model.PageIndex + 1)"
+               asp-route-searchString="@ViewData["CurrentFilter"]"
+               asp-route-sortOrder="@ViewData["CurrentSort"]">Next</a>
+        </li>
+    </ul>
+</nav>

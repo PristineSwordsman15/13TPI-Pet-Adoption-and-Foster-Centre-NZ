@@ -17,27 +17,24 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
         }
 
         // DbSets
-        public DbSet<AccessLevel> AccessLevel => Set<AccessLevel>();
-        public DbSet<Title> Title => Set<Title>();
-        public DbSet<AdminOffice> AdminOffice => Set<AdminOffice>();
-
-        public DbSet<Location> Location => Set<Location>();
-        public DbSet<Franchise> Franchise => Set<Franchise>();
-        public DbSet<ShelterType> ShelterType => Set<ShelterType>();
-        public DbSet<Shelter> Shelter => Set<Shelter>();
-
-        public DbSet<PetStatus> PetStatus => Set<PetStatus>();
-        public DbSet<PetGroup> PetGroup => Set<PetGroup>();
-        public DbSet<Pet> Pet => Set<Pet>();
-        public DbSet<Coordinator> Coordinator => Set<Coordinator>();
-
-        public DbSet<VaccinationStatus> VaccinationStatus => Set<VaccinationStatus>();
-        public DbSet<MedicalRecord> MedicalRecord => Set<MedicalRecord>();
-
-        public DbSet<PaymentType> PaymentType => Set<PaymentType>();
-        public DbSet<PaymentMethod> PaymentMethod => Set<PaymentMethod>();
-        public DbSet<PaymentStatus> PaymentStatus => Set<PaymentStatus>();
-        public DbSet<Payment> Payment => Set<Payment>();
+        public DbSet<AccessLevel> AccessLevel { get; set; }
+        public DbSet<AdminOffice> AdminOffice { get; set; }
+        public DbSet<Coordinator> Coordinator { get; set; }
+        public DbSet<Franchise> Franchise { get; set; }
+        public DbSet<Location> Location { get; set; }
+        public DbSet<MedicalRecord> MedicalRecord { get; set; }
+        public DbSet<Payment> Payment { get; set; }
+        public DbSet<PaymentMethod> PaymentMethod { get; set; }
+        public DbSet<PaymentStatus> PaymentStatus { get; set; }
+        public DbSet<PaymentType> PaymentType { get; set; }
+        public DbSet<Pet> Pet { get; set; }
+        public DbSet<PetGroup> PetGroup { get; set; }
+        public DbSet<PetStatus> PetStatus { get; set; }
+        public DbSet<Shelter> Shelter { get; set; }
+        public DbSet<ShelterType> ShelterType { get; set; }
+        public DbSet<Title> Title { get; set; }
+        public DbSet<VaccinationStatus> VaccinationStatus { get; set; }
+    
        
 
         protected override void OnModelCreating(ModelBuilder builder)
