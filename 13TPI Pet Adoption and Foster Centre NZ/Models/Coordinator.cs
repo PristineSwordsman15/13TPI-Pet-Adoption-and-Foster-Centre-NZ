@@ -21,7 +21,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         public string EmailAddress { get; set; }
 
         public string ContactNo { get; set; }
-
+        [NotMapped]
         public IFormFile? ImageFile { get; set;}
         public string? ImageName { get; set; }
     }

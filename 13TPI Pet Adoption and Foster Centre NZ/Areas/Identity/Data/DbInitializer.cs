@@ -1,79 +1,77 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.EntityFrameworkCore;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
-using System;
-using System.Linq;
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
 {
     public static class DbInitializer
     {
-        public static async Task SeedAsync(Context context, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task SeedAsync(Context context)
         {
-            context.Database.EnsureCreated();
+            await context.Database.MigrateAsync();
 
-            // 1️⃣ Seed Roles
-            string[] roles = new[] { "Admin", "Coordinator", "User" };
-            foreach (var role in roles)
-            {
-                if (!roleManager.RoleExistsAsync(role).Result)
-                {
-                    roleManager.CreateAsync(new IdentityRole(role)).Wait();
-                }
-            }
-
-            // 2️⃣ Seed Users
-            if (!userManager.Users.Any())
-            {
-                var adminUser = new IdentityUser { UserName = "admin@petcentre.com", Email = "admin@petcentre.com", EmailConfirmed = true };
-                userManager.CreateAsync(adminUser, "Admin123!").Wait();
-                userManager.AddToRoleAsync(adminUser, "Admin").Wait();
-            }
-
-            // 3️⃣ Seed AccessLevels
-            if (!context.AccessLevel.Any())
-            {
-                context.AccessLevel.AddRange(
-                    new AccessLevel { LevelName = "Admin" },
-                    new AccessLevel { LevelName = "Coordinator" },
-                    new AccessLevel { LevelName = "User" }
-                );
-                context.SaveChanges();
-            }
-
-            // 4️⃣ Seed Titles
+            // === TITLES ===
             if (!context.Title.Any())
             {
                 context.Title.AddRange(
-                    new Title { TitleName = "Mr." },
-                    new Title { TitleName = "Ms." },
-                    new Title { TitleName = "Dr." }
+                    new Title { TitleName = "Mr" },
+                    new Title { TitleName = "Ms" },
+                    new Title { TitleName = "Dr" }
                 );
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
 
-            // 5️⃣ Seed Locations
+            // === FRANCHISES ===
+            if (!context.Franchise.Any())
+            {
+                context.Franchise.AddRange(
+                    new Franchise { FranchiseName = "Happy Paws Ltd" },
+                    new Franchise { FranchiseName = "Safe Haven Trust" }
+                );
+                await context.SaveChangesAsync();
+            }
+
+            // === LOCATIONS ===
             if (!context.Location.Any())
             {
                 context.Location.AddRange(
-                    new Location { Address = "123 Main St", Surburb = "Central", City = "Auckland", Region = "Auckland", PostCode = "1010", Country = "NZ" },
-                    new Location { Address = "45 Park Rd", Surburb = "West", City = "Wellington", Region = "Wellington", PostCode = "6011", Country = "NZ" }
-                    // Add more until 10
+                    new Location { Address = "123 Pet Street", City = "Auckland", Country = "NZ" },
+                    new Location { Address = "456 Cat Avenue", City = "Wellington", Country = "NZ" }
                 );
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
 
-            // 6️⃣ Seed PetGroups
+            // === SHELTER TYPES ===
+            if (!context.ShelterType.Any())
+            {
+                context.ShelterType.AddRange(
+                    new ShelterType { Name = "Temporary" },
+                    new ShelterType { Name = "Permanent" }
+                );
+                await context.SaveChangesAsync();
+            }
+
+            // === SHELTERS ===
+            if (!context.Shelter.Any())
+            {
+                context.Shelter.AddRange(
+                    new Shelter { Name = "Auckland Shelter", FranchiseID = 1, LocationID = 1, ShelterTypeID = 1 },
+                    new Shelter { Name = "Wellington Shelter", FranchiseID = 2, LocationID = 2, ShelterTypeID = 2 }
+                );
+                await context.SaveChangesAsync();
+            }
+
+            // === PET GROUPS ===
             if (!context.PetGroup.Any())
             {
                 context.PetGroup.AddRange(
-                    new PetGroup { PetGroupName = "Dog" },
-                    new PetGroup { PetGroupName = "Cat" },
-                    new PetGroup { PetGroupName = "Rabbit" }
+                    new PetGroup { PetGroupName = "Dogs" },
+                    new PetGroup { PetGroupName = "Cats" },
+                    new PetGroup { PetGroupName = "Birds" }
                 );
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
 
-            // 7️⃣ Seed PetStatuses
+            // === PET STATUSES ===
             if (!context.PetStatus.Any())
             {
                 context.PetStatus.AddRange(
@@ -81,13 +79,90 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
                     new PetStatus { Name = "Adopted" },
                     new PetStatus { Name = "Fostered" }
                 );
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
 
-            // 8️⃣ Seed Shelters, Franchises, Coordinators, AdminOffices, Payments, PaymentTypes/Methods/Status, Pets, MedicalRecords, VaccinationStatuses...
-            // Use similar pattern with  dummy data, 10 rows each
+            // === VACCINATION STATUSES ===
+            if (!context.VaccinationStatus.Any())
+            {
+                context.VaccinationStatus.AddRange(
+                    new VaccinationStatus { StatusName = "Up to Date" },
+                    new VaccinationStatus { StatusName = "Due" }
+                );
+                await context.SaveChangesAsync();
+            }
+
+            // === PETS ===
+            if (!context.Pet.Any())
+            {
+                context.Pet.AddRange(
+                    new Pet { Name = "Bella", DateOfBirth = DateTime.Now.AddYears(-2), PetGroupID = 1, PetStatusID = 1 },
+                    new Pet { Name = "Milo", DateOfBirth = DateTime.Now.AddYears(-1), PetGroupID = 2, PetStatusID = 1 },
+                    new Pet { Name = "Coco", DateOfBirth = DateTime.Now.AddYears(-3), PetGroupID = 3, PetStatusID = 1 }
+                );
+                await context.SaveChangesAsync();
+            }
+
+            // === MEDICAL RECORDS ===
+            if (!context.MedicalRecord.Any())
+            {
+                context.MedicalRecord.AddRange(
+                    new MedicalRecord { PetID = 1, VaccinationStatusID = 1, Notes = "Healthy and active" },
+                    new MedicalRecord { PetID = 2, VaccinationStatusID = 2, Notes = "Needs vaccination soon" }
+                );
+                await context.SaveChangesAsync();
+            }
+
+            // === COORDINATORS ===
+            if (!context.Coordinator.Any())
+            {
+                context.Coordinator.AddRange(
+                    new Coordinator { FirstName = "Alice", LastName = "Johnson",EmailAddress = "alice@test.com" },
+                    new Coordinator { FirstName = "Bob", LastName = "Smith", EmailAddress = "bob@test.com" }
+                );
+                await context.SaveChangesAsync();
+            }
+
+            // === PAYMENT METHODS ===
+            if (!context.PaymentMethod.Any())
+            {
+                context.PaymentMethod.AddRange(
+                    new PaymentMethod { Name = "Stripe" },
+                    new PaymentMethod { Name = "Cash" }
+                );
+                await context.SaveChangesAsync();
+            }
+
+            // === PAYMENT TYPES ===
+            if (!context.PaymentType.Any())
+            {
+                context.PaymentType.AddRange(
+                    new PaymentType { Name = "Adoption Fee" },
+                    new PaymentType { Name = "Donation" }
+                );
+                await context.SaveChangesAsync();
+            }
+
+            // === PAYMENT STATUSES ===
+            if (!context.PaymentStatus.Any())
+            {
+                context.PaymentStatus.AddRange(
+                    new PaymentStatus { StatusName = "Completed" },
+                    new PaymentStatus { StatusName = "Pending" }
+                );
+                await context.SaveChangesAsync();
+            }
+
+            // === PAYMENTS ===
+            if (!context.Payment.Any())
+            {
+                context.Payment.AddRange(
+                    new Payment { Amount = 100, PaymentDate = DateTime.Now, PaymentMethodID = 1, PaymentTypeID = 1, PaymentStatusID = 1 },
+                    new Payment { Amount = 50, PaymentDate = DateTime.Now.AddDays(-1), PaymentMethodID = 1, PaymentTypeID = 2, PaymentStatusID = 2 }
+                );
+                await context.SaveChangesAsync();
+            }
+
         }
-
-
     }
 }

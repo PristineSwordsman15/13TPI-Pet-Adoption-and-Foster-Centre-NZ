@@ -21,6 +21,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
 
         // Link to Identity User
         [Required] public string UserID { get; set; }
+        public DateTime PaymentDate { get; internal set; }
     }
 }
 
