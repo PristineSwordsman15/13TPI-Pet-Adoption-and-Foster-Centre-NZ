@@ -47,7 +47,7 @@ app.MapControllerRoute(
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<Context>();
-    await DbInitializer.SeedAsync(db);
+    Task task = DbInitializer.SeedAsync(db);
 }
 
 app.Run();

@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers;
 
-public class CoordinatorsController : Controller
+public class CoordinatorController : Controller
 {
     private readonly Context _context;
 
-    public CoordinatorsController(Context context)
+    public CoordinatorController(Context context)
     {
         _context = context;
     }

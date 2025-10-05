@@ -7,7 +7,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
 {
     public static class DbInitializer
     {
-        public static void Initialize(Context context, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task SeedAsync(Context context, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             context.Database.EnsureCreated();
 
@@ -87,5 +87,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
             // 8️⃣ Seed Shelters, Franchises, Coordinators, AdminOffices, Payments, PaymentTypes/Methods/Status, Pets, MedicalRecords, VaccinationStatuses...
             // Use similar pattern with  dummy data, 10 rows each
         }
+
+
     }
 }

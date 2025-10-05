@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers;
 
-public class FranchisesController : Controller
+public class FranchiseController : Controller
 {
     private readonly Context _context;
-    public FranchisesController(Context context) => _context = context;
+    public FranchiseController(Context context) => _context = context;
 
     public async Task<IActionResult> Index(string searchString, string sortOrder, int pageNumber = 1)
     {

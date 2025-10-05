@@ -1,158 +1,86 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Areas.Identity.Data.Helpers;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
-using Microsoft.AspNetCore.Authorization;
+using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
+namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers;
+
+public class PetGroupController : Controller
 {
-    [Authorize]
-    public class PetGroupController : Controller
+    private readonly Context _context;
+    public PetGroupController(Context context) => _context = context;
+
+    public async Task<IActionResult> Index(string searchString, string sortOrder, int pageNumber = 1)
     {
-        private readonly Context _context;
+        ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+        ViewData["CurrentFilter"] = searchString;
 
-        public PetGroupController(Context context)
+        var groups = _context.PetGroup.AsQueryable();
+
+        if (!string.IsNullOrEmpty(searchString))
+            groups = groups.Where(g => g.PetGroupName.Contains(searchString));
+
+        groups = sortOrder == "name_desc" ? groups.OrderByDescending(g => g.PetGroupName) : groups.OrderBy(g => g.PetGroupName);
+
+        return View(await PaginatedList<PetGroup>.CreateAsync(groups.AsNoTracking(), pageNumber, 6));
+    }
+
+    public IActionResult Create() => View();
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(PetGroup group)
+    {
+        if (ModelState.IsValid) { _context.Add(group); await _context.SaveChangesAsync(); return RedirectToAction(nameof(Index)); }
+        return View(group);
+    }
+
+    public async Task<IActionResult> Edit(int? id)
+    {
+        if (id == null) return NotFound();
+        var group = await _context.PetGroup.FindAsync(id);
+        if (group == null) return NotFound();
+        return View(group);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(int id, PetGroup group)
+    {
+        if (id != group.PetGroupID) return NotFound();
+        if (ModelState.IsValid)
         {
-            _context = context;
-        }
-
-        // GET: PetGroups
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.PetGroup.ToListAsync());
-        }
-
-        // GET: PetGroups/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var petGroup = await _context.PetGroup
-                .FirstOrDefaultAsync(m => m.PetGroupID == id);
-            if (petGroup == null)
-            {
-                return NotFound();
-            }
-
-            return View(petGroup);
-        }
-
-        // GET: PetGroups/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: PetGroups/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PetGroupID,PetGroupName")] PetGroup petGroup)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(petGroup);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(petGroup);
-        }
-
-        // GET: PetGroups/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var petGroup = await _context.PetGroup.FindAsync(id);
-            if (petGroup == null)
-            {
-                return NotFound();
-            }
-            return View(petGroup);
-        }
-
-        // POST: PetGroups/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PetGroupID,PetGroupName")] PetGroup petGroup)
-        {
-            if (id != petGroup.PetGroupID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(petGroup);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PetGroupExists(petGroup.PetGroupID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(petGroup);
-        }
-
-        // GET: PetGroups/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var petGroup = await _context.PetGroup
-                .FirstOrDefaultAsync(m => m.PetGroupID == id);
-            if (petGroup == null)
-            {
-                return NotFound();
-            }
-
-            return View(petGroup);
-        }
-
-        // POST: PetGroups/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var petGroup = await _context.PetGroup.FindAsync(id);
-            if (petGroup != null)
-            {
-                _context.PetGroup.Remove(petGroup);
-            }
-
-            await _context.SaveChangesAsync();
+            try { _context.Update(group); await _context.SaveChangesAsync(); }
+            catch (DbUpdateConcurrencyException) { if (!_context.PetGroup.Any(e => e.PetGroupID == id)) return NotFound(); else throw; }
             return RedirectToAction(nameof(Index));
         }
+        return View(group);
+    }
 
-        private bool PetGroupExists(int id)
-        {
-            return _context.PetGroup.Any(e => e.PetGroupID == id);
-        }
+    public async Task<IActionResult> Details(int? id)
+    {
+        if (id == null) return NotFound();
+        var group = await _context.PetGroup.FirstOrDefaultAsync(g => g.PetGroupID == id);
+        if (group == null) return NotFound();
+        return View(group);
+    }
+
+    public async Task<IActionResult> Delete(int? id)
+    {
+        if (id == null) return NotFound();
+        var group = await _context.PetGroup.FirstOrDefaultAsync(g => g.PetGroupID == id);
+        if (group == null) return NotFound();
+        return View(group);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        var group = await _context.PetGroup.FindAsync(id);
+        _context.PetGroup.Remove(group);
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
     }
 }

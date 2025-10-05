@@ -43,7 +43,6 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         // Access level of admin
         [Required] // Field is required 
         [StringLength (20)] // Limits the length of adin title between 2 and 25 characters
-
         //Normalised
         public int AccessLevelID { get; set; }
         public virtual AccessLevel? AccessLevel { get; set; }

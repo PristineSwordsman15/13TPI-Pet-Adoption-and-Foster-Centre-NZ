@@ -1,159 +1,79 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Areas.Identity.Data.Helpers;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
+namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers;
+
+public class TitleController : Controller
 {
-    [Authorize]
-    public class TitleController : Controller
+    private readonly Context _context;
+    public TitleController(Context context) => _context = context;
+
+    public async Task<IActionResult> Index(string searchString, string sortOrder, int pageNumber = 1)
     {
-        private readonly Context _context;
+        ViewData["TitleSortParm"] = string.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+        ViewData["CurrentFilter"] = searchString;
 
-        public TitleController(Context context)
+        var titles = _context.Title.AsQueryable();
+        if (!string.IsNullOrEmpty(searchString)) titles = titles.Where(t => t.TitleName.Contains(searchString));
+        titles = sortOrder == "title_desc" ? titles.OrderByDescending(t => t.TitleName) : titles.OrderBy(t => t.TitleName);
+
+        return View(await PaginatedList<Title>.CreateAsync(titles.AsNoTracking(), pageNumber, 6));
+    }
+
+    public IActionResult Create() => View();
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(Title title)
+    {
+        if (ModelState.IsValid) { _context.Add(title); await _context.SaveChangesAsync(); return RedirectToAction(nameof(Index)); }
+        return View(title);
+    }
+
+    public async Task<IActionResult> Edit(int? id)
+    {
+        if (id == null) return NotFound();
+        var title = await _context.Title.FindAsync(id);
+        if (title == null) return NotFound();
+        return View(title);
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(int id, Title title)
+    {
+        if (id != title.TitleID) return NotFound();
+        if (ModelState.IsValid)
         {
-            _context = context;
-        }
-
-        // GET: Titles
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Title.ToListAsync());
-        }
-
-        // GET: Titles/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var title = await _context.Title
-                .FirstOrDefaultAsync(m => m.TitleID == id);
-            if (title == null)
-            {
-                return NotFound();
-            }
-
-            return View(title);
-        }
-
-        // GET: Titles/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Titles/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TitleID,TitleName")] Title title)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(title);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(title);
-        }
-
-        // GET: Titles/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var title = await _context.Title.FindAsync(id);
-            if (title == null)
-            {
-                return NotFound();
-            }
-            return View(title);
-        }
-
-        // POST: Titles/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TitleID,TitleName")] Title title)
-        {
-            if (id != title.TitleID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(title);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TitleExists(title.TitleID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(title);
-        }
-
-        // GET: Titles/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var title = await _context.Title
-                .FirstOrDefaultAsync(m => m.TitleID == id);
-            if (title == null)
-            {
-                return NotFound();
-            }
-
-            return View(title);
-        }
-
-        // POST: Titles/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var title = await _context.Title.FindAsync(id);
-            if (title != null)
-            {
-                _context.Title.Remove(title);
-            }
-
-            await _context.SaveChangesAsync();
+            try { _context.Update(title); await _context.SaveChangesAsync(); }
+            catch (DbUpdateConcurrencyException) { if (!_context.Title.Any(e => e.TitleID == id)) return NotFound(); else throw; }
             return RedirectToAction(nameof(Index));
         }
+        return View(title);
+    }
 
-        private bool TitleExists(int id)
-        {
-            return _context.Title.Any(e => e.TitleID == id);
-        }
+    public async Task<IActionResult> Details(int? id)
+    {
+        if (id == null) return NotFound();
+        var title = await _context.Title.FirstOrDefaultAsync(t => t.TitleID == id);
+        if (title == null) return NotFound();
+        return View(title);
+    }
+
+    public async Task<IActionResult> Delete(int? id)
+    {
+        if (id == null) return NotFound();
+        var title = await _context.Title.FirstOrDefaultAsync(t => t.TitleID == id);
+        if (title == null) return NotFound();
+        return View(title);
+    }
+
+    [HttpPost, ActionName("Delete"), ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        var title = await _context.Title.FindAsync(id);
+        _context.Title.Remove(title);
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
     }
 }

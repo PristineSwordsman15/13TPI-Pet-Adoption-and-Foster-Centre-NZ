@@ -13,10 +13,10 @@ using System.Threading.Tasks;
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
     [Authorize]
-    public class AccessLevelsController : Controller
+    public class AccessLevelController : Controller
     {
         private readonly Context _context;
-        public AccessLevelsController(Context context) => _context = context;
+        public AccessLevelController(Context context) => _context = context;
 
         public async Task<IActionResult> Index(string searchString, string sortOrder, int? pageNumber = 1)
         {
