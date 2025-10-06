@@ -43,11 +43,4 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// Run seed
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<Context>();
-    Task task = DbInitializer.SeedAsync(db);
-}
-
 app.Run();
