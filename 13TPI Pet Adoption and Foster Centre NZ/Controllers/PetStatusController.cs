@@ -19,9 +19,9 @@ public class PetStatusController : Controller
         var statuses = _context.PetStatus.AsQueryable();
 
         if (!string.IsNullOrEmpty(searchString))
-            statuses = statuses.Where(s => s.Name.Contains(searchString));
+            statuses = statuses.Where(s => s.StatusName.Contains(searchString));
 
-        statuses = sortOrder == "status_desc" ? statuses.OrderByDescending(s => s.Name) : statuses.OrderBy(s => s.Name);
+        statuses = sortOrder == "status_desc" ? statuses.OrderByDescending(s => s.StatusName) : statuses.OrderBy(s => s.StatusName);
 
         return View(await PaginatedList<PetStatus>.CreateAsync(statuses.AsNoTracking(), pageNumber, 6));
     }

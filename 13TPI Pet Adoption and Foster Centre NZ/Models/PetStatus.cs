@@ -22,7 +22,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
     public int PetStatusID { get; set; }
 
     [Required, StringLength(30)]
-    public string Name { get; set; } = string.Empty;
+    public string StatusName { get; set; } = string.Empty;
 
     public ICollection<Pet> Pets { get; set; }
 }

@@ -75,9 +75,9 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
             if (!context.PetStatus.Any())
             {
                 context.PetStatus.AddRange(
-                    new PetStatus { Name = "Available" },
-                    new PetStatus { Name = "Adopted" },
-                    new PetStatus { Name = "Fostered" }
+                    new PetStatus { StatusName = "Available" },
+                    new PetStatus { StatusName = "Adopted" },
+                    new PetStatus { StatusName = "Fostered" }
                 );
                 await context.SaveChangesAsync();
             }

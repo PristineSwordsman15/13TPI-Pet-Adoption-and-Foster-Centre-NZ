@@ -100,7 +100,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
             // MedicalRecord ↔ Pet
             builder.Entity<MedicalRecord>()
                 .HasOne(mr => mr.Pet)
-                .WithMany(p => p.MedicalRecords)
+                .WithMany(p => p.MedicalRecord)
                 .HasForeignKey(mr => mr.PetID)
                 .OnDelete(DeleteBehavior.Restrict);
 
