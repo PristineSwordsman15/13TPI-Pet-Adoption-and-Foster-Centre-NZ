@@ -60,47 +60,6 @@
                         </button>
                     </form>
 
-                    @* Admin dropdown (only when logged in) *@
-                    @if (User?.Identity?.IsAuthenticated ?? false)
-                    {
-                        <div class="dropdown me-2">
-                            <button class="btn btn-outline-dark btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Admin
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li>
-                                    <a class="dropdown-item" asp-area="" asp-controller="AdminOffice" asp-action="Index">
-                                        Admin Office
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" asp-area="" asp-controller="Payment" asp-action="Index">
-                                        Payments
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" asp-area="" asp-controller="Coordinator" asp-action="Index">
-                                        Franchise Coordinators
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" asp-area="" asp-controller="Franchise" asp-action="Index">
-                                        Organisation Franchises
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" asp-area="" asp-controller="Location" asp-action="Index">
-                                        Franchise Locations
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" asp-area="" asp-controller="MedicalRecords" asp-action="Index">
-                                        Pet Medical Records
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    }
 
                     @* Login / Register or User menu *@
                     <partial name="_LoginPartial" />
@@ -122,12 +81,9 @@
                     </a>
                     <a class="btn btn-outline-info px-4 py-2" asp-area="" asp-controller="Shelter" asp-action="Index">
                         Shelters
-                    </a>
-                    <a class="btn btn-outline-info px-4 py-2" asp-area="" asp-controller="Franchise" asp-action="Index">
-                        Organisation Franchise and Shelter Contacts by Location 
-                    </a>
+                   </a>
                     <a class="btn btn-outline-info px-4 py-2" asp-area="" asp-controller="Pet" asp-action="Index">
-                        Adopt and Foster
+                        Adopt
                     </a>
                     
                 </div>
