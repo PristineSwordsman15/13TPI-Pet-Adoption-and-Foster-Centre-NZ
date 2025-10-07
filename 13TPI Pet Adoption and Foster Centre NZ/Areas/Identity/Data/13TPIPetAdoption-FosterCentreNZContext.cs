@@ -22,5 +22,9 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data
 
            
         }
+        public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Breed> Breed { get; set; } = default!;
+        public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Shelter> Shelter { get; set; } = default!;
+        public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Pet> Pet { get; set; } = default!;
+        public DbSet<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Location> Location { get; set; } = default!;
     }
 }
