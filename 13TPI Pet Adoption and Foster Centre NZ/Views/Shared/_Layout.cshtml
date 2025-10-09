@@ -42,6 +42,9 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-area="" asp-controller="Locations" asp-action="Index">Locations</a>
                     </li>
+                    <div>
+                        <partial name="_LoginPartial" />
+                    </div>
               
                
                 </ul>
@@ -53,9 +56,11 @@
         @RenderBody()
     </main>
 
-    <footer class="bg-primary text-white text-center py-3 mt-5">
+    <footer class="bg-primary text-white text-center py-3 mt-5 ">
         <div class="container">
             <small>&copy; 2025 Pet Adoption NZ. All rights reserved.</small>
+
+            position-relative
         </div>
     </footer>
 
