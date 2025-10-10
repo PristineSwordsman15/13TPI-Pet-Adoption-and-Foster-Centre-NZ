@@ -20,9 +20,19 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         }
 
         // GET: Pets
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string SearchString)
         {
-            return View(await _context.Pet.ToListAsync());
+            if (string.IsNullOrEmpty(SearchString))
+            {
+                return View(await _context.Pet.ToListAsync());
+            }
+
+            else
+            {
+                var results = _context.Pet.Where(a => a.PetName == SearchString);
+                return View(await results.ToListAsync());
+            }
+       
         }
 
         // GET: Pets/Details/5

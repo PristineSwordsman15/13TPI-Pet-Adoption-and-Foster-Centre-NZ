@@ -55,15 +55,13 @@
     <main class="container my-4">
         @RenderBody()
     </main>
-
-    <footer class="bg-primary text-white text-center py-3 mt-5 ">
-        <div class="container">
-            <small>&copy; 2025 Pet Adoption NZ. All rights reserved.</small>
-
-            position-relative
+    <footer class="custom-footer border-top fixed-bottom" style="height:8vh; background-color: #f8f9fa;">
+        <div class="container d-flex align-items-center justify-content-center h-100">                      
+            <span class="text-muted">© 2025 Pet Adoption NZ</span>
         </div>
     </footer>
 
+    
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js"></script>
     @RenderSection("Scripts", required: false)

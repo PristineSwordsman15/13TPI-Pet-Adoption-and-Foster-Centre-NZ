@@ -9,6 +9,8 @@ using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
+
+    
 {
     public class LocationsController : Controller
     {
