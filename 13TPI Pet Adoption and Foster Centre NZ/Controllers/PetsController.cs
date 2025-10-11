@@ -58,6 +58,8 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         // GET: Pets/Create
         public IActionResult Create()
         {
+            ViewData["ShelterID"] = new SelectList(_context.Shelter, "ShelterID,ShelterName");
+            ViewData["BreedID"] = new SelectList(_context.Breed, "BreedID,BreedName");
             return View();
         }
 
@@ -68,12 +70,18 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PetID,PetName,ShelterID,BreedID,Colour")] Pet pet)
         {
+            if(!_context.Shelter.Any(s=> s.ShelterID == pet.ShelterID))
+            {
+                ModelState.AddModelError("ShelterID", "Invalid Shelter selected. Please create a new shelter");
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(pet);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["SheltetrID"] = new SelectList(_context.Shelter, "ShelterID", "ShelterName", pet.ShelterID);
+            ViewData["BreedID"] = new SelectList(_context.Breed, "BreedID", "BreesdName", pet.BreedID);
             return View(pet);
         }
 
