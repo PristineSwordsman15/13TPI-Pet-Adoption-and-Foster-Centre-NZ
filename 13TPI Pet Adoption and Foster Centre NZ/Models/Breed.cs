@@ -6,9 +6,12 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
 
     public class Breed
     {
-       [Key]
+    // BreedID (Primary Key)
+    [Key]
        public int BreedID { get; set; }
-       [Required]
+
+    // BreedName
+    [Required]
        public string BreedName { get; set; }
     }
 
