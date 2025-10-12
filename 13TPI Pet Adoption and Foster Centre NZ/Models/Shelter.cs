@@ -13,10 +13,14 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
 
         // Name of shelter
         [Required]
+        [StringLength(100, MinimumLength = 3, ErrorMessage = "Shelter Name must be between 3 and 100 characters.")]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Shelter Name can only contain letters and spaces.")]
+        [Display(Name = "Shelter Name")]
         public string ShelterName { get; set; }
 
         // LocationID (Foreign Key) (references Location table) of Shelter
         [Required]
+        [Display(Name = "Location")]
         public int LocationID { get; set; }
     }
 }
