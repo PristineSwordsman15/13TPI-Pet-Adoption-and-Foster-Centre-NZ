@@ -25,9 +25,15 @@
                 @Html.DisplayFor(modelItem => item.BreedName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.BreedID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.BreedID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.BreedID">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.BreedID" class="btn btn-sm btn-warning">
+                        <i class="bi bi-pencil-square"></i> Edit
+                    </a>
+                    <a asp-action="Details" asp-route-id="@item.BreedID" class="btn btn-sm btn-info">
+                        <i class="bi bi-eye"></i> Details
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.BreedID" class="btn btn-sm btn-danger">
+                        <i class="bi bi-trash"></i> Delete
+                    </a>
             </td>
         </tr>
 }
