@@ -56,35 +56,28 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         }
 
         // GET: Pets/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            ViewData["ShelterID"] = new SelectList(_context.Shelter, "ShelterID,ShelterName");
-            ViewData["BreedID"] = new SelectList(_context.Breed, "BreedID,BreedName");
-            return View();
-        }
 
-        // POST: Pets/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PetID,PetName,ShelterID,BreedID,Colour")] Pet pet)
-        {
-            if(!_context.Shelter.Any(s=> s.ShelterID == pet.ShelterID))
-            {
-                ModelState.AddModelError("ShelterID", "Invalid Shelter selected. Please create a new shelter");
-            }
-            if (ModelState.IsValid)
-            {
-                _context.Add(pet);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["SheltetrID"] = new SelectList(_context.Shelter, "ShelterID", "ShelterName", pet.ShelterID);
-            ViewData["BreedID"] = new SelectList(_context.Breed, "BreedID", "BreesdName", pet.BreedID);
-            return View(pet);
-        }
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["CurrentFilter"] = searchString;
 
+            var pets = from p in _context.Pet
+                             select p;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                pets = pets.Where(c => c.PetName.Contains(searchString));
+            }
+
+            pets = sortOrder switch
+            {
+                "name_desc" => pets.OrderByDescending(i => i.PetName),
+                _ => pets.OrderBy(i => i.PetName),
+            };
+
+            return View(await pets.AsNoTracking().ToListAsync());
+        }
         // GET: Pets/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

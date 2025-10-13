@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
 using Microsoft.AspNetCore.Authorization;
+using X.PagedList.Extensions;
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 {
@@ -22,20 +23,58 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         }
 
         // GET: Breeds
-        public async Task<IActionResult> Index()
+        public async Task<ViewResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            return View(await _context.Breed.ToListAsync());
+            ViewBag.CurrentSort = sortOrder;
+            ViewData["ProductSortParm"] = sortOrder == "Product" ? "product_desc" : "Product";
+            ViewData["CurrentFilter"] = searchString;
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+            var breeds = _context.Breed.Include(p => p.BreedName).AsQueryable();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                breeds = breeds.Where(p => p.BreedName.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "product_desc":
+                    breeds = breeds.OrderByDescending(p => p.BreedName);
+                    break;
+                case "Product":
+                default:
+                    breeds = breeds.OrderBy(p => p.BreedName);
+                    break;
+            }
+
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View(breeds.ToPagedList(pageNumber, pageSize));
         }
+
 
         // GET: Breeds/Details/5
         public async Task<IActionResult> Details(int? id)
+
         {
+
             if (id == null)
             {
                 return NotFound();
             }
 
             var breed = await _context.Breed
+                .Include(p => p.BreedName)
                 .FirstOrDefaultAsync(m => m.BreedID == id);
             if (breed == null)
             {

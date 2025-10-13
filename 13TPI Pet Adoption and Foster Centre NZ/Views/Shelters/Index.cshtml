@@ -18,7 +18,7 @@
                 @Html.DisplayNameFor(model => model.ShelterName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LocationID)
+          
             </th>
             <th></th>
         </tr>
@@ -30,7 +30,7 @@
                 @Html.DisplayFor(modelItem => item.ShelterName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LocationID)
+                @Html.DisplayFor(modelItem => item.Location.LocationName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ShelterID" class="btn btn-sm btn-warning">

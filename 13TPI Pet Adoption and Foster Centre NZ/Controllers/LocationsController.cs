@@ -24,11 +24,28 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         }
 
         // GET: Locations
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            return View(await _context.Location.ToListAsync());
-        }
 
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["CurrentFilter"] = searchString;
+
+            var locations = from l in _context.Location
+                             select l;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                locations = locations.Where(l=> l.LocationName.Contains(searchString));
+            }
+
+            locations = sortOrder switch
+            {
+                "name_desc" => locations.OrderByDescending(i => i.LocationName),
+                _ => locations.OrderBy(i => i.LocationName),
+            };
+
+            return View(await locations.AsNoTracking().ToListAsync());
+        }
         // GET: Locations/Details/5
         public async Task<IActionResult> Details(int? id)
         {

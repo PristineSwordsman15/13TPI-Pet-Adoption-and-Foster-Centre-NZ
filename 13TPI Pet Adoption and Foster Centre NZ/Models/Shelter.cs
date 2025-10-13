@@ -21,6 +21,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
         // LocationID (Foreign Key) (references Location table) of Shelter
         [Required]
         [Display(Name = "Location")]
-        public int LocationID { get; set; }
+        public int LocationID { get; set; } 
+        public Location Location { get; set; }
     }
 }
