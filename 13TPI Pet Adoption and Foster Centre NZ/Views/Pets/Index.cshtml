@@ -1,64 +1,97 @@
-﻿@model IEnumerable<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Pet>
+﻿@model _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.PaginatedList<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Pet>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Pets";
+    var currentSort = ViewData["CurrentSort"] as string;
+    var nameSortParm = ViewData["NameSortParm"] as string;
+    var breedSortParm = ViewData["BreedSortParm"] as string;
+    var shelterSortParm = ViewData["ShelterSortParm"] as string;
+    var currentFilter = ViewData["CurrentFilter"] as string;
+    var breedFilter = ViewData["BreedFilter"];
+    var shelterFilter = ViewData["ShelterFilter"];
+    var adoptionFilter = ViewData["AdoptionFilter"];
+    var breeds = ViewData["Breeds"] as SelectList;
+    var shelters = ViewData["Shelters"] as SelectList;
+    var currentPage = Model.PageIndex;
+    var totalPages = Model.TotalPages;
 }
 
-<h1>Pets in Orginisation Shelters</h1>
+<h1>Pets in Organisation Shelters</h1>
+
+<form asp-action="Index" method="get" class="mb-3">
+    <input type="text" name="searchString" value="@currentFilter" placeholder="Search pets..." class="form-control d-inline-block w-auto" />
+    <select name="breedFilter" class="form-select d-inline-block w-auto">
+        <option value="">All Breeds</option>
+        @foreach (var breed in breeds)
+        {
+            var selected = breed.Value == (breedFilter?.ToString());
+            <option value="@breed.Value" selected="@(selected ? "selected" : null)">@breed.Text</option>
+        }
+    </select>
+    <select name="shelterFilter" class="form-select d-inline-block w-auto">
+        <option value="">All Shelters</option>
+        @foreach (var shelter in shelters)
+        {
+            var selected = shelter.Value == (shelterFilter?.ToString());
+            <option value="@shelter.Value" selected="@(selected ? "selected" : null)">@shelter.Text</option>
+        }
+    </select>
+    <select name="adoptionFilter" class="form-select d-inline-block w-auto">
+        <option value="">All Status</option>
+        <option value="true" selected="@(adoptionFilter?.ToString() == "True" ? "selected" : null)">Adopted</option>
+        <option value="false" selected="@(adoptionFilter?.ToString() == "False" ? "selected" : null)">Available</option>
+    </select>
+    <button type="submit" class="btn btn-primary">Filter</button>
+</form>
 
 <p>
-    <a asp-action="Create" class="btn btn-success">
-        <i class="bi bi-plus-circle"></i> Create New
-    </a>
+    <a asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i> Add New Pet</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.PetName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ShelterID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BreedID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Colour)
-            </th>
+            <th><a asp-action="Index" asp-route-sortOrder="@nameSortParm" asp-route-searchString="@currentFilter" asp-route-breedFilter="@breedFilter" asp-route-shelterFilter="@shelterFilter" asp-route-adoptionFilter="@adoptionFilter" asp-route-page="1">Pet Name</a></th>
+            <th><a asp-action="Index" asp-route-sortOrder="@breedSortParm" asp-route-searchString="@currentFilter" asp-route-breedFilter="@breedFilter" asp-route-shelterFilter="@shelterFilter" asp-route-adoptionFilter="@adoptionFilter" asp-route-page="1">Breed</a></th>
+            <th><a asp-action="Index" asp-route-sortOrder="@shelterSortParm" asp-route-searchString="@currentFilter" asp-route-breedFilter="@breedFilter" asp-route-shelterFilter="@shelterFilter" asp-route-adoptionFilter="@adoptionFilter" asp-route-page="1">Shelter</a></th>
+            <th>Colour</th>
+            <th>Adoption Status</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PetName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ShelterID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BreedID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Colour)
-            </td>
-            <td>
-                   <td>
-                    <a asp-action="Edit" asp-route-id="@item.PetID" class="btn btn-sm btn-warning">
-                        <i class="bi bi-pencil-square"></i> Edit
-                    </a>
-
-                    <a asp-action="Details" asp-route-id="@item.PetID" class="btn btn-sm btn-info">
-                        <i class="bi bi-eye"></i> Details
-                    </a>
-
-                    <a asp-action="Delete" asp-route-id="@item.PetID" class="btn btn-sm btn-danger">
-                        <i class="bi bi-trash"></i> Delete
-                    </a>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.PetName</td>
+                <td>@item.Breed?.BreedName</td>
+                <td>@item.Shelter?.ShelterName</td>
+                <td>@item.Colour</td>
+                <td>@(item.Adoption ? "Adopted" : "Available")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.PetID" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i> Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.PetID" class="btn btn-sm btn-info"><i class="bi bi-eye"></i> Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.PetID" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i> Delete</a>
                 </td>
-        </tr>
-}
+            </tr>
+        }
     </tbody>
 </table>
+
+<nav>
+    <ul class="pagination">
+        @for (int i = 1; i <= totalPages; i++)
+        {
+            <li class="page-item @(i == currentPage ? "active" : "")">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@i"
+                   asp-route-sortOrder="@currentSort"
+                   asp-route-searchString="@currentFilter"
+                   asp-route-breedFilter="@breedFilter"
+                   asp-route-shelterFilter="@shelterFilter"
+                   asp-route-adoptionFilter="@adoptionFilter">@i</a>
+            </li>
+        }
+    </ul>
+</nav>

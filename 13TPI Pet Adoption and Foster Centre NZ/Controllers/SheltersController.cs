@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -21,14 +20,14 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             _context = context;
         }
 
-        // GET: Sheltershelters.AsNoTracking().ToListAsync());
+        // GET: Shelters
         public async Task<IActionResult> Index(
-    string sortOrder,
-    string currentFilter,
-    string searchString,
-    int? locationFilter,
-    int page = 1,
-    int pageSize = 10)
+            string sortOrder,
+            string currentFilter,
+            string searchString,
+            int? locationFilter,
+            int page = 1,
+            int pageSize = 10)
         {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -57,33 +56,25 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             };
 
             // Pagination
-            int totalItems = await shelters.CountAsync();
-            var pagedShelters = await shelters
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .AsNoTracking()
-                .ToListAsync();
+            var pagedShelters = await PaginatedList<Shelter>.CreateAsync(shelters.AsNoTracking(), page, pageSize);
 
-            ViewData["TotalPages"] = (int)Math.Ceiling(totalItems / (double)pageSize);
+            ViewData["TotalPages"] = pagedShelters.TotalPages;
             ViewData["CurrentPage"] = page;
             ViewData["Locations"] = new SelectList(_context.Location.OrderBy(l => l.LocationName), "LocationID", "LocationName");
 
             return View(pagedShelters);
         }
+
         // GET: Shelters/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var shelter = await _context.Shelter
+                .Include(s => s.Location)
                 .FirstOrDefaultAsync(m => m.ShelterID == id);
-            if (shelter == null)
-            {
-                return NotFound();
-            }
+
+            if (shelter == null) return NotFound();
 
             return View(shelter);
         }
@@ -91,12 +82,11 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         // GET: Shelters/Create
         public IActionResult Create()
         {
+            ViewData["Locations"] = new SelectList(_context.Location, "LocationID", "LocationName");
             return View();
         }
 
         // POST: Shelters/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ShelterID,ShelterName,LocationID")] Shelter shelter)
@@ -107,36 +97,28 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["Locations"] = new SelectList(_context.Location, "LocationID", "LocationName", shelter.LocationID);
             return View(shelter);
         }
 
         // GET: Shelters/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var shelter = await _context.Shelter.FindAsync(id);
-            if (shelter == null)
-            {
-                return NotFound();
-            }
+            if (shelter == null) return NotFound();
+
+            ViewData["Locations"] = new SelectList(_context.Location, "LocationID", "LocationName", shelter.LocationID);
             return View(shelter);
         }
 
         // POST: Shelters/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ShelterID,ShelterName,LocationID")] Shelter shelter)
         {
-            if (id != shelter.ShelterID)
-            {
-                return NotFound();
-            }
+            if (id != shelter.ShelterID) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -147,34 +129,24 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ShelterExists(shelter.ShelterID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!_context.Shelter.Any(e => e.ShelterID == shelter.ShelterID)) return NotFound();
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["Locations"] = new SelectList(_context.Location, "LocationID", "LocationName", shelter.LocationID);
             return View(shelter);
         }
 
         // GET: Shelters/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var shelter = await _context.Shelter
+                .Include(s => s.Location)
                 .FirstOrDefaultAsync(m => m.ShelterID == id);
-            if (shelter == null)
-            {
-                return NotFound();
-            }
+            if (shelter == null) return NotFound();
 
             return View(shelter);
         }
@@ -185,18 +157,10 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var shelter = await _context.Shelter.FindAsync(id);
-            if (shelter != null)
-            {
-                _context.Shelter.Remove(shelter);
-            }
+            if (shelter != null) _context.Shelter.Remove(shelter);
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ShelterExists(int id)
-        {
-            return _context.Shelter.Any(e => e.ShelterID == id);
         }
     }
 }

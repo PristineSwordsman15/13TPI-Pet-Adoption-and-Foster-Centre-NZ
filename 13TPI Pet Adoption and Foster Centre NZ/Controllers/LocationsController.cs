@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Data;
 using _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
-
-    
 {
     [Authorize]
     public class LocationsController : Controller
@@ -25,14 +21,15 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 
         // GET: Locations
         public async Task<IActionResult> Index(
-    string sortOrder,
-    string currentFilter,
-    string searchString,
-    int page = 1,
-    int pageSize = 10)
+            string sortOrder,
+            string currentFilter,
+            string searchString,
+            int page = 1,
+            int pageSize = 10)
         {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["CitySortParm"] = sortOrder == "City" ? "city_desc" : "City";
             ViewData["CurrentFilter"] = searchString;
 
             var locations = _context.Location.AsQueryable();
@@ -47,36 +44,27 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             locations = sortOrder switch
             {
                 "name_desc" => locations.OrderByDescending(l => l.LocationName),
+                "City" => locations.OrderBy(l => l.City),
+                "city_desc" => locations.OrderByDescending(l => l.City),
                 _ => locations.OrderBy(l => l.LocationName),
             };
 
             // Pagination
-            int totalItems = await locations.CountAsync();
-            var pagedLocations = await locations
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .AsNoTracking()
-                .ToListAsync();
+            var pagedLocations = await PaginatedList<Location>.CreateAsync(locations.AsNoTracking(), page, pageSize);
 
-            ViewData["TotalPages"] = (int)Math.Ceiling(totalItems / (double)pageSize);
+            ViewData["TotalPages"] = pagedLocations.TotalPages;
             ViewData["CurrentPage"] = page;
 
             return View(pagedLocations);
         }
+
         // GET: Locations/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var location = await _context.Location
-                .FirstOrDefaultAsync(m => m.LocationID == id);
-            if (location == null)
-            {
-                return NotFound();
-            }
+            var location = await _context.Location.FirstOrDefaultAsync(m => m.LocationID == id);
+            if (location == null) return NotFound();
 
             return View(location);
         }
@@ -88,8 +76,6 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         }
 
         // POST: Locations/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("LocationID,LocationName,Street,City,State,ZipCode,Country")] Location location)
@@ -106,30 +92,20 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         // GET: Locations/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var location = await _context.Location.FindAsync(id);
-            if (location == null)
-            {
-                return NotFound();
-            }
+            if (location == null) return NotFound();
+
             return View(location);
         }
 
         // POST: Locations/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("LocationID,LocationName,Street,City,State,ZipCode,Country")] Location location)
         {
-            if (id != location.LocationID)
-            {
-                return NotFound();
-            }
+            if (id != location.LocationID) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -140,14 +116,8 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LocationExists(location.LocationID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!_context.Location.Any(e => e.LocationID == location.LocationID)) return NotFound();
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -157,17 +127,10 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         // GET: Locations/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var location = await _context.Location
-                .FirstOrDefaultAsync(m => m.LocationID == id);
-            if (location == null)
-            {
-                return NotFound();
-            }
+            var location = await _context.Location.FirstOrDefaultAsync(m => m.LocationID == id);
+            if (location == null) return NotFound();
 
             return View(location);
         }
@@ -178,18 +141,10 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var location = await _context.Location.FindAsync(id);
-            if (location != null)
-            {
-                _context.Location.Remove(location);
-            }
+            if (location != null) _context.Location.Remove(location);
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool LocationExists(int id)
-        {
-            return _context.Location.Any(e => e.LocationID == id);
         }
     }
 }

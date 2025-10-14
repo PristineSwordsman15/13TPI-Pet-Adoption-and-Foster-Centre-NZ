@@ -4,9 +4,10 @@
     ViewData["Title"] = "Locations";
     var currentSort = ViewData["CurrentSort"] as string;
     var nameSortParm = ViewData["NameSortParm"] as string;
+    var citySortParm = ViewData["CitySortParm"] as string;
     var currentFilter = ViewData["CurrentFilter"] as string;
-    var currentPage = (int)(ViewData["CurrentPage"] ?? 1);
-    var totalPages = (int)(ViewData["TotalPages"] ?? 1);
+    var currentPage = Model.PageIndex;
+    var totalPages = Model.TotalPages;
 }
 
 <h1>Locations</h1>
@@ -17,42 +18,38 @@
 </form>
 
 <p>
-    <a asp-action="Create" class="btn btn-success">
-        <i class="bi bi-plus-circle"></i> Create New
-    </a>
+    <a asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i> Add New Location</a>
 </p>
 
 <table class="table">
     <thead>
         <tr>
-            <th>
-                <a asp-action="Index" asp-route-sortOrder="@nameSortParm" asp-route-searchString="@currentFilter" asp-route-page="1">LocationName</a>
-            </th>
+            <th><a asp-action="Index" asp-route-sortOrder="@nameSortParm" asp-route-searchString="@currentFilter" asp-route-page="1">Location Name</a></th>
             <th>Street</th>
-            <th>City</th>
+            <th><a asp-action="Index" asp-route-sortOrder="@citySortParm" asp-route-searchString="@currentFilter" asp-route-page="1">City</a></th>
             <th>State</th>
-            <th>ZipCode</th>
+            <th>Zip Code</th>
             <th>Country</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model)
-{
-        <tr>
-            <td>@item.LocationName</td>
-            <td>@item.Street</td>
-            <td>@item.City</td>
-            <td>@item.State</td>
-            <td>@item.ZipCode</td>
-            <td>@item.Country</td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.LocationID" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i> Edit</a>
-                <a asp-action="Details" asp-route-id="@item.LocationID" class="btn btn-sm btn-info"><i class="bi bi-eye"></i> Details</a>
-                <a asp-action="Delete" asp-route-id="@item.LocationID" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i> Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.LocationName</td>
+                <td>@item.Street</td>
+                <td>@item.City</td>
+                <td>@item.State</td>
+                <td>@item.ZipCode</td>
+                <td>@item.Country</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.LocationID" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i> Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.LocationID" class="btn btn-sm btn-info"><i class="bi bi-eye"></i> Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.LocationID" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i> Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 

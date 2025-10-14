@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -23,14 +22,14 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 
         // GET: Pets
         public async Task<IActionResult> Index(
-    string sortOrder,
-    string currentFilter,
-    string searchString,
-    int? breedFilter,
-    int? shelterFilter,
-    bool? adoptionFilter,
-    int page = 1,
-    int pageSize = 10)
+            string sortOrder,
+            string currentFilter,
+            string searchString,
+            int? breedFilter,
+            int? shelterFilter,
+            bool? adoptionFilter,
+            int page = 1,
+            int pageSize = 10)
         {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -78,36 +77,29 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             };
 
             // Pagination
-            int totalItems = await pets.CountAsync();
-            var pagedPets = await pets
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .AsNoTracking()
-                .ToListAsync();
+            var pagedPets = await PaginatedList<Pet>.CreateAsync(pets.AsNoTracking(), page, pageSize);
 
-            // For dropdowns
-            ViewData["Breeds"] = new SelectList(_context.Breed.OrderBy(b => b.BreedName), "BreedID", "BreedName");
-            ViewData["Shelters"] = new SelectList(_context.Shelter.OrderBy(s => s.ShelterName), "ShelterID", "ShelterName");
+            // Dropdowns
+            ViewData["Breeds"] = new SelectList(_context.Breed.OrderBy(b => b.BreedName), "BreedID", "BreedName", breedFilter);
+            ViewData["Shelters"] = new SelectList(_context.Shelter.OrderBy(s => s.ShelterName), "ShelterID", "ShelterName", shelterFilter);
 
-            ViewData["TotalPages"] = (int)Math.Ceiling(totalItems / (double)pageSize);
+            ViewData["TotalPages"] = pagedPets.TotalPages;
             ViewData["CurrentPage"] = page;
 
             return View(pagedPets);
         }
+
         // GET: Pets/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var pet = await _context.Pet
+                .Include(p => p.Breed)
+                .Include(p => p.Shelter)
                 .FirstOrDefaultAsync(m => m.PetID == id);
-            if (pet == null)
-            {
-                return NotFound();
-            }
+
+            if (pet == null) return NotFound();
 
             return View(pet);
         }
@@ -115,36 +107,46 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         // GET: Pets/Create
         public IActionResult Create()
         {
+            ViewData["Breeds"] = new SelectList(_context.Breed.OrderBy(b => b.BreedName), "BreedID", "BreedName");
+            ViewData["Shelters"] = new SelectList(_context.Shelter.OrderBy(s => s.ShelterName), "ShelterID", "ShelterName");
             return View();
+        }
+
+        // POST: Pets/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("PetID,PetName,ShelterID,BreedID,Colour,Adoption")] Pet pet)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(pet);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["Breeds"] = new SelectList(_context.Breed.OrderBy(b => b.BreedName), "BreedID", "BreedName", pet.BreedID);
+            ViewData["Shelters"] = new SelectList(_context.Shelter.OrderBy(s => s.ShelterName), "ShelterID", "ShelterName", pet.ShelterID);
+            return View(pet);
         }
 
         // GET: Pets/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var pet = await _context.Pet.FindAsync(id);
-            if (pet == null)
-            {
-                return NotFound();
-            }
+            if (pet == null) return NotFound();
+
+            ViewData["Breeds"] = new SelectList(_context.Breed.OrderBy(b => b.BreedName), "BreedID", "BreedName", pet.BreedID);
+            ViewData["Shelters"] = new SelectList(_context.Shelter.OrderBy(s => s.ShelterName), "ShelterID", "ShelterName", pet.ShelterID);
             return View(pet);
         }
 
         // POST: Pets/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PetID,PetName,ShelterID,BreedID,Colour")] Pet pet)
+        public async Task<IActionResult> Edit(int id, [Bind("PetID,PetName,ShelterID,BreedID,Colour,Adoption")] Pet pet)
         {
-            if (id != pet.PetID)
-            {
-                return NotFound();
-            }
+            if (id != pet.PetID) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -155,34 +157,27 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PetExists(pet.PetID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!_context.Pet.Any(e => e.PetID == pet.PetID)) return NotFound();
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["Breeds"] = new SelectList(_context.Breed.OrderBy(b => b.BreedName), "BreedID", "BreedName", pet.BreedID);
+            ViewData["Shelters"] = new SelectList(_context.Shelter.OrderBy(s => s.ShelterName), "ShelterID", "ShelterName", pet.ShelterID);
             return View(pet);
         }
 
         // GET: Pets/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var pet = await _context.Pet
+                .Include(p => p.Breed)
+                .Include(p => p.Shelter)
                 .FirstOrDefaultAsync(m => m.PetID == id);
-            if (pet == null)
-            {
-                return NotFound();
-            }
+
+            if (pet == null) return NotFound();
 
             return View(pet);
         }
@@ -193,18 +188,10 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var pet = await _context.Pet.FindAsync(id);
-            if (pet != null)
-            {
-                _context.Pet.Remove(pet);
-            }
+            if (pet != null) _context.Pet.Remove(pet);
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool PetExists(int id)
-        {
-            return _context.Pet.Any(e => e.PetID == id);
         }
     }
 }

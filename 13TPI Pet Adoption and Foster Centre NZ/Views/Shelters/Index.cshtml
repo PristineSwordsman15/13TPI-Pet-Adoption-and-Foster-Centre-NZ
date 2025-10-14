@@ -1,49 +1,76 @@
-﻿@model IEnumerable<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Shelter>
+﻿@model _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.PaginatedList<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Shelter>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Shelters";
+    var currentSort = ViewData["CurrentSort"] as string;
+    var nameSortParm = ViewData["NameSortParm"] as string;
+    var currentFilter = ViewData["CurrentFilter"] as string;
+    var locationFilter = ViewData["LocationFilter"];
+    var locations = ViewData["Locations"] as SelectList;
+    var currentPage = Model.PageIndex;
+    var totalPages = Model.TotalPages;
 }
 
-<h1>Shelters in Orginisation</h1>
+<h1>Shelters</h1>
+
+<form asp-action="Index" method="get" class="mb-3">
+    <input type="text" name="searchString" value="@currentFilter" placeholder="Search Shelters..." class="form-control d-inline-block w-auto" />
+    <select name="locationFilter" class="form-select d-inline-block w-auto">
+        <option value="">All Locations</option>
+        @if (locations != null)
+        {
+            foreach (var location in locations)
+            {
+                var selected = location.Value == (locationFilter?.ToString());
+                <option value="@location.Value" selected="@(selected ? "selected" : null)">@location.Text</option>
+            }
+        }
+    </select>
+    <button type="submit" class="btn btn-primary">Filter</button>
+</form>
 
 <p>
-    <a asp-action="Create" class="btn btn-success">
-        <i class="bi bi-plus-circle"></i> Create New
-    </a>
+    <a asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i> Create New</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ShelterName)
+                <a asp-action="Index" asp-route-sortOrder="@nameSortParm" asp-route-searchString="@currentFilter" asp-route-locationFilter="@locationFilter" asp-route-page="1">Shelter Name</a>
             </th>
-            <th>
-          
-            </th>
+            <th>Location</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ShelterName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Location.LocationName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ShelterID" class="btn btn-sm btn-warning">
-                        <i class="bi bi-pencil-square"></i> Edit 
-                        </a>
-                    <a asp-action="Details" asp-route-id="@item.ShelterID" class="btn btn-sm btn-info">
-                        <i class="bi bi-eye"></i> Details
-                    </a> 
-                    <a asp-action="Delete" asp-route-id="@item.ShelterID" class="btn btn-sm btn-danger">
-                        <i class="bi bi-trash"></i> Delete
-                    </a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ShelterName</td>
+                <td>@item.Location?.LocationName</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ShelterID" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i> Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.ShelterID" class="btn btn-sm btn-info"><i class="bi bi-eye"></i> Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.ShelterID" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i> Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<nav>
+    <ul class="pagination">
+        @for (int i = 1; i <= totalPages; i++)
+        {
+            <li class="page-item @(i == currentPage ? "active" : "")">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@i"
+                   asp-route-sortOrder="@currentSort"
+                   asp-route-searchString="@currentFilter"
+                   asp-route-locationFilter="@locationFilter">@i</a>
+            </li>
+        }
+    </ul>
+</nav>
