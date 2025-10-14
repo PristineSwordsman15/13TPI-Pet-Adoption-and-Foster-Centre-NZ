@@ -2,6 +2,9 @@
 
 @{
     ViewData["Title"] = "Shelters";
+    // These are the filters currently on the table 
+    // The mechenisms show the total pahes at the bottom
+
     var currentSort = ViewData["CurrentSort"] as string;
     var nameSortParm = ViewData["NameSortParm"] as string;
     var currentFilter = ViewData["CurrentFilter"] as string;
@@ -13,10 +16,14 @@
 
 <h1>Shelters</h1>
 
+
+<!--This is search and filter box -->
 <form asp-action="Index" method="get" class="mb-3">
     <input type="text" name="searchString" value="@currentFilter" placeholder="Search Shelters..." class="form-control d-inline-block w-auto" />
     <select name="locationFilter" class="form-select d-inline-block w-auto">
         <option value="">All Locations</option>
+
+        <!--First checks if list of locations are available. If so it goes through the list in descending order. Depending on what was chosen last it preselects the users choice -->
         @if (locations != null)
         {
             foreach (var location in locations)
@@ -30,7 +37,7 @@
 </form>
 
 <p>
-    <a asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i> Create New</a>
+    <a asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i> Add New Shelter</a>
 </p>
 
 <table class="table">
