@@ -23,45 +23,41 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         }
 
         // GET: Breeds
-        public async Task<ViewResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public async Task<IActionResult> Index(
+    string sortOrder,
+    string currentFilter,
+    string searchString,
+    int page = 1,
+    int pageSize = 10)
         {
-            ViewBag.CurrentSort = sortOrder;
-            ViewData["ProductSortParm"] = sortOrder == "Product" ? "product_desc" : "Product";
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["CurrentFilter"] = searchString;
 
-            if (searchString != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-
-            ViewBag.CurrentFilter = searchString;
             var breeds = _context.Breed.AsQueryable();
 
+            // Search
             if (!String.IsNullOrEmpty(searchString))
             {
-                breeds = breeds.Where(p => p.BreedName.Contains(searchString));
+                breeds = breeds.Where(b => b.BreedName.Contains(searchString));
             }
 
-            switch (sortOrder)
+            // Sorting
+            breeds = sortOrder switch
             {
-                case "product_desc":
-                    breeds = breeds.OrderByDescending(p => p.BreedName);
-                    break;
-                case "Product":
-                default:
-                    breeds = breeds.OrderBy(p => p.BreedName);
-                    break;
-            }
+                "name_desc" => breeds.OrderByDescending(b => b.BreedName),
+                _ => breeds.OrderBy(b => b.BreedName),
+            };
 
-            int pageSize = 3;
-            int pageNumber = (page ?? 1);
-            return View(breeds.ToPagedList(pageNumber, pageSize));
+            // Pagination
+            int totalItems = await breeds.CountAsync();
+            var pagedList = await PaginatedList<Breed>.CreateAsync(breeds, page, pageSize);
+
+            ViewData["TotalPages"] = (int)Math.Ceiling(totalItems / (double)pageSize);
+            ViewData["CurrentPage"] = page;
+
+            return View(pagedList);
         }
-
 
         // GET: Breeds/Details/5
         public async Task<IActionResult> Details(int? id)

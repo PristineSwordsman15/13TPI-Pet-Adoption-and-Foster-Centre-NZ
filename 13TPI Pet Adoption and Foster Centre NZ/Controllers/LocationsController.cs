@@ -24,27 +24,44 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         }
 
         // GET: Locations
-        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public async Task<IActionResult> Index(
+    string sortOrder,
+    string currentFilter,
+    string searchString,
+    int page = 1,
+    int pageSize = 10)
         {
-
+            ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["CurrentFilter"] = searchString;
 
-            var locations = from l in _context.Location
-                             select l;
+            var locations = _context.Location.AsQueryable();
 
+            // Search
             if (!String.IsNullOrEmpty(searchString))
             {
-                locations = locations.Where(l=> l.LocationName.Contains(searchString));
+                locations = locations.Where(l => l.LocationName.Contains(searchString) || l.City.Contains(searchString));
             }
 
+            // Sorting
             locations = sortOrder switch
             {
-                "name_desc" => locations.OrderByDescending(i => i.LocationName),
-                _ => locations.OrderBy(i => i.LocationName),
+                "name_desc" => locations.OrderByDescending(l => l.LocationName),
+                _ => locations.OrderBy(l => l.LocationName),
             };
 
-            return View(await locations.AsNoTracking().ToListAsync());
+            // Pagination
+            int totalItems = await locations.CountAsync();
+            var pagedLocations = await locations
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .AsNoTracking()
+                .ToListAsync();
+
+            ViewData["TotalPages"] = (int)Math.Ceiling(totalItems / (double)pageSize);
+            ViewData["CurrentPage"] = page;
+
+            return View(pagedLocations);
         }
         // GET: Locations/Details/5
         public async Task<IActionResult> Details(int? id)

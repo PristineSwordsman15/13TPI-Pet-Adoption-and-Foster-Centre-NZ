@@ -1,43 +1,75 @@
-﻿@model IEnumerable<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Breed>
+﻿@model _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.PaginatedList<_13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models.Breed>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Breeds";
+    var currentSort = ViewData["CurrentSort"] as string;
+    var nameSortParm = ViewData["NameSortParm"] as string;
+    var currentFilter = ViewData["CurrentFilter"] as string;
+    var currentPage = (int)(ViewData["CurrentPage"] ?? 1);
+    var totalPages = (int)(ViewData["TotalPages"] ?? 1);
 }
 
-<h1>Breeds of Pets in Orginisation</h1>
+<h1>Breeds of Pets in Organisation</h1>
+
+<form asp-action="Index" method="get" class="mb-3">
+    <input type="text" name="searchString" value="@currentFilter" placeholder="Search breeds..." class="form-control d-inline-block w-auto" />
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
 
 <p>
     <a asp-action="Create" class="btn btn-success">
         <i class="bi bi-plus-circle"></i> Create New
     </a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.BreedName)
+                <a asp-action="Index"
+                   asp-route-sortOrder="@nameSortParm"
+                   asp-route-searchString="@currentFilter"
+                   asp-route-page="1">
+                    @Html.DisplayNameFor(model => model[0].BreedName)
+                </a>
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.BreedName)
             </td>
             <td>
-                    <a asp-action="Edit" asp-route-id="@item.BreedID" class="btn btn-sm btn-warning">
-                        <i class="bi bi-pencil-square"></i> Edit
-                    </a>
-                    <a asp-action="Details" asp-route-id="@item.BreedID" class="btn btn-sm btn-info">
-                        <i class="bi bi-eye"></i> Details
-                    </a>
-                    <a asp-action="Delete" asp-route-id="@item.BreedID" class="btn btn-sm btn-danger">
-                        <i class="bi bi-trash"></i> Delete
-                    </a>
+                <a asp-action="Edit" asp-route-id="@item.BreedID" class="btn btn-sm btn-warning">
+                    <i class="bi bi-pencil-square"></i> Edit
+                </a>
+                <a asp-action="Details" asp-route-id="@item.BreedID" class="btn btn-sm btn-info">
+                    <i class="bi bi-eye"></i> Details
+                </a>
+                <a asp-action="Delete" asp-route-id="@item.BreedID" class="btn btn-sm btn-danger">
+                    <i class="bi bi-trash"></i> Delete
+                </a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+<nav>
+    <ul class="pagination">
+        @for (int i =1; i <= totalPages; i++)
+        {
+            <li class="page-item @(i == currentPage ? "active" : "")">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@i"
+                   asp-route-sortOrder="@currentSort"
+                   asp-route-searchString="@currentFilter">@i</a>
+            </li>
+        }
+    </ul>
+</nav>

@@ -21,29 +21,54 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             _context = context;
         }
 
-        // GET: Shelters
-        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
+        // GET: Sheltershelters.AsNoTracking().ToListAsync());
+        public async Task<IActionResult> Index(
+    string sortOrder,
+    string currentFilter,
+    string searchString,
+    int? locationFilter,
+    int page = 1,
+    int pageSize = 10)
         {
-
+            ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["CurrentFilter"] = searchString;
+            ViewData["LocationFilter"] = locationFilter;
 
-            var shelters = from s in _context.Shelter
-                             select s;
+            var shelters = _context.Shelter.Include(s => s.Location).AsQueryable();
 
+            // Search
             if (!String.IsNullOrEmpty(searchString))
             {
-                shelters = shelters.Where(c => c.ShelterName.Contains(searchString));
+                shelters = shelters.Where(s => s.ShelterName.Contains(searchString));
             }
 
+            // Filtering
+            if (locationFilter.HasValue)
+            {
+                shelters = shelters.Where(s => s.LocationID == locationFilter.Value);
+            }
+
+            // Sorting
             shelters = sortOrder switch
             {
-                "name_desc" => shelters.OrderByDescending(i => i.
-                ShelterName),
-                _ => shelters.OrderBy(i => i.ShelterName),
+                "name_desc" => shelters.OrderByDescending(s => s.ShelterName),
+                _ => shelters.OrderBy(s => s.ShelterName),
             };
 
-            return View(await shelters.AsNoTracking().ToListAsync());
+            // Pagination
+            int totalItems = await shelters.CountAsync();
+            var pagedShelters = await shelters
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .AsNoTracking()
+                .ToListAsync();
+
+            ViewData["TotalPages"] = (int)Math.Ceiling(totalItems / (double)pageSize);
+            ViewData["CurrentPage"] = page;
+            ViewData["Locations"] = new SelectList(_context.Location.OrderBy(l => l.LocationName), "LocationID", "LocationName");
+
+            return View(pagedShelters);
         }
         // GET: Shelters/Details/5
         public async Task<IActionResult> Details(int? id)

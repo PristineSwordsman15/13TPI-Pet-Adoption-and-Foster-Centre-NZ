@@ -22,29 +22,78 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         }
 
         // GET: Pets
-        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public async Task<IActionResult> Index(
+    string sortOrder,
+    string currentFilter,
+    string searchString,
+    int? breedFilter,
+    int? shelterFilter,
+    bool? adoptionFilter,
+    int page = 1,
+    int pageSize = 10)
         {
-
+            ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["BreedSortParm"] = sortOrder == "Breed" ? "breed_desc" : "Breed";
+            ViewData["ShelterSortParm"] = sortOrder == "Shelter" ? "shelter_desc" : "Shelter";
             ViewData["CurrentFilter"] = searchString;
+            ViewData["BreedFilter"] = breedFilter;
+            ViewData["ShelterFilter"] = shelterFilter;
+            ViewData["AdoptionFilter"] = adoptionFilter;
 
-            var pets = from p in _context.Pet
-                       select p;
+            var pets = _context.Pet
+                .Include(p => p.Breed)
+                .Include(p => p.Shelter)
+                .AsQueryable();
 
+            // Search
             if (!String.IsNullOrEmpty(searchString))
             {
-                pets = pets.Where(c => c.PetName.Contains(searchString));
+                pets = pets.Where(p => p.PetName.Contains(searchString));
             }
 
+            // Filtering
+            if (breedFilter.HasValue)
+            {
+                pets = pets.Where(p => p.BreedID == breedFilter.Value);
+            }
+            if (shelterFilter.HasValue)
+            {
+                pets = pets.Where(p => p.ShelterID == shelterFilter.Value);
+            }
+            if (adoptionFilter.HasValue)
+            {
+                pets = pets.Where(p => p.Adoption == adoptionFilter.Value);
+            }
+
+            // Sorting
             pets = sortOrder switch
             {
-                "name_desc" => pets.OrderByDescending(i => i.PetName),
-                _ => pets.OrderBy(i => i.PetName),
+                "name_desc" => pets.OrderByDescending(p => p.PetName),
+                "Breed" => pets.OrderBy(p => p.Breed.BreedName),
+                "breed_desc" => pets.OrderByDescending(p => p.Breed.BreedName),
+                "Shelter" => pets.OrderBy(p => p.Shelter.ShelterName),
+                "shelter_desc" => pets.OrderByDescending(p => p.Shelter.ShelterName),
+                _ => pets.OrderBy(p => p.PetName),
             };
 
-            return View(await pets.AsNoTracking().ToListAsync());
-        }
+            // Pagination
+            int totalItems = await pets.CountAsync();
+            var pagedPets = await pets
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .AsNoTracking()
+                .ToListAsync();
 
+            // For dropdowns
+            ViewData["Breeds"] = new SelectList(_context.Breed.OrderBy(b => b.BreedName), "BreedID", "BreedName");
+            ViewData["Shelters"] = new SelectList(_context.Shelter.OrderBy(s => s.ShelterName), "ShelterID", "ShelterName");
+
+            ViewData["TotalPages"] = (int)Math.Ceiling(totalItems / (double)pageSize);
+            ViewData["CurrentPage"] = page;
+
+            return View(pagedPets);
+        }
         // GET: Pets/Details/5
         public async Task<IActionResult> Details(int? id)
         {
