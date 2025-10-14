@@ -22,19 +22,27 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         }
 
         // GET: Pets
-        public async Task<IActionResult> Index(string SearchString)
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            if (string.IsNullOrEmpty(SearchString))
+
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["CurrentFilter"] = searchString;
+
+            var pets = from p in _context.Pet
+                       select p;
+
+            if (!String.IsNullOrEmpty(searchString))
             {
-                return View(await _context.Pet.ToListAsync());
+                pets = pets.Where(c => c.PetName.Contains(searchString));
             }
 
-            else
+            pets = sortOrder switch
             {
-                var results = _context.Pet.Where(a => a.PetName == SearchString);
-                return View(await results.ToListAsync());
-            }
-       
+                "name_desc" => pets.OrderByDescending(i => i.PetName),
+                _ => pets.OrderBy(i => i.PetName),
+            };
+
+            return View(await pets.AsNoTracking().ToListAsync());
         }
 
         // GET: Pets/Details/5
@@ -56,28 +64,11 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         }
 
         // GET: Pets/Create
-        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public IActionResult Create()
         {
-
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewData["CurrentFilter"] = searchString;
-
-            var pets = from p in _context.Pet
-                             select p;
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                pets = pets.Where(c => c.PetName.Contains(searchString));
-            }
-
-            pets = sortOrder switch
-            {
-                "name_desc" => pets.OrderByDescending(i => i.PetName),
-                _ => pets.OrderBy(i => i.PetName),
-            };
-
-            return View(await pets.AsNoTracking().ToListAsync());
+            return View();
         }
+
         // GET: Pets/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

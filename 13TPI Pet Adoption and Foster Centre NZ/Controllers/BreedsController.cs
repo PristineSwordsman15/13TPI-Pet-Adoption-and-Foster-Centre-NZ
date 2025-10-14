@@ -39,7 +39,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             }
 
             ViewBag.CurrentFilter = searchString;
-            var breeds = _context.Breed.Include(p => p.BreedName).AsQueryable();
+            var breeds = _context.Breed.AsQueryable();
 
             if (!String.IsNullOrEmpty(searchString))
             {
