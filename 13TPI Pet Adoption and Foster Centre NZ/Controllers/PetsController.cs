@@ -117,7 +117,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PetID,PetName,ShelterID,BreedID,Colour,Adoption")] Pet pet)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 _context.Add(pet);
                 await _context.SaveChangesAsync();
