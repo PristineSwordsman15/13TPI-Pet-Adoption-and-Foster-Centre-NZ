@@ -82,7 +82,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         // GET: Shelters/Create
         public IActionResult Create()
         {
-            ViewData["Locations"] = new SelectList(_context.Location, "LocationID", "LocationName");
+            ViewData["Locations"] = new SelectList(_context.Location, "LocationID", "LocationName,ShelterID");
             return View();
         }
 
@@ -91,7 +91,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ShelterID,ShelterName,LocationID")] Shelter shelter)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 _context.Add(shelter);
                 await _context.SaveChangesAsync();

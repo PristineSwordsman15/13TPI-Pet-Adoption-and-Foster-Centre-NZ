@@ -4,8 +4,6 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
 {
     public class Shelter
     {
-
-
         // ShelterID (Primary Key)
         [Key]
         public int ShelterID { get; set; }
@@ -20,7 +18,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
 
         // LocationID (Foreign Key) (references Location table) of Shelter
         [Required]
-        [Display(Name = "Location")]
+        [Display(Name = "LocationID")]
         public int LocationID { get; set; } 
         public Location Location { get; set; }
     }
