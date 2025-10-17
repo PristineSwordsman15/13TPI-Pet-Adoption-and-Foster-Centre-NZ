@@ -192,6 +192,43 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Adopt(int id)
+        {
+            if (id <= 0) return BadRequest();
+
+            var pet = await _context.Pet.FindAsync(id);
+            if (pet == null) return NotFound();
+
+            if (pet.Adoption)
+            {
+                TempData["Error"] = "This pet has already been adopted.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            pet.Adoption = true;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "Pet adopted successfully.";
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.Pet.Any(e => e.PetID == id))
+                    return NotFound();
+
+                TempData["Error"] = "A concurrency error occurred while updating the adoption status.";
+            }
+            catch (DbUpdateException)
+            {
+                TempData["Error"] = "An error occurred while updating the adoption status. Please try again.";
+            }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

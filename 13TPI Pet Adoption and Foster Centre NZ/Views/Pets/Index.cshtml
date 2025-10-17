@@ -52,8 +52,11 @@
     <thead>
         <tr>
             <th><a asp-action="Index" asp-route-sortOrder="@nameSortParm" asp-route-searchString="@currentFilter" asp-route-breedFilter="@breedFilter" asp-route-shelterFilter="@shelterFilter" asp-route-adoptionFilter="@adoptionFilter" asp-route-page="1">Pet Name</a></th>
+
             <th><a asp-action="Index" asp-route-sortOrder="@breedSortParm" asp-route-searchString="@currentFilter" asp-route-breedFilter="@breedFilter" asp-route-shelterFilter="@shelterFilter" asp-route-adoptionFilter="@adoptionFilter" asp-route-page="1">Breed</a></th>
+
             <th><a asp-action="Index" asp-route-sortOrder="@shelterSortParm" asp-route-searchString="@currentFilter" asp-route-breedFilter="@breedFilter" asp-route-shelterFilter="@shelterFilter" asp-route-adoptionFilter="@adoptionFilter" asp-route-page="1">Shelter</a></th>
+
             <th>Colour</th>
             <th>Adoption Status</th>
             <th></th>
@@ -69,9 +72,19 @@
                 <td>@item.Colour</td>
                 <td>@(item.Adoption ? "Adopted" : "Available")</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.PetID" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i> Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.PetID" class="btn btn-sm btn-info"><i class="bi bi-eye"></i> Details</a>
-                    <a asp-action="Delete" asp-route-id="@item.PetID" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i> Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.PetID" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i> Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.PetID" class="btn btn-info btn-sm"><i class="bi bi-eye"></i> Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.PetID" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i> Delete</a>
+                    @if (!item.Adoption)
+                    {
+                        <form asp-action="Adopt" asp-route-id="@item.PetID" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-heart"></i> Adopt</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <button class="btn btn-secondary btn-sm" disabled><i class="bi bi-x-circle"></i> Not Available</button>
+                    }
                 </td>
             </tr>
         }
