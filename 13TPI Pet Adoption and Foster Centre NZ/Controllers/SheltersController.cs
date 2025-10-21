@@ -93,13 +93,43 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         {
             if (!ModelState.IsValid)
             {
+                // 🔹 Check if any locations exist
+                if (!_context.Location.Any())
+                {
+                    // 🔹 Create a default location automatically
+                    var defaultLocation = new Location
+                    {
+                        LocationName = "NorthWest Mall",
+                        Street = "123 Pino Street",
+                        City = "Dunedin",
+                        State = "Otago",
+                        ZipCode = "2916",
+                        Country = "New Zealand"
+                    };
+
+                    _context.Location.Add(defaultLocation);
+                    await _context.SaveChangesAsync();
+
+                    // 🔹 Assign the default location ID to the new shelter
+                    shelter.LocationID = defaultLocation.LocationID;
+                }
+
+                // 🔹 If user didn’t pick a location, use the first available one
+                if (shelter.LocationID == 0)
+                {
+                    shelter.LocationID = _context.Location.First().LocationID;
+                }
+
                 _context.Add(shelter);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Locations"] = new SelectList(_context.Location, "LocationID", "LocationName", shelter.LocationID);
+
+            ViewData["LocationID"] = new SelectList(_context.Location, "LocationID", "LocationName", shelter.LocationID);
             return View(shelter);
         }
+
+
 
         // GET: Shelters/Edit/5
         public async Task<IActionResult> Edit(int? id)
