@@ -203,7 +203,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             var pet = await _context.Pet.FindAsync(id);
             if (pet == null) return NotFound();
 
-            if (pet.Adoption)
+            if (pet.Adoption == true)
             {
                 TempData["Error"] = "This pet has already been adopted.";
                 return RedirectToAction(nameof(Index));
@@ -218,17 +218,21 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
+                _context.Entry(pet).Reload(); // Reload to get latest data
                 if (!_context.Pet.Any(e => e.PetID == id))
                     return NotFound();
 
-                TempData["Error"] = "A concurrency error occurred while updating the adoption status.";
+                TempData["Error"] = "A concurrency error occurred. Please try again.";
+                return RedirectToAction(nameof(Index));
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
                 TempData["Error"] = "An error occurred while updating the adoption status. Please try again.";
+                
             }
 
             return RedirectToAction(nameof(Index));
         }
     }
 }
+
