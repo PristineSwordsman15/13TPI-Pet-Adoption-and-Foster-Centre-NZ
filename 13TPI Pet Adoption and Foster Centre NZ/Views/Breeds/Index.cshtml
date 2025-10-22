@@ -36,6 +36,17 @@
         </tr>
     </thead>
     <tbody>
+         @if (Model == null || !Model.Any())
+        {
+            <td colspan="6" class="text-center text-muted">
+                No records have been found
+            </td>   
+        }
+
+    <td>
+        <a asp-action="Index">Back to List</a>
+    </td>
+
 @foreach (var item in Model)
 {
         <tr>
