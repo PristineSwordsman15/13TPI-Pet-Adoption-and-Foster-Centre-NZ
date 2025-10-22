@@ -10,6 +10,8 @@
     var currentFilter = ViewData["CurrentFilter"] as string;
     var locationFilter = ViewData["LocationFilter"];
     var locations = ViewData["Locations"] as SelectList;
+    var shelterFilter = ViewData["ShelterFilter"];
+    var shelters = ViewData["Shelters"] as SelectList;
     var currentPage = Model.PageIndex;
     var totalPages = Model.TotalPages;
 }
@@ -32,6 +34,20 @@
                 <option value="@location.Value" selected="@(selected ? "selected" : null)">@location.Text</option>
             }
         }
+        <select name="locationFilter" class="form-select d-inline-block w-auto">
+            <option value="">All Locations</option>
+
+            
+                @if (shelters != null)
+                {
+                    foreach (var shelter in shelters)
+                    {
+                        var selected = shelter.Value == (shelterFilter?.ToString());
+                        <option value="@shelter.Value" selected="@(selected ? "selected" : null)">@shelter.Text</option>
+                    }
+                }
+            <select name="shelterFilter" class="form-select d-inline-block w-auto">
+                <option value="">All Shelters</option>
     </select>
     <button type="submit" class="btn btn-primary">Filter</button>
 </form>
