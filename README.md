@@ -23,4 +23,8 @@ Operating Guidelines
 6. Next is creating new records; Navigate Pet and click "Create New" to create a new pet or "Adopt" from the given list and pet status will automatically change.
 7. Navigate to Breeds and click "Create New", this is optional, to allow a new breed into the shelters.
 8. Same steps to be followed for the other two tables, Location and Shelters.
-   
+
+
+Note: As of now, Foreign Key ID fields will be changed in future to string fields, preferable dropdown , for better user experience
+
+
