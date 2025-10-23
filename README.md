@@ -25,6 +25,72 @@ Operating Guidelines
 8. Same steps to be followed for the other two tables, Location and Shelters.
 
 
-Note: As of now, Foreign Key ID fields will be changed in future to string fields, preferable dropdown , for better user experience
+Note: As of now, Foreign Key ID fields will be changed in future to string fields, preferable dropdown, for better user experience
+
+With the IDs if they are ceded in the database it will result in a foreign key constraint error. 
+
+Due to a foreign key constraint error please only use these BreedIDs in Pets as well as these ShelterIDs
+1 = Shit Tzu
+3 = Dalmation
+4 = German Shepard
+5 = Labrador
+6 = Poodle
+7 = Pug
+8 = Reaper
+10 = Wissle
+12 = Labe
+13 = K9
+16 = Corgi
+17 = Labe
+18 = Labe
+
+1	= Happy Tails Shelter
+2	= Paws and Claws Rescue
+3	= Furry Friends Haven
+5	= Wagging Tails Rescue
+7	= Loving Arms Rescue
+8	= Forever Home Shelter
+9	= New Beginnings Rescue
+10	= Airing Hearts ShelterMq
+17	= kdok
+22	= Atuls st Shelter
+26	= Caring Hearts Shelter M
+27	= msmlq
+28	= msmlq
+29	= msm1
+32	= Caring Hearts Shelter M
+33	= Atuls 1st Shelter
 
 
+In Shelter when entering locationID due to the same error please only use these IDs
+1 = Central City
+2 = NorthSide
+3 = East End
+5 = Westfield
+
+
+Shelter ID = Shelter Name = Location ID
+1	= Happy Tails Shelter	= 1
+2	= Paws and Claws Rescue	= 2
+3	= Furry Friends Haven	= 2
+5	= Wagging Tails Rescue	= 5
+7	= Loving Arms Rescue	= 3
+8	= Forever Home Shelter	= 2
+9	= New Beginnings Rescue	= 1
+10	= Airing Hearts ShelterMq	= 5
+17	= kdok	= 5
+22	= Atuls st Shelter	= 1
+26	= Caring Hearts Shelter M	= 1
+27	= msmlq	= 1
+28	= msmlq	= 1
+29	= msm1	= 1
+32	= Caring Hearts Shelter M	= 1
+33	= Atuls 1st Shelter	= 1
+
+In 
+
+
+Test Account 
+
+uswr: lm@gmail.com
+Password: Avcol@2028
