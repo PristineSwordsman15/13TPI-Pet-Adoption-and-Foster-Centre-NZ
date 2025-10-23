@@ -93,10 +93,10 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         {
             if (!ModelState.IsValid)
             {
-                // 🔹 Check if any locations exist
+                //Check if any locations exist
                 if (!_context.Location.Any())
                 {
-                    // 🔹 Create a default location automatically
+                    //Create a default location automatically
                     var defaultLocation = new Location
                     {
                         LocationName = "NorthWest Mall",
@@ -110,11 +110,11 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
                     _context.Location.Add(defaultLocation);
                     await _context.SaveChangesAsync();
 
-                    // 🔹 Assign the default location ID to the new shelter
+                    //Assign the default location ID to the new shelter
                     shelter.LocationID = defaultLocation.LocationID;
                 }
 
-                // 🔹 If user didn’t pick a location, use the first available one
+                // If user didn’t pick a location, use the first available one
                 if (shelter.LocationID == 0)
                 {
                     shelter.LocationID = _context.Location.First().LocationID;
@@ -150,7 +150,7 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Controllers
         {
             if (id != shelter.ShelterID) return NotFound();
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 try
                 {

@@ -16,14 +16,14 @@ namespace _13TPI_Pet_Adoption_and_Foster_Centre_NZ.Models
 
         // ShelterID (Foreign Key) (references Shelter table), regarding which shelter the pet is in
         [Required]
-        [Display(Name = "Shelter")]
+        [Display(Name = "ShelterID")]
         [Range(1, int.MaxValue, ErrorMessage = "Please select a valid shelter.")]
         public int ShelterID { get; set; }
         public Shelter Shelter { get; set; }
 
         // BreedID (Foreign Key) (references Breed table) of pet
         [Required]
-        [Display(Name = "Breed")]
+        [Display(Name = "BreedID")]
         [Range(1, int.MaxValue, ErrorMessage = "Please select a valid breed.")]
         public int BreedID { get; set; }
         public Breed Breed { get; set; }
